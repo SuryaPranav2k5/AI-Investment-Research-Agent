@@ -11,10 +11,10 @@ export async function GET() {
       );
     }
 
-    // Initialize the Gemini model (gemini-1.5-flash is fast and cheap for verification)
+    // Initialize the Gemini model (gemini-2.5-flash is supported by the key)
     const model = new ChatGoogleGenerativeAI({
       apiKey: apiKey,
-      model: "gemini-1.5-flash",
+      model: "gemini-2.5-flash",
     });
 
     // Invoke the model with a simple prompt
