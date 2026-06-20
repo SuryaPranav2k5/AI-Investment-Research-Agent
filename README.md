@@ -1,36 +1,129 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Investment Research Agent
 
-## Getting Started
+This project is an AI-powered Investment Research Agent designed as a take-home assignment for InsideIIM × Altuni AI Labs. The agent takes a company name, conducts comprehensive web and financial research, and makes a recommendation to **invest** or **pass** with detailed logical reasoning.
 
-First, run the development server:
+---
 
+## 1. Overview
+The application is built using Next.js (TypeScript) for the frontend/backend and LangGraph.js to coordinate the agentic reasoning loops. 
+
+### Core Capabilities:
+- **Ticker Identification**: Automatically resolves user-provided company names (e.g. "Tata Motors") to their correct stock tickers (e.g. "TTM").
+- **Quantitative Financial Research**: Accesses company Overview, Income Statement, and Balance Sheet using the Alpha Vantage API.
+- **Qualitative Web Research**: Gathers recent business news, industry trends, market sentiment, and competitor dynamics using the Tavily Search API.
+- **Investment Assessment**: Evaluates the gathered financial data and qualitative reports to formulate an invest/pass recommendation, outputting a highly structured JSON verdict.
+
+---
+
+## 2. How to Run It
+
+### Prerequisites
+- Node.js (v18+)
+- npm / yarn / pnpm
+
+### Setup Steps
+1. Clone the repository and navigate to the project directory:
+   ```bash
+   cd investment-agent
+   ```
+2. Install dependencies:
+   ```bash
+   npm install --legacy-peer-deps
+   ```
+3. Configure your API keys in the `.env.local` file at the root of the project:
+   ```env
+   # Gemini API Key (from Google AI Studio)
+   GEMINI_API_KEY=YOUR_GEMINI_API_KEY
+   
+   # Tavily API Key (from tavily.com)
+   TAVILY_API_KEY=YOUR_TAVILY_API_KEY
+   
+   # Alpha Vantage API Key (from alphavantage.co)
+   ALPHA_VANTAGE_API_KEY=YOUR_ALPHA_VANTAGE_API_KEY
+   ```
+
+### Running the Agent in Isolation (CLI)
+You can run the agent as a standalone Node script to test its research and decision loop:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npx tsx src/lib/agent/test-agent.ts "Tata Motors"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Running the Web Server
+To start the Next.js development server:
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 3. How It Works (Architecture)
 
-## Learn More
+The agent utilizes a **ReAct (Reasoning + Acting) loop** orchestrated by LangGraph's `createReactAgent`.
 
-To learn more about Next.js, take a look at the following resources:
+```
+[User Query] -> [ReAct Agent (Gemini 2.5 Flash)]
+                      |
+        +-------------+-------------+
+        |                           |
+        v                           v
+ [Tavily Search Tool]     [Alpha Vantage Tool]
+ (News & Symbol Search)   (Consolidated Financials)
+                                    |
+                                    v
+                            [.cache/ Directory]
+                        (24-Hour File Cache)
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Resolution Phase**: The agent uses `tavily_search` to find the company's ticker symbol.
+2. **Retrieval Phase**: 
+   - Queries `alphavantage_financials` with the resolved symbol to fetch overview and statements.
+   - Queries `tavily_search` to fetch qualitative news and market developments.
+3. **Analysis & Decision Phase**: The agent evaluates the metrics, compiles bull/bear arguments, estimates confidence, and writes a structured response matching the JSON schema.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 4. Key Decisions & Trade-Offs
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Decisions:
+- **LangGraph over Legacy Chains**: Utilized `@langchain/langgraph` to construct the ReAct agent. This provides more robust state management and aligns with current LangChain best practices.
+- **Local File-Based Caching**: Alpha Vantage free tier is restricted to 25 requests/day. To prevent rate limit depletion during development, we implemented a local `.cache/` folder that preserves retrieved stock financials on disk for 24 hours.
+- **Sequential Burst Throttling**: Added a 1.5-second delay between Alpha Vantage endpoint calls to prevent exceeding their 5 calls/minute burst limits.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Trade-Offs:
+- **Sequential vs. Parallel Tools**: We choose to wait for ticker resolution before calling Alpha Vantage. While this adds a small latency (1-2 seconds), it ensures we do not query the financial API with invalid symbol names.
+
+---
+
+## 5. Example Run
+Running `npx tsx src/lib/agent/test-agent.ts "Tata Motors"` outputs:
+```json
+{
+  "company": "Tata Motors Limited",
+  "symbol": "TTM",
+  "verdict": "invest",
+  "confidence": 0.8,
+  "reasoning": "Tata Motors has demonstrated a significant financial turnaround in the last two fiscal years, moving from substantial losses to strong profitability and showing robust revenue growth...",
+  "bullCase": [
+    "Continued strong growth in revenue and net income driven by demand for its vehicles, especially in the EV segment.",
+    "Successful global expansion and increased market share in key segments."
+  ],
+  "bearCase": [
+    "Intense competition in the global automotive and EV markets could hinder growth.",
+    "Economic slowdowns or supply chain disruptions could impact production and sales."
+  ],
+  "risks": [
+    "Market Competition: Highly competitive automotive industry, especially in the rapidly evolving EV space."
+  ],
+  "sources": [
+    "Alpha Vantage Financials (for TTM)",
+    "https://economictimes.indiatimes.com/tata-motors-ltd/stocksupdate/companyid-12934.cms"
+  ]
+}
+```
+
+---
+
+## 6. What We Would Improve with More Time
+- **Database Caching**: Move local cache from file-based `.cache/` to a Redis instance or PostgreSQL database.
+- **Extended Ratios**: Parse and compute advanced ratios (e.g. Altman Z-Score, DuPont Analysis) automatically inside the tool to supply the LLM with deeper mathematical evaluation.
+- **Advanced Graph**: Customize the LangGraph structure to run qualitative search and quantitative checks in parallel steps before feeding into a dedicated decision node.
