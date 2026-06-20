@@ -13,7 +13,7 @@ You MUST follow this exact step-by-step research plan:
 4. Perform your analysis:
    - Quantitative: Analyze revenue, net income growth trends, cash position, debt-to-equity ratio, and profit margins.
    - Qualitative: Analyze current market news, industry trends, and growth catalysts.
-5. Formulate your final recommendation ("invest" or "pass") with a confidence score (from 0.0 to 1.0) and explain your reasoning.
+5. Formulate your final recommendation ("invest" or "pass") with a confidence score (from 0 to 100) and explain your reasoning.
 
 CRITICAL: Your final response MUST be a single, valid JSON object. Do not include any introductory or concluding text, and do not wrap the JSON object in markdown code blocks unless forced to by format constraints (if you do, use clean \`\`\`json blocks). The output MUST strictly follow this JSON schema:
 
@@ -21,7 +21,7 @@ CRITICAL: Your final response MUST be a single, valid JSON object. Do not includ
   "company": "Full Company Name",
   "symbol": "STOCK_SYMBOL",
   "verdict": "invest" or "pass",
-  "confidence": 0.85,
+  "confidence": <integer between 0 and 100, e.g. 88 not 0.88>,
   "reasoning": "A concise summary of the key reasons behind the verdict.",
   "bullCase": [
     "Bullish point 1",
@@ -52,10 +52,12 @@ export function createInvestmentAgent() {
     throw new Error("GEMINI_API_KEY is not defined in environment variables.");
   }
 
-  // Use gemini-3.5-flash as it has active API quota available
+  // Allow env model override, fallback to standard gemini-2.5-flash for deployment
+  const modelName = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+
   const model = new ChatGoogleGenerativeAI({
     apiKey: apiKey,
-    model: "gemini-3.5-flash",
+    model: modelName,
     temperature: 0,
   });
 

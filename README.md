@@ -40,6 +40,10 @@ The application is built using Next.js (TypeScript) for the frontend/backend and
    
    # Alpha Vantage API Key (from alphavantage.co)
    ALPHA_VANTAGE_API_KEY=YOUR_ALPHA_VANTAGE_API_KEY
+
+   # Optional: Model Override (defaults to gemini-2.5-flash if not specified)
+   # For local development and bypassing daily quota limits, you can set this to: gemini-3.5-flash
+   GEMINI_MODEL=gemini-2.5-flash
    ```
 
 ### Running the Agent in Isolation (CLI)
@@ -78,7 +82,7 @@ The agent utilizes a **ReAct (Reasoning + Acting) loop** orchestrated by LangGra
 2. **Retrieval Phase**: 
    - Queries `alphavantage_financials` with the resolved symbol to fetch overview and statements.
    - Queries `tavily_search` to fetch qualitative news and market developments.
-3. **Analysis & Decision Phase**: The agent evaluates the metrics, compiles bull/bear arguments, estimates confidence, and writes a structured response matching the JSON schema.
+3. **Analysis & Decision Phase**: The agent evaluates the metrics, compiles bull/bear arguments, estimates confidence (on a 0-100 scale), and writes a structured response matching the JSON schema.
 
 ---
 
@@ -86,6 +90,7 @@ The agent utilizes a **ReAct (Reasoning + Acting) loop** orchestrated by LangGra
 
 ### Decisions:
 - **LangGraph over Legacy Chains**: Utilized `@langchain/langgraph` to construct the ReAct agent. This provides more robust state management and aligns with current LangChain best practices.
+- **Dynamic Model Selection**: Implemented the model selection fallback to `"gemini-2.5-flash"` for production environments while supporting a local `GEMINI_MODEL` override (e.g. to `"gemini-3.5-flash"`) to handle quota limitations seamlessly.
 - **Local File-Based Caching**: Alpha Vantage free tier is restricted to 25 requests/day. To prevent rate limit depletion during development, we implemented a local `.cache/` folder that preserves retrieved stock financials on disk for 24 hours.
 - **Sequential Burst Throttling**: Added a 1.5-second delay between Alpha Vantage endpoint calls to prevent exceeding their 5 calls/minute burst limits.
 
@@ -101,7 +106,7 @@ Running `npx tsx src/lib/agent/test-agent.ts "Tata Motors"` outputs:
   "company": "Tata Motors Limited",
   "symbol": "TTM",
   "verdict": "invest",
-  "confidence": 0.8,
+  "confidence": 80,
   "reasoning": "Tata Motors has demonstrated a significant financial turnaround in the last two fiscal years, moving from substantial losses to strong profitability and showing robust revenue growth...",
   "bullCase": [
     "Continued strong growth in revenue and net income driven by demand for its vehicles, especially in the EV segment.",
