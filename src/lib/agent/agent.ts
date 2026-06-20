@@ -52,10 +52,10 @@ export function createInvestmentAgent() {
     throw new Error("GEMINI_API_KEY is not defined in environment variables.");
   }
 
-  // Use temperature 0 for analytical precision and strict JSON compliance
+  // Use gemini-3.5-flash as it has active API quota available
   const model = new ChatGoogleGenerativeAI({
     apiKey: apiKey,
-    model: "gemini-2.5-flash",
+    model: "gemini-3.5-flash",
     temperature: 0,
   });
 

@@ -124,6 +124,7 @@ Running `npx tsx src/lib/agent/test-agent.ts "Tata Motors"` outputs:
 ---
 
 ## 6. What We Would Improve with More Time
+- **Single-Stream Output Extraction (Duplicate Call Optimization)**: Currently, the backend calls the agent twice per request—once with `streamEvents` to collect real-time action logs, and once with `invoke` to retrieve the structured JSON verdict. This duplicates API calls and increases token usage/latency. In a production version, we would write a custom parser to extract the final message content directly from the event stream's state updates, reducing the API footprint to a single execution per request.
 - **Database Caching**: Move local cache from file-based `.cache/` to a Redis instance or PostgreSQL database.
 - **Extended Ratios**: Parse and compute advanced ratios (e.g. Altman Z-Score, DuPont Analysis) automatically inside the tool to supply the LLM with deeper mathematical evaluation.
 - **Advanced Graph**: Customize the LangGraph structure to run qualitative search and quantitative checks in parallel steps before feeding into a dedicated decision node.
