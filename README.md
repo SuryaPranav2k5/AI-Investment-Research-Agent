@@ -9,7 +9,7 @@ The application is built using Next.js (TypeScript) for the frontend/backend and
 
 ### Core Capabilities:
 - **Ticker Identification**: Automatically resolves user-provided company names (e.g. "Tata Motors") to their correct stock tickers (e.g. "TTM").
-- **Quantitative Financial Research**: Accesses company Overview, Income Statement, and Balance Sheet using the Alpha Vantage API.
+- **Quantitative Financial Research**: Accesses company Profile, Income Statement, and Balance Sheet using the Financial Modeling Prep (FMP) API.
 - **Qualitative Web Research**: Gathers recent business news, industry trends, market sentiment, and competitor dynamics using the Tavily Search API.
 - **Investment Assessment**: Evaluates the gathered financial data and qualitative reports to formulate an invest/pass recommendation, outputting a highly structured JSON verdict.
 
@@ -38,8 +38,8 @@ The application is built using Next.js (TypeScript) for the frontend/backend and
    # Tavily API Key (from tavily.com)
    TAVILY_API_KEY=YOUR_TAVILY_API_KEY
    
-   # Alpha Vantage API Key (from alphavantage.co)
-   ALPHA_VANTAGE_API_KEY=YOUR_ALPHA_VANTAGE_API_KEY
+   # Financial Modeling Prep API Key (from financialmodelingprep.com)
+   FMP_API_KEY=YOUR_FMP_API_KEY
 
    # Optional: Model Override (defaults to gemini-2.5-flash if not specified)
    # For local development and bypassing daily quota limits, you can set this to: gemini-3.1-flash-lite
@@ -70,7 +70,7 @@ The agent utilizes a **ReAct (Reasoning + Acting) loop** orchestrated by LangGra
         +-------------+-------------+
         |                           |
         v                           v
- [Tavily Search Tool]     [Alpha Vantage Tool]
+ [Tavily Search Tool]     [FMP Financials Tool]
  (News & Symbol Search)   (Consolidated Financials)
                                     |
                                     v
@@ -80,7 +80,7 @@ The agent utilizes a **ReAct (Reasoning + Acting) loop** orchestrated by LangGra
 
 1. **Resolution Phase**: The agent uses `tavily_search` to find the company's ticker symbol.
 2. **Retrieval Phase**: 
-   - Queries `alphavantage_financials` with the resolved symbol to fetch overview and statements.
+   - Queries `fmp_financials` with the resolved symbol to fetch profile and statements.
    - Queries `tavily_search` to fetch qualitative news and market developments.
 3. **Analysis & Decision Phase**: The agent evaluates the metrics, compiles bull/bear arguments, estimates confidence (on a 0-100 scale), and writes a structured response matching the JSON schema.
 
@@ -91,11 +91,11 @@ The agent utilizes a **ReAct (Reasoning + Acting) loop** orchestrated by LangGra
 ### Decisions:
 - **LangGraph over Legacy Chains**: Utilized `@langchain/langgraph` to construct the ReAct agent. This provides more robust state management and aligns with current LangChain best practices.
 - **Dynamic Model Selection**: Implemented the model selection fallback to `"gemini-2.5-flash"` for production environments while supporting a local `GEMINI_MODEL` override (e.g. to `"gemini-3.1-flash-lite"`) to handle quota limitations seamlessly.
-- **Local File-Based Caching**: Alpha Vantage free tier is restricted to 25 requests/day. To prevent rate limit depletion during development, we implemented a local `.cache/` folder that preserves retrieved stock financials on disk for 24 hours.
-- **Sequential Burst Throttling**: Added a 1.5-second delay between Alpha Vantage endpoint calls to prevent exceeding their 5 calls/minute burst limits.
+- **Local File-Based Caching**: FMP API responses are cached locally in the `.cache/` directory for 24 hours. This minimizes credit usage and ensures fast load times for subsequent runs.
+- **Improved Performance**: Switched from Alpha Vantage (which required 1.5-second throttling delays to respect free-tier burst limits) to FMP, allowing for sequential API requests with zero latency delays, drastically improving agent response time.
 
 ### Trade-Offs:
-- **Sequential vs. Parallel Tools**: We choose to wait for ticker resolution before calling Alpha Vantage. While this adds a small latency (1-2 seconds), it ensures we do not query the financial API with invalid symbol names.
+- **Sequential vs. Parallel Tools**: We choose to wait for ticker resolution before calling FMP. While this adds a small latency, it ensures we do not query the financial API with invalid symbol names.
 
 ---
 

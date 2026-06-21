@@ -30,7 +30,7 @@ interface StepState {
 interface ToolLog {
   id: string;
   timestamp: string;
-  tag: "tavily" | "alphavantage" | "agent" | "system";
+  tag: "tavily" | "fmp" | "agent" | "system";
   message: string;
 }
 
@@ -95,7 +95,7 @@ export default function Home() {
     }
   };
 
-  const addLog = (tag: "tavily" | "alphavantage" | "agent" | "system", message: string) => {
+  const addLog = (tag: "tavily" | "fmp" | "agent" | "system", message: string) => {
     const timestamp = new Date().toLocaleTimeString();
     setLogs((prev) => [...prev, { id: Math.random().toString(), timestamp, tag, message }]);
   };
@@ -177,16 +177,16 @@ export default function Home() {
             const toolArgs = JSON.parse(payload.input);
             if (payload.tool === "tavily_search") {
               addLog("tavily", `Invoking Tavily Search with query: "${toolArgs.query}"`);
-            } else if (payload.tool === "alphavantage_financials") {
-              addLog("alphavantage", `Invoking Alpha Vantage for stock ticker symbol: "${toolArgs.symbol}"`);
+            } else if (payload.tool === "fmp_financials") {
+              addLog("fmp", `Invoking Financial Modeling Prep (FMP) for stock ticker symbol: "${toolArgs.symbol}"`);
             }
             break;
 
           case "tool_result":
             if (payload.tool === "tavily_search") {
               addLog("tavily", `Search completed successfully. Returning news feed payload.`);
-            } else if (payload.tool === "alphavantage_financials") {
-              addLog("alphavantage", `Financial data retrieved successfully.`);
+            } else if (payload.tool === "fmp_financials") {
+              addLog("fmp", `Financial data retrieved successfully.`);
             }
             break;
 
@@ -418,7 +418,7 @@ export default function Home() {
                   logs.map((log) => {
                     const tagColors = {
                       tavily: "text-blue-400",
-                      alphavantage: "text-amber-400",
+                      fmp: "text-amber-400",
                       agent: "text-indigo-400",
                       system: "text-purple-400",
                     };

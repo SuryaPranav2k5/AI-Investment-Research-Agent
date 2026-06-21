@@ -1,14 +1,14 @@
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { createReactAgent } from "@langchain/langgraph/prebuilt";
 import { tavilySearchTool } from "./tools/tavily";
-import { alphaVantageTool } from "./tools/alphavantage";
+import { fmpTool } from "./tools/fmp";
 
 const SYSTEM_PROMPT = `You are a professional financial analyst and investment research agent.
 Your objective is to research a company by name, conduct a thorough qualitative and quantitative analysis, and decide whether to "invest" or "pass".
 
 You MUST follow this exact step-by-step research plan:
-1. Search the web using the "tavily_search" tool to identify the correct stock ticker symbol for the company (e.g. "TSLA" for Tesla, "TATAMOTORS.BSE" or "TATAMOTORS.NSE" for Tata Motors).
-2. Call the "alphavantage_financials" tool using the exact stock ticker symbol to retrieve the company's Overview, Income Statement, and Balance Sheet.
+1. Search the web using the "tavily_search" tool to identify the correct stock ticker symbol for the company (e.g. "TSLA" for Tesla, "INFY.NS" for Infosys, "TATAMOTORS.NS" for Tata Motors).
+2. Call the "fmp_financials" tool using the exact stock ticker symbol to retrieve the company's Profile, Income Statement, and Balance Sheet.
 3. Call "tavily_search" to gather the latest news, business developments, market sentiment, and competitive landscape.
 4. Perform your analysis:
    - Quantitative: Analyze revenue, net income growth trends, cash position, debt-to-equity ratio, and profit margins.
@@ -61,7 +61,7 @@ export function createInvestmentAgent() {
     temperature: 0,
   });
 
-  const tools = [tavilySearchTool, alphaVantageTool];
+  const tools = [tavilySearchTool, fmpTool];
 
   // createReactAgent accepts messageModifier as a string system prompt
   return createReactAgent({

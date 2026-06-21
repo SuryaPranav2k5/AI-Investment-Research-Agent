@@ -81,7 +81,7 @@ export async function GET(req: NextRequest) {
             });
 
             // Transition to Step 2 when the financials tool is invoked
-            if (toolName === "alphavantage_financials" && !hasCalledFinancials) {
+            if (toolName === "fmp_financials" && !hasCalledFinancials) {
               hasCalledFinancials = true;
 
               // Complete Step 1
