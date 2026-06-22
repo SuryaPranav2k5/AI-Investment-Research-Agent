@@ -42,8 +42,8 @@ The application is built using Next.js (TypeScript) for the frontend/backend and
    FMP_API_KEY=YOUR_FMP_API_KEY
 
    # Optional: Model Override (defaults to gemini-2.5-flash if not specified)
-   # For local development and bypassing daily quota limits, you can set this to: gemini-3.1-flash-lite
-   GEMINI_MODEL=gemini-2.5-flash
+   # For local development, set this to gemini-3.1-flash-lite to bypass daily rate-limit quotas
+   GEMINI_MODEL=gemini-3.1-flash-lite
    ```
 
 ### Running the Agent in Isolation (CLI)
@@ -120,7 +120,7 @@ Running `npx tsx src/lib/agent/test-agent.ts "Tata Motors"` outputs:
     "Market Competition: Highly competitive automotive industry, especially in the rapidly evolving EV space."
   ],
   "sources": [
-    "Alpha Vantage Financials (for TTM)",
+    "FMP Financials (for TTM)",
     "https://economictimes.indiatimes.com/tata-motors-ltd/stocksupdate/companyid-12934.cms"
   ]
 }
