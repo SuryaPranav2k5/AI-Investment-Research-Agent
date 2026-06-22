@@ -7,13 +7,15 @@ import * as path from "path";
 const CACHE_DIR = path.join(process.cwd(), ".cache");
 const CACHE_EXPIRATION_MS = 24 * 60 * 60 * 1000; // 24 hours
 
-interface FMPData {
+interface UnifiedFinancialData {
   symbol: string;
-  profile: any;
-  incomeStatement: any;
-  balanceSheet: any;
+  profile: any; // holds either FMP Profile or Alpha Vantage Overview
+  incomeStatement: any[]; // standard array of annual reports
+  balanceSheet: any[]; // standard array of annual reports
   cachedAt: string;
 }
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /**
  * Helper to fetch data from FMP API endpoint.
@@ -26,9 +28,27 @@ async function fetchFMP(endpointPath: string, symbol: string, apiKey: string, qu
   }
   const data = await response.json();
   
-  // Handle FMP error responses or limit warnings
   if (data && typeof data === "object" && !Array.isArray(data) && "Error Message" in data) {
     throw new Error(`FMP API error: ${data["Error Message"]}`);
+  }
+  
+  return data;
+}
+
+/**
+ * Helper to fetch data from Alpha Vantage API endpoint.
+ */
+async function fetchAlphaVantage(functionName: string, symbol: string, apiKey: string): Promise<any> {
+  const url = `https://www.alphavantage.co/query?function=${functionName}&symbol=${symbol}&apikey=${apiKey}`;
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Alpha Vantage HTTP error! status: ${response.status}`);
+  }
+  const data = await response.json();
+  
+  if (data["Note"] || data["Information"]) {
+    const message = data["Note"] || data["Information"];
+    throw new Error(`Alpha Vantage API warning/rate limit: ${message}`);
   }
   
   return data;
@@ -37,56 +57,84 @@ async function fetchFMP(endpointPath: string, symbol: string, apiKey: string, qu
 export const fmpTool = tool(
   async (input) => {
     const symbol = input.symbol.toUpperCase();
-    console.log(`[tool] fmp called with symbol: "${symbol}"`);
+    console.log(`[tool] financials called with symbol: "${symbol}"`);
 
-    let apiKey = process.env.FMP_API_KEY;
-    if (!apiKey) {
-      console.warn("[tool] FMP_API_KEY is not defined. Falling back to 'demo' key.");
-      apiKey = "demo";
-    }
+    const fmpCachePath = path.join(CACHE_DIR, `fmp_${symbol}.json`);
+    const avCachePath = path.join(CACHE_DIR, `av_${symbol}.json`);
 
-    const cachePath = path.join(CACHE_DIR, `fmp_${symbol}.json`);
-
-    // 1. Check local cache
-    if (fs.existsSync(cachePath)) {
+    // 1. Check local cache (FMP first)
+    if (fs.existsSync(fmpCachePath)) {
       try {
-        const stats = fs.statSync(cachePath);
+        const stats = fs.statSync(fmpCachePath);
         const age = Date.now() - stats.mtimeMs;
         if (age < CACHE_EXPIRATION_MS) {
-          const cachedContent = fs.readFileSync(cachePath, "utf-8");
-          const cachedData: FMPData = JSON.parse(cachedContent);
-          console.log(`[tool] fmp cache hit for "${symbol}". Reading from local cache.`);
+          const cachedContent = fs.readFileSync(fmpCachePath, "utf-8");
+          const cachedData: UnifiedFinancialData = JSON.parse(cachedContent);
+          console.log(`[tool] FMP cache hit for "${symbol}". Reading from local cache.`);
           return JSON.stringify({
             symbol: cachedData.symbol,
             profile: cachedData.profile,
             incomeStatement: cachedData.incomeStatement,
             balanceSheet: cachedData.balanceSheet,
-            source: "local_cache",
+            source: "fmp_cache",
           });
         }
       } catch (err: any) {
-        console.warn(`[tool] Error reading cache for ${symbol}, falling back to API:`, err.message);
+        console.warn(`[tool] Error reading FMP cache for ${symbol}:`, err.message);
       }
     }
 
-    // 2. Fetch fresh data from FMP API
-    try {
-      console.log(`[tool] Fetching fresh data from FMP API for "${symbol}"...`);
-      
-      const profileResponse = await fetchFMP("profile", symbol, apiKey);
-      const incomeResponse = await fetchFMP("income-statement", symbol, apiKey, "&period=annual&limit=5");
-      const balanceResponse = await fetchFMP("balance-sheet-statement", symbol, apiKey, "&period=annual&limit=5");
+    // 2. Check local cache (Alpha Vantage fallback)
+    if (fs.existsSync(avCachePath)) {
+      try {
+        const stats = fs.statSync(avCachePath);
+        const age = Date.now() - stats.mtimeMs;
+        if (age < CACHE_EXPIRATION_MS) {
+          const cachedContent = fs.readFileSync(avCachePath, "utf-8");
+          const cachedData: UnifiedFinancialData = JSON.parse(cachedContent);
+          console.log(`[tool] Alpha Vantage cache hit for "${symbol}". Reading from local cache.`);
+          return JSON.stringify({
+            symbol: cachedData.symbol,
+            profile: cachedData.profile,
+            incomeStatement: cachedData.incomeStatement,
+            balanceSheet: cachedData.balanceSheet,
+            source: "av_cache",
+          });
+        }
+      } catch (err: any) {
+        console.warn(`[tool] Error reading AV cache for ${symbol}:`, err.message);
+      }
+    }
 
-      // FMP returns profiles as an array. Extract the first profile object.
+    // Ensure cache directory exists
+    if (!fs.existsSync(CACHE_DIR)) {
+      fs.mkdirSync(CACHE_DIR, { recursive: true });
+    }
+
+    // 3. Try FMP API Fetch
+    let fmpError: any = null;
+    let fmpApiKey = process.env.FMP_API_KEY;
+    if (fmpApiKey === "demo" || !fmpApiKey) {
+      // If key is demo, let's proceed but catch legacy/limits
+      fmpApiKey = fmpApiKey || "demo";
+    }
+
+    try {
+      console.log(`[tool] Attempting FMP stable API fetch for "${symbol}"...`);
+      
+      const profileResponse = await fetchFMP("profile", symbol, fmpApiKey);
+      const incomeResponse = await fetchFMP("income-statement", symbol, fmpApiKey, "&period=annual&limit=5");
+      const balanceResponse = await fetchFMP("balance-sheet-statement", symbol, fmpApiKey, "&period=annual&limit=5");
+
       const profile = Array.isArray(profileResponse) && profileResponse.length > 0 ? profileResponse[0] : null;
       const incomeStatement = Array.isArray(incomeResponse) ? incomeResponse : [];
       const balanceSheet = Array.isArray(balanceResponse) ? balanceResponse : [];
 
       if (!profile && incomeStatement.length === 0 && balanceSheet.length === 0) {
-        return `Error: FMP did not return any data for symbol "${symbol}". Ensure the symbol is correct and valid on FMP.`;
+        throw new Error("FMP returned empty financial statements.");
       }
 
-      const mergedData: FMPData = {
+      const mergedData: UnifiedFinancialData = {
         symbol,
         profile,
         incomeStatement,
@@ -94,31 +142,77 @@ export const fmpTool = tool(
         cachedAt: new Date().toISOString(),
       };
 
-      // Ensure cache directory exists
-      if (!fs.existsSync(CACHE_DIR)) {
-        fs.mkdirSync(CACHE_DIR, { recursive: true });
-      }
-
-      // Write to cache
-      fs.writeFileSync(cachePath, JSON.stringify(mergedData, null, 2), "utf-8");
-      console.log(`[tool] Successfully created FMP cache file at: ${cachePath}`);
+      fs.writeFileSync(fmpCachePath, JSON.stringify(mergedData, null, 2), "utf-8");
+      console.log(`[tool] Successfully created FMP cache file at: ${fmpCachePath}`);
 
       return JSON.stringify({
         symbol,
         profile,
         incomeStatement,
         balanceSheet,
-        source: "api_fetch",
+        source: "fmp_api",
       });
-    } catch (error: any) {
-      return `Error retrieving data from FMP API: ${error.message}`;
+
+    } catch (err: any) {
+      fmpError = err;
+      console.warn(`[tool] FMP fetch failed for "${symbol}": ${err.message}. Falling back to Alpha Vantage...`);
+    }
+
+    // 4. Try Alpha Vantage Fetch (Fallback)
+    try {
+      const avApiKey = process.env.ALPHA_VANTAGE_API_KEY;
+      if (!avApiKey) {
+        throw new Error("ALPHA_VANTAGE_API_KEY is not defined in environment variables.");
+      }
+
+      console.log(`[tool] Fetching fresh data from Alpha Vantage API for "${symbol}"...`);
+      
+      const overview = await fetchAlphaVantage("OVERVIEW", symbol, avApiKey);
+      
+      // Delay 1.5 seconds to respect burst limits (5 calls/min)
+      await delay(1500);
+      const incomeResponse = await fetchAlphaVantage("INCOME_STATEMENT", symbol, avApiKey);
+      
+      // Delay another 1.5 seconds
+      await delay(1500);
+      const balanceResponse = await fetchAlphaVantage("BALANCE_SHEET", symbol, avApiKey);
+
+      if (!overview.Symbol && !incomeResponse.symbol && !balanceResponse.symbol) {
+        throw new Error("Alpha Vantage returned invalid or empty statements.");
+      }
+
+      const incomeStatement = incomeResponse.annualReports || [];
+      const balanceSheet = balanceResponse.annualReports || [];
+
+      const mergedData: UnifiedFinancialData = {
+        symbol,
+        profile: overview,
+        incomeStatement,
+        balanceSheet,
+        cachedAt: new Date().toISOString(),
+      };
+
+      fs.writeFileSync(avCachePath, JSON.stringify(mergedData, null, 2), "utf-8");
+      console.log(`[tool] Successfully created Alpha Vantage cache file at: ${avCachePath}`);
+
+      return JSON.stringify({
+        symbol,
+        profile: overview,
+        incomeStatement,
+        balanceSheet,
+        source: "av_api",
+      });
+
+    } catch (avError: any) {
+      console.error(`[tool] Alpha Vantage fetch failed for "${symbol}": ${avError.message}`);
+      return `Error retrieving financials. FMP error: ${fmpError?.message || "unknown"}. Alpha Vantage error: ${avError.message}`;
     }
   },
   {
     name: "fmp_financials",
-    description: "Get comprehensive financial statements and metadata (Company Profile, Income Statement, and Balance Sheet) for a company using its exact stock ticker symbol.",
+    description: "Get comprehensive financial statements and metadata (Company Profile, Income Statement, and Balance Sheet) using the stock ticker symbol.",
     schema: z.object({
-      symbol: z.string().describe("The exact stock ticker symbol of the company (e.g., TSLA, MSFT, INFY.NS)"),
+      symbol: z.string().describe("The stock ticker symbol of the company (e.g., TSLA, MSFT, INFY.NS)"),
     }),
   }
 );
