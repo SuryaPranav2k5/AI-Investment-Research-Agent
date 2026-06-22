@@ -19,7 +19,7 @@ interface FMPData {
  * Helper to fetch data from FMP API endpoint.
  */
 async function fetchFMP(endpointPath: string, symbol: string, apiKey: string, queryParams: string = ""): Promise<any> {
-  const url = `https://financialmodelingprep.com/api/v3/${endpointPath}/${symbol}?apikey=${apiKey}${queryParams}`;
+  const url = `https://financialmodelingprep.com/stable/${endpointPath}?symbol=${symbol}&apikey=${apiKey}${queryParams}`;
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`FMP HTTP error! status: ${response.status}`);
@@ -27,7 +27,7 @@ async function fetchFMP(endpointPath: string, symbol: string, apiKey: string, qu
   const data = await response.json();
   
   // Handle FMP error responses or limit warnings
-  if (data && typeof data === "object" && "Error Message" in data) {
+  if (data && typeof data === "object" && !Array.isArray(data) && "Error Message" in data) {
     throw new Error(`FMP API error: ${data["Error Message"]}`);
   }
   
