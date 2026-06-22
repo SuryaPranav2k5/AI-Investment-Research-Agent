@@ -99,12 +99,14 @@ export async function GET(req: NextRequest) {
             }
           } else if (eventType === "on_tool_end") {
             const toolName = event.name;
+            const toolOutput = event.data.output;
 
             // Stream the tool output status
             sendEvent({
               type: "tool_result",
               tool: toolName,
               summary: `${toolName} returned data`,
+              output: typeof toolOutput === "string" ? toolOutput : JSON.stringify(toolOutput),
             });
           }
         }

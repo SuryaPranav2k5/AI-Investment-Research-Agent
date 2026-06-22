@@ -128,8 +128,25 @@ Running `npx tsx src/lib/agent/test-agent.ts "Tata Motors"` outputs:
 
 ---
 
-## 6. What We Would Improve with More Time
+## 6. Developer Log Inspection & Anti-Hallucination Guardrails
+
+### Raw Tool Logs Inspector
+The application includes a collapsible **Raw Tool Execution Logs** panel at the bottom of the dashboard layout.
+- Styled as a dark developer console (`inspect_payloads.sh`), this panel shows the exact parameters passed to tools and the actual JSON output returned from the network.
+- **Display Truncation**: To prevent large payloads (e.g., voluminous FMP financial statements or search news feeds) from cluttering the layout, payloads are truncated to 500 characters by default. 
+- Users can click **Show More** to expand the log inline or **Show Less** to collapse it back.
+
+### Anti-Hallucination Prompt Tuning
+To prevent the LLM from hallucinating or making up metrics for micro-cap or obscure companies, we implemented explicit prompt guardrails in `agent.ts`:
+- **Strict Data Verification**: Every financial figure (P/E, revenue, margins, debt/equity) must be fetched directly from a tool response.
+- **Explicit Fallbacks**: If a metric is missing from the API tool result, the agent must output `"N/A"`. Substituting assumptions, estimates, or training dataset knowledge is strictly forbidden.
+- **Resilient Tool Cascades**: If the FMP API fails or returns unauthorized/unsupported symbols, the agent seamlessly cascades to Tavily news search queries to gather financial disclosures and verify data points.
+
+---
+
+## 7. What We Would Improve with More Time
 - **Single-Stream Output Extraction (Duplicate Call Optimization)**: Currently, the backend calls the agent twice per request—once with `streamEvents` to collect real-time action logs, and once with `invoke` to retrieve the structured JSON verdict. This duplicates API calls and increases token usage/latency. In a production version, we would write a custom parser to extract the final message content directly from the event stream's state updates, reducing the API footprint to a single execution per request.
 - **Database Caching**: Move local cache from file-based `.cache/` to a Redis instance or PostgreSQL database.
 - **Extended Ratios**: Parse and compute advanced ratios (e.g. Altman Z-Score, DuPont Analysis) automatically inside the tool to supply the LLM with deeper mathematical evaluation.
 - **Advanced Graph**: Customize the LangGraph structure to run qualitative search and quantitative checks in parallel steps before feeding into a dedicated decision node.
+

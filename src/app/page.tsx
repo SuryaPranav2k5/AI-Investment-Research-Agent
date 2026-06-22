@@ -47,6 +47,15 @@ interface VerdictData {
   sources: string[];
 }
 
+interface RawLogItem {
+  id: string;
+  timestamp: string;
+  tool: string;
+  type: "call" | "result";
+  content: string;
+  expanded?: boolean;
+}
+
 const QUICK_COMPANIES = ["Infosys", "Tata Motors", "Tesla", "Reliance Industries", "Nvidia"];
 
 export default function Home() {
@@ -59,6 +68,8 @@ export default function Home() {
   
   // Terminal logs state
   const [logs, setLogs] = useState<ToolLog[]>([]);
+  const [rawLogs, setRawLogs] = useState<RawLogItem[]>([]);
+  const [showRawLogs, setShowRawLogs] = useState(false);
 
   // Pipeline steps state
   const [steps, setSteps] = useState<StepState[]>([
@@ -124,6 +135,7 @@ export default function Home() {
     setVerdict(null);
     setConfidenceWidth(0);
     setLogs([]);
+    setRawLogs([]);
     setElapsedTime(0);
     
     // Reset steps to pending
@@ -180,6 +192,16 @@ export default function Home() {
             } else if (payload.tool === "fmp_financials") {
               addLog("fmp", `Invoking Financial Modeling Prep (FMP) for stock ticker symbol: "${toolArgs.symbol}"`);
             }
+            setRawLogs((prev) => [
+              ...prev,
+              {
+                id: Math.random().toString(),
+                timestamp: new Date().toLocaleTimeString(),
+                tool: payload.tool,
+                type: "call",
+                content: payload.input,
+              },
+            ]);
             break;
 
           case "tool_result":
@@ -188,6 +210,16 @@ export default function Home() {
             } else if (payload.tool === "fmp_financials") {
               addLog("fmp", `Financial data retrieved successfully.`);
             }
+            setRawLogs((prev) => [
+              ...prev,
+              {
+                id: Math.random().toString(),
+                timestamp: new Date().toLocaleTimeString(),
+                tool: payload.tool,
+                type: "result",
+                content: payload.output || payload.summary || "No raw data returned.",
+              },
+            ]);
             break;
 
           case "verdict":
@@ -661,6 +693,101 @@ export default function Home() {
           </section>
 
         </div>
+
+        {/* Raw Developer Logs Collapsible Inspector */}
+        <section className="mt-12 bg-slate-900/20 border border-slate-900 rounded-2xl overflow-hidden backdrop-blur-md shadow-xl transition-all">
+          {/* Header Toggle Button */}
+          <button
+            type="button"
+            onClick={() => setShowRawLogs(!showRawLogs)}
+            className="w-full flex items-center justify-between px-6 py-4 hover:bg-slate-900/40 transition-colors text-left"
+          >
+            <div className="flex items-center gap-2">
+              <Activity className="w-5 h-5 text-indigo-400" />
+              <div>
+                <h3 className="text-sm font-bold text-slate-200">Raw Tool Execution Logs</h3>
+                <p className="text-xs text-slate-500 font-mono">inspect_payloads.sh</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="text-xs font-semibold px-2 py-0.5 bg-slate-950 border border-slate-800 text-slate-400 rounded-md font-mono">
+                {rawLogs.length} events
+              </span>
+              {showRawLogs ? (
+                <span className="text-slate-400 text-xs">▲ Hide Logs</span>
+              ) : (
+                <span className="text-slate-400 text-xs">▼ Show Logs</span>
+              )}
+            </div>
+          </button>
+
+          {/* Expanded Content */}
+          {showRawLogs && (
+            <div className="border-t border-slate-900/60 p-6 bg-slate-950/40">
+              {rawLogs.length === 0 ? (
+                <div className="text-center py-8 text-xs text-slate-600 font-mono">
+                  No active tools execution trace recorded. Enter a company to start analysis.
+                </div>
+              ) : (
+                <div className="space-y-4 max-h-[500px] overflow-y-auto custom-scrollbar pr-2 font-mono text-xs">
+                  {rawLogs.map((log) => {
+                    const isCall = log.type === "call";
+                    const displayContent = log.expanded || log.content.length <= 500
+                      ? log.content
+                      : `${log.content.slice(0, 500)}...`;
+
+                    return (
+                      <div
+                        key={log.id}
+                        className={`p-4 rounded-xl border ${
+                          isCall
+                            ? "bg-indigo-950/10 border-indigo-900/30 text-indigo-200"
+                            : "bg-slate-950/60 border-slate-900/60 text-slate-300"
+                        }`}
+                      >
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-900 pb-2 mb-2 gap-1 text-[11px] font-bold">
+                          <div className="flex items-center gap-2">
+                            <span className="text-slate-500">[{log.timestamp}]</span>
+                            <span className={`px-2 py-0.5 rounded text-[10px] uppercase tracking-wider ${
+                              isCall ? "bg-indigo-500/10 text-indigo-400 border border-indigo-500/20" : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                            }`}>
+                              {log.type}
+                            </span>
+                            <span className="text-slate-300 font-semibold">{log.tool}</span>
+                          </div>
+                        </div>
+
+                        {/* Content Box */}
+                        <pre className="whitespace-pre-wrap font-mono text-[11px] leading-relaxed bg-slate-950 p-3 rounded-lg border border-slate-900 overflow-x-auto max-h-72">
+                          {displayContent}
+                        </pre>
+
+                        {/* Show More / Show Less Toggle Button */}
+                        {log.content.length > 500 && (
+                          <div className="mt-2 flex justify-end">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setRawLogs((prev) =>
+                                  prev.map((item) =>
+                                    item.id === log.id ? { ...item, expanded: !item.expanded } : item
+                                  )
+                                );
+                              }}
+                              className="text-[10px] px-2.5 py-1 bg-slate-900 border border-slate-800 text-slate-400 hover:text-indigo-400 hover:border-indigo-500/30 rounded-md transition-all font-semibold active:scale-95"
+                            >
+                              {log.expanded ? "Show Less" : `Show More (${(log.content.length - 500)} chars hidden)`}
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
+        </section>
 
       </div>
     </div>
