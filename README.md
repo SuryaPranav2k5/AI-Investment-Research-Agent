@@ -144,7 +144,20 @@ To prevent the LLM from hallucinating or making up metrics for micro-cap or obsc
 
 ---
 
-## 7. What We Would Improve with More Time
+## 7. Compare Mode (Side-by-Side Analysis Engine)
+
+The dashboard includes a dedicated **Compare Engine** mode enabling users to analyze two companies side-by-side.
+
+### Core Capabilities & Architecture:
+- **Parallel Client Connections**: The React dashboard triggers two concurrent, non-blocking `EventSource` connections to `/api/analyze`, requesting streams for both Company A and Company B simultaneously.
+- **Consolidated Prefixed Terminal**: Logs from both streams are merged in real-time within the terminal console, prefixed with `[A]` and `[B]` tags to clearly showcase parallel multi-agent execution and orchestration.
+- **Comparison Summary Matrix**: Once both streams finish, a high-level matrix table aggregates and compares key statistics side-by-side: Ticker Symbol, AI Research Verdict, Confidence Score, Bull Catalysts, and Risk Factors.
+- **Side-by-Side Verdict Reports**: Detailed cards for both companies are rendered adjacent to each other, allowing for direct comparison of qualitative reasons, catalysts, risks, and cited sources.
+- **Quick Comparison Pairings**: Features quick-select chips (e.g., `Tesla vs. Nvidia`, `Infosys vs. Tata Motors`, `Apple vs. Microsoft`) to quickly load and execute standard comparison pairs with a single click.
+
+---
+
+## 8. What We Would Improve with More Time
 - **Single-Stream Output Extraction (Duplicate Call Optimization)**: Currently, the backend calls the agent twice per request—once with `streamEvents` to collect real-time action logs, and once with `invoke` to retrieve the structured JSON verdict. This duplicates API calls and increases token usage/latency. In a production version, we would write a custom parser to extract the final message content directly from the event stream's state updates, reducing the API footprint to a single execution per request.
 - **Database Caching**: Move local cache from file-based `.cache/` to a Redis instance or PostgreSQL database.
 - **Extended Ratios**: Parse and compute advanced ratios (e.g. Altman Z-Score, DuPont Analysis) automatically inside the tool to supply the LLM with deeper mathematical evaluation.
