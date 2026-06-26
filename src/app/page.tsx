@@ -14,7 +14,8 @@ import {
   Loader2, 
   ExternalLink,
   BookOpen,
-  DollarSign
+  DollarSign,
+  RotateCcw
 } from "lucide-react";
 
 // Define Step structures
@@ -477,9 +478,17 @@ export default function Home() {
             {error && (
               <div className="bg-rose-500/10 border border-rose-500/20 text-rose-300 p-6 rounded-2xl backdrop-blur-md mb-6 shadow-xl flex items-start gap-4">
                 <AlertCircle className="w-6 h-6 text-rose-400 shrink-0 mt-0.5" />
-                <div>
+                <div className="flex-1">
                   <h3 className="font-semibold text-rose-200">Analysis Error</h3>
                   <p className="text-sm text-rose-300/80 mt-1 leading-relaxed">{error}</p>
+                  <button
+                    type="button"
+                    onClick={() => startAnalysis(query)}
+                    className="mt-4 px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white font-medium rounded-xl text-xs transition-all flex items-center gap-1.5 active:scale-95 shadow-md shadow-rose-900/30"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    Retry Analysis
+                  </button>
                 </div>
               </div>
             )}
