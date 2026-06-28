@@ -66,16 +66,6 @@ interface VerdictData {
   sources: string[];
 }
 
-interface RawLogItem {
-  id: string;
-  timestamp: string;
-  tool: string;
-  type: "call" | "result";
-  content: string;
-  expanded?: boolean;
-  prefix?: string;
-}
-
 const QUICK_COMPANIES = ["Infosys", "Tata Motors", "Tesla", "Reliance Industries", "Nvidia"];
 
 export default function Home() {
@@ -105,9 +95,6 @@ export default function Home() {
 
   // Terminal logs state (consolidated)
   const [logs, setLogs] = useState<ToolLog[]>([]);
-  const [rawLogs, setRawLogs] = useState<RawLogItem[]>([]);
-  const [showRawLogs, setShowRawLogs] = useState(false);
-  const [expandedLogIds, setExpandedLogIds] = useState<Record<string, boolean>>({});
 
   // Pipeline steps states
   const [steps, setSteps] = useState<StepState[]>([
@@ -316,17 +303,6 @@ export default function Home() {
             } else if (payload.tool === "fmp_financials") {
               addLog("fmp", `Invoking Financial Modeling Prep (FMP) for stock ticker symbol: "${toolArgs.symbol}"`, logPrefix);
             }
-            setRawLogs((prev) => [
-              ...prev,
-              {
-                id: Math.random().toString(),
-                timestamp: new Date().toLocaleTimeString(),
-                tool: payload.tool,
-                type: "call",
-                content: payload.input,
-                prefix: logPrefix,
-              },
-            ]);
             break;
 
           case "tool_result":
@@ -337,17 +313,6 @@ export default function Home() {
             } else if (payload.tool === "fmp_financials") {
               addLog("fmp", `Financial data retrieved successfully.`, logPrefix);
             }
-            setRawLogs((prev) => [
-              ...prev,
-              {
-                id: Math.random().toString(),
-                timestamp: new Date().toLocaleTimeString(),
-                tool: payload.tool,
-                type: "result",
-                content: payload.output || payload.summary || "No raw data returned.",
-                prefix: logPrefix,
-              },
-            ]);
             break;
 
           case "verdict":
@@ -438,14 +403,12 @@ export default function Home() {
 
   const startAnalysis = (targetCompany: string) => {
     setLogs([]);
-    setRawLogs([]);
     startStream(targetCompany, "single");
   };
 
   const startComparison = (companyA: string, companyB: string) => {
     if (!companyA.trim() || !companyB.trim()) return;
     setLogs([]);
-    setRawLogs([]);
     startStream(companyA, "A");
     startStream(companyB, "B");
   };
@@ -1634,90 +1597,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </div>
-        )}
-
-        {/* Collapsible Raw Tool Execution Logs Inspector */}
-        {rawLogs.length > 0 && (
-          <div className="mt-8 bg-[#0a0a0f] border border-[#252533] rounded-2xl p-5 shadow-xl">
-            <button
-              type="button"
-              onClick={() => setShowRawLogs(!showRawLogs)}
-              className="w-full flex items-center justify-between font-mono text-xs text-[#8b8b9e] border-b border-[#252533]/60 pb-3 hover:text-white transition-colors"
-            >
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse" />
-                <span className="font-bold uppercase tracking-wider">Raw Tool Execution Logs</span>
-                <span className="bg-[#181822] text-[#22d3ee] px-2 py-0.5 rounded text-[10px] border border-[#2d3045]">
-                  {rawLogs.length} entries
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] text-[#555]">(inspect_payloads.sh)</span>
-                <span>{showRawLogs ? "Collapse ▲" : "Expand ▼"}</span>
-              </div>
-            </button>
-
-            {showRawLogs && (
-              <div className="mt-4 space-y-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar font-mono text-[11px] leading-relaxed text-left">
-                {rawLogs.map((log) => {
-                  const isCall = log.type === "call";
-                  const isA = log.prefix === "A";
-                  const isB = log.prefix === "B";
-                  const prefixColor = isA ? "text-[#f0b429]" : isB ? "text-[#22d3ee]" : "";
-                  
-                  // Check expansion state for this log item
-                  const isExpanded = !!expandedLogIds[log.id];
-                  const rawContent = log.content;
-                  const needsTruncation = rawContent.length > 500;
-                  const displayedContent = (!isExpanded && needsTruncation) 
-                    ? `${rawContent.slice(0, 500)}...` 
-                    : rawContent;
-
-                  return (
-                    <div 
-                      key={log.id} 
-                      className={`p-3 rounded-lg border transition-all ${
-                        isCall 
-                          ? "bg-[#0c0c14]/40 border-[#1c1c30] hover:bg-[#0c0c14]/60" 
-                          : "bg-[#0d140e]/40 border-[#1d3020] hover:bg-[#0d140e]/60"
-                      }`}
-                    >
-                      <div className="flex items-center justify-between border-b border-[#252533]/40 pb-1.5 mb-2 text-[10px]">
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-[#4b4e6d]">[{log.timestamp}]</span>
-                          {log.prefix && (
-                            <span className={`font-bold ${prefixColor}`}>
-                              [{log.prefix}]
-                            </span>
-                          )}
-                          <span className={isCall ? "text-[#22d3ee] font-bold" : "text-emerald-400 font-bold"}>
-                            [{log.tool}]
-                          </span>
-                          <span className={`px-1 rounded text-[9px] font-bold uppercase ${
-                            isCall ? "bg-[#22d3ee]/10 text-[#22d3ee]" : "bg-emerald-400/10 text-emerald-400"
-                          }`}>
-                            {isCall ? "Call Parameters" : "Tool Response"}
-                          </span>
-                        </div>
-                        {needsTruncation && (
-                          <button
-                            type="button"
-                            onClick={() => setExpandedLogIds(prev => ({ ...prev, [log.id]: !prev[log.id] }))}
-                            className="text-[#22d3ee] hover:underline hover:text-cyan-300 font-bold"
-                          >
-                            {isExpanded ? "Show Less" : "Show More"}
-                          </button>
-                        )}
-                      </div>
-                      <pre className="whitespace-pre-wrap break-all text-[#c4c2be] bg-black/30 p-2.5 rounded border border-[#1b1c29]/30">
-                        {displayedContent}
-                      </pre>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
           </div>
         )}
       </div>

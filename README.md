@@ -127,17 +127,7 @@ These metrics are rendered at the top of the verdict card in Single Mode and sid
 
 ---
 
-## 6. Developer Log Inspection & Anti-Hallucination Guardrails
-
-### Raw Tool Logs Inspector
-The application includes a collapsible **Raw Tool Execution Logs** panel at the bottom of the dashboard layout.
-- Styled as a dark developer console, this panel shows the exact parameters passed to tools and the actual JSON output returned from the network.
-- **Display Truncation**: To prevent large payloads (e.g., voluminous FMP financial statements or search news feeds) from cluttering the layout, payloads are truncated to 500 characters by default. 
-- Users can click **Show More** to expand the log inline or **Show Less** to collapse it back.
-
----
-
-## 7. Compare Mode (Side-by-Side Analysis Engine)
+## 6. Compare Mode (Side-by-Side Analysis Engine)
 
 The dashboard includes a dedicated **Compare Engine** mode enabling users to analyze two companies side-by-side.
 
@@ -149,7 +139,7 @@ The dashboard includes a dedicated **Compare Engine** mode enabling users to ana
 
 ---
 
-## 8. What We Would Improve with More Time
+## 7. What We Would Improve with More Time
 - **Single-Stream Output Extraction (Duplicate Call Optimization)**: Currently, the backend calls the agent twice per request—once with `streamEvents` to collect real-time action logs, and once with `invoke` to retrieve the structured JSON verdict. This duplicates API calls and increases token usage/latency. In a production version, we would write a custom parser to extract the final message content directly from the event stream's state updates, reducing the API footprint to a single execution per request.
 - **Database Caching**: Move local cache from file-based `.cache/` to a Redis instance or PostgreSQL database.
 - **Claim-Level Evidence Attribution**: Tag each verdict claim with the exact tool and source that verified it, making hallucination detection transparent at the individual statement level.
