@@ -2,6 +2,9 @@
 
 This project is an AI-powered Investment Research Agent designed as a take-home assignment for InsideIIM × Altuni AI Labs. The agent takes a company name, conducts comprehensive web and financial research, and makes a recommendation to **invest** or **pass** with detailed logical reasoning.
 
+*   **Live Vercel Deployment**: `[Insert your Vercel deployment link here, e.g., https://your-app.vercel.app]`
+*   **LLM Chat Session logs**: The full developer-AI interaction log is packaged in the root directory as [`chat_transcript.jsonl`](file:///D:/Model/investment-agent/chat_transcript.jsonl) to fulfill the bonus points requirements.
+
 ---
 
 ## 1. Overview
@@ -127,7 +130,67 @@ These metrics are rendered at the top of the verdict card in Single Mode and sid
 
 ---
 
-## 6. Compare Mode (Side-by-Side Analysis Engine)
+## 6. Example Runs
+
+### Example 1: NVIDIA Corporation (NVDA) - Invest Verdict
+```json
+{
+  "company": "NVIDIA Corporation",
+  "symbol": "NVDA",
+  "verdict": "invest",
+  "confidence": 85,
+  "financialScore": 80,
+  "newsSentiment": "bullish",
+  "marketConsensus": "buy",
+  "riskLevel": "medium",
+  "metrics": {
+    "peRatio": "39.05",
+    "debtToEquity": "0.07",
+    "operatingMargin": "60.4%",
+    "grossMargin": "71.1%",
+    "revenueGrowthYoY": "65.5%",
+    "netIncomeGrowthYoY": "64.7%",
+    "revenue": "$215.94B",
+    "netIncome": "$120.07B"
+  },
+  "bullCase": [
+    "Dominant market share (80-90%+) in AI accelerators with a deep, defensible software moat (CUDA).",
+    "Rapid product innovation cycle (Blackwell, Rubin) keeps performance leadership ahead of merchant competitors.",
+    "Massive, sustained capital expenditure from hyperscalers (Microsoft, Meta, Google, etc.) driving demand."
+  ],
+  "bearCase": [
+    "Increasing competition from hyperscaler custom silicon (ASICs) which may erode market share in inference workloads.",
+    "High valuation multiples leave little room for error if growth decelerates.",
+    "Geopolitical risks, specifically U.S. export controls, significantly limiting access to the Chinese market."
+  ]
+}
+```
+
+### Example 2: Microsoft Corporation (MSFT) - Invest Verdict
+```json
+{
+  "company": "Microsoft Corporation",
+  "symbol": "MSFT",
+  "verdict": "invest",
+  "confidence": 100,
+  "financialScore": 95,
+  "newsSentiment": "bullish",
+  "marketConsensus": "strong buy",
+  "riskLevel": "low",
+  "metrics": {
+    "peRatio": "27.22",
+    "debtToEquity": "0.80",
+    "operatingMargin": "45.6%",
+    "grossMargin": "68.8%",
+    "revenueGrowthYoY": "14.9%",
+    "netIncomeGrowthYoY": "15.5%"
+  }
+}
+```
+
+---
+
+## 7. Compare Mode (Side-by-Side Analysis Engine)
 
 The dashboard includes a dedicated **Compare Engine** mode enabling users to analyze two companies side-by-side.
 
@@ -139,7 +202,7 @@ The dashboard includes a dedicated **Compare Engine** mode enabling users to ana
 
 ---
 
-## 7. What We Would Improve with More Time
+## 8. What We Would Improve with More Time
 - **Single-Stream Output Extraction (Duplicate Call Optimization)**: Currently, the backend calls the agent twice per request—once with `streamEvents` to collect real-time action logs, and once with `invoke` to retrieve the structured JSON verdict. This duplicates API calls and increases token usage/latency. In a production version, we would write a custom parser to extract the final message content directly from the event stream's state updates, reducing the API footprint to a single execution per request.
 - **Database Caching**: Move local cache from file-based `.cache/` to a Redis instance or PostgreSQL database.
 - **Claim-Level Evidence Attribution**: Tag each verdict claim with the exact tool and source that verified it, making hallucination detection transparent at the individual statement level.
