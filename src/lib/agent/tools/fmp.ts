@@ -2,9 +2,12 @@ import { tool } from "@langchain/core/tools";
 import { z } from "zod";
 import * as fs from "fs";
 import * as path from "path";
+import * as os from "os";
 
-// Define cache configuration
-const CACHE_DIR = path.join(process.cwd(), ".cache");
+// Define cache configuration - dynamically resolve writable path for Vercel/serverless environments
+const CACHE_DIR = process.env.VERCEL || process.env.NOW_BUILDER
+  ? path.join(os.tmpdir(), "investment_agent_cache")
+  : path.join(process.cwd(), ".cache");
 const CACHE_EXPIRATION_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 interface UnifiedFinancialData {
@@ -14,6 +17,23 @@ interface UnifiedFinancialData {
   balanceSheet: any[]; // standard array of annual reports
   cachedAt: string;
 }
+
+/**
+ * Helper to safely create the cache directory and write a file,
+ * catching any read-only filesystem errors in serverless environments.
+ */
+const saveToCache = (cachePath: string, data: UnifiedFinancialData) => {
+  try {
+    const dir = path.dirname(cachePath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    fs.writeFileSync(cachePath, JSON.stringify(data, null, 2), "utf-8");
+    console.log(`[tool] Successfully created cache file at: ${cachePath}`);
+  } catch (err: any) {
+    console.warn(`[tool] Failed to write cache to ${cachePath}: ${err.message}`);
+  }
+};
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -106,10 +126,7 @@ export const fmpTool = tool(
       }
     }
 
-    // Ensure cache directory exists
-    if (!fs.existsSync(CACHE_DIR)) {
-      fs.mkdirSync(CACHE_DIR, { recursive: true });
-    }
+    // Cache directory check/creation is handled inside saveToCache
 
     // 3. Try FMP API Fetch
     let fmpError: any = null;
@@ -142,8 +159,7 @@ export const fmpTool = tool(
         cachedAt: new Date().toISOString(),
       };
 
-      fs.writeFileSync(fmpCachePath, JSON.stringify(mergedData, null, 2), "utf-8");
-      console.log(`[tool] Successfully created FMP cache file at: ${fmpCachePath}`);
+      saveToCache(fmpCachePath, mergedData);
 
       return JSON.stringify({
         symbol,
@@ -192,8 +208,7 @@ export const fmpTool = tool(
         cachedAt: new Date().toISOString(),
       };
 
-      fs.writeFileSync(avCachePath, JSON.stringify(mergedData, null, 2), "utf-8");
-      console.log(`[tool] Successfully created Alpha Vantage cache file at: ${avCachePath}`);
+      saveToCache(avCachePath, mergedData);
 
       return JSON.stringify({
         symbol,
