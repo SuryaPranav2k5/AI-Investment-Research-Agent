@@ -23,9 +23,9 @@ export const tavilySearchTool = tool(
   },
   {
     name: "tavily_search",
-    description: "Search the web for recent news, articles, developments, and general information about a company.",
+    description: "Search the web for breaking news, recent events, and announcements from the last 6 months. Best for timeline-sensitive, keyword-based searches.",
     schema: z.object({
-      query: z.string().describe("The search query to run on the web"),
+      query: z.string().describe("The keyword search query for breaking news or recent events"),
     }),
   }
 );

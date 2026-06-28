@@ -31,9 +31,20 @@ interface StepState {
 interface ToolLog {
   id: string;
   timestamp: string;
-  tag: "tavily" | "fmp" | "agent" | "system";
+  tag: "tavily" | "exa" | "fmp" | "agent" | "system";
   message: string;
   prefix?: string;
+}
+
+interface FinancialMetrics {
+  peRatio: string;
+  debtToEquity: string;
+  operatingMargin: string;
+  grossMargin: string;
+  revenueGrowthYoY: string;
+  netIncomeGrowthYoY: string;
+  revenue: string;
+  netIncome: string;
 }
 
 // Define Verdict structure
@@ -42,6 +53,12 @@ interface VerdictData {
   symbol: string;
   verdict: "invest" | "pass" | "error";
   confidence: number;
+  financialScore?: number;
+  newsSentiment?: "bullish" | "bearish" | "neutral";
+  marketConsensus?: "strong buy" | "buy" | "hold" | "sell" | "underperform";
+  riskLevel?: "low" | "medium" | "high";
+  scoreDerivation?: string;
+  metrics?: FinancialMetrics;
   reasoning: string;
   bullCase: string[];
   bearCase: string[];
@@ -168,7 +185,7 @@ export default function Home() {
     }
   };
 
-  const addLog = (tag: "tavily" | "fmp" | "agent" | "system", message: string, prefix?: string) => {
+  const addLog = (tag: "tavily" | "exa" | "fmp" | "agent" | "system", message: string, prefix?: string) => {
     const timestamp = new Date().toLocaleTimeString();
     setLogs((prev) => [...prev, { id: Math.random().toString(), timestamp, tag, message, prefix }]);
   };
@@ -291,6 +308,8 @@ export default function Home() {
             const toolArgs = JSON.parse(payload.input);
             if (payload.tool === "tavily_search") {
               addLog("tavily", `Invoking Tavily Search with query: "${toolArgs.query}"`, logPrefix);
+            } else if (payload.tool === "exa_search") {
+              addLog("exa", `Invoking Exa Neural Search with query: "${toolArgs.query}"`, logPrefix);
             } else if (payload.tool === "fmp_financials") {
               addLog("fmp", `Invoking Financial Modeling Prep (FMP) for stock ticker symbol: "${toolArgs.symbol}"`, logPrefix);
             }
@@ -310,6 +329,8 @@ export default function Home() {
           case "tool_result":
             if (payload.tool === "tavily_search") {
               addLog("tavily", `Search completed successfully. Returning news feed payload.`, logPrefix);
+            } else if (payload.tool === "exa_search") {
+              addLog("exa", `Semantic expert insights retrieved successfully.`, logPrefix);
             } else if (payload.tool === "fmp_financials") {
               addLog("fmp", `Financial data retrieved successfully.`, logPrefix);
             }
@@ -512,6 +533,130 @@ export default function Home() {
                 </td>
               </tr>
               <tr className="hover:bg-slate-900/20">
+                <td className="py-3 px-4 font-medium text-slate-300">Financial Health Score</td>
+                <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01] font-mono">
+                  {vA.financialScore !== undefined ? `${vA.financialScore}/100` : "N/A"}
+                </td>
+                <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01] font-mono">
+                  {vB.financialScore !== undefined ? `${vB.financialScore}/100` : "N/A"}
+                </td>
+              </tr>
+              <tr className="hover:bg-slate-900/20">
+                <td className="py-3 px-4 font-medium text-slate-300">News Sentiment</td>
+                <td className="py-3 px-4 bg-pink-500/[0.01]">
+                  {vA.newsSentiment ? (
+                    <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase border ${
+                      vA.newsSentiment === "bullish" 
+                        ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" 
+                        : vA.newsSentiment === "bearish" 
+                        ? "bg-rose-500/10 border-rose-500/20 text-rose-400" 
+                        : "bg-slate-500/10 border-slate-800 text-slate-400"
+                    }`}>{vA.newsSentiment}</span>
+                  ) : "N/A"}
+                </td>
+                <td className="py-3 px-4 bg-cyan-500/[0.01]">
+                  {vB.newsSentiment ? (
+                    <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase border ${
+                      vB.newsSentiment === "bullish" 
+                        ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" 
+                        : vB.newsSentiment === "bearish" 
+                        ? "bg-rose-500/10 border-rose-500/20 text-rose-400" 
+                        : "bg-slate-500/10 border-slate-800 text-slate-400"
+                    }`}>{vB.newsSentiment}</span>
+                  ) : "N/A"}
+                </td>
+              </tr>
+              <tr className="hover:bg-slate-900/20">
+                <td className="py-3 px-4 font-medium text-slate-300">Consensus Rating</td>
+                <td className="py-3 px-4 bg-pink-500/[0.01]">
+                  {vA.marketConsensus ? (
+                    <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase border ${
+                      vA.marketConsensus === "strong buy" || vA.marketConsensus === "buy"
+                        ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" 
+                        : vA.marketConsensus === "hold" 
+                        ? "bg-amber-500/10 border-amber-500/20 text-amber-400" 
+                        : "bg-rose-500/10 border-rose-500/20 text-rose-400"
+                    }`}>{vA.marketConsensus}</span>
+                  ) : "N/A"}
+                </td>
+                <td className="py-3 px-4 bg-cyan-500/[0.01]">
+                  {vB.marketConsensus ? (
+                    <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase border ${
+                      vB.marketConsensus === "strong buy" || vB.marketConsensus === "buy"
+                        ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" 
+                        : vB.marketConsensus === "hold" 
+                        ? "bg-amber-500/10 border-amber-500/20 text-amber-400" 
+                        : "bg-rose-500/10 border-rose-500/20 text-rose-400"
+                    }`}>{vB.marketConsensus}</span>
+                  ) : "N/A"}
+                </td>
+              </tr>
+              <tr className="hover:bg-slate-900/20">
+                <td className="py-3 px-4 font-medium text-slate-300">Risk Level</td>
+                <td className="py-3 px-4 bg-pink-500/[0.01]">
+                  {vA.riskLevel ? (
+                    <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase border ${
+                      vA.riskLevel === "low" 
+                        ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" 
+                        : vA.riskLevel === "medium" 
+                        ? "bg-amber-500/10 border-amber-500/20 text-amber-400" 
+                        : "bg-rose-500/10 border-rose-500/20 text-rose-400"
+                    }`}>{vA.riskLevel}</span>
+                  ) : "N/A"}
+                </td>
+                <td className="py-3 px-4 bg-cyan-500/[0.01]">
+                  {vB.riskLevel ? (
+                    <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase border ${
+                      vB.riskLevel === "low" 
+                        ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" 
+                        : vB.riskLevel === "medium" 
+                        ? "bg-amber-500/10 border-amber-500/20 text-amber-400" 
+                        : "bg-rose-500/10 border-rose-500/20 text-rose-400"
+                    }`}>{vB.riskLevel}</span>
+                  ) : "N/A"}
+                </td>
+              </tr>
+              <tr className="hover:bg-slate-900/20">
+                <td className="py-3 px-4 font-medium text-slate-300">Revenue (Most Recent FY)</td>
+                <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01]">{vA.metrics?.revenue || "N/A"}</td>
+                <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01]">{vB.metrics?.revenue || "N/A"}</td>
+              </tr>
+              <tr className="hover:bg-slate-900/20">
+                <td className="py-3 px-4 font-medium text-slate-300">Net Income (Most Recent FY)</td>
+                <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01]">{vA.metrics?.netIncome || "N/A"}</td>
+                <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01]">{vB.metrics?.netIncome || "N/A"}</td>
+              </tr>
+              <tr className="hover:bg-slate-900/20">
+                <td className="py-3 px-4 font-medium text-slate-300">Trailing P/E Ratio</td>
+                <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01] font-mono">{vA.metrics?.peRatio || "N/A"}</td>
+                <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01] font-mono">{vB.metrics?.peRatio || "N/A"}</td>
+              </tr>
+              <tr className="hover:bg-slate-900/20">
+                <td className="py-3 px-4 font-medium text-slate-300">Debt-to-Equity Ratio</td>
+                <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01] font-mono">{vA.metrics?.debtToEquity || "N/A"}</td>
+                <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01] font-mono">{vB.metrics?.debtToEquity || "N/A"}</td>
+              </tr>
+              <tr className="hover:bg-slate-900/20">
+                <td className="py-3 px-4 font-medium text-slate-300">Operating Margin</td>
+                <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01] font-mono">{vA.metrics?.operatingMargin || "N/A"}</td>
+                <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01] font-mono">{vB.metrics?.operatingMargin || "N/A"}</td>
+              </tr>
+              <tr className="hover:bg-slate-900/20">
+                <td className="py-3 px-4 font-medium text-slate-300">Gross Margin</td>
+                <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01] font-mono">{vA.metrics?.grossMargin || "N/A"}</td>
+                <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01] font-mono">{vB.metrics?.grossMargin || "N/A"}</td>
+              </tr>
+              <tr className="hover:bg-slate-900/20">
+                <td className="py-3 px-4 font-medium text-slate-300">Revenue Growth (YoY)</td>
+                <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01] font-mono">{vA.metrics?.revenueGrowthYoY || "N/A"}</td>
+                <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01] font-mono">{vB.metrics?.revenueGrowthYoY || "N/A"}</td>
+              </tr>
+              <tr className="hover:bg-slate-900/20">
+                <td className="py-3 px-4 font-medium text-slate-300">Net Income Growth (YoY)</td>
+                <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01] font-mono">{vA.metrics?.netIncomeGrowthYoY || "N/A"}</td>
+                <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01] font-mono">{vB.metrics?.netIncomeGrowthYoY || "N/A"}</td>
+              </tr>
+              <tr className="hover:bg-slate-900/20">
                 <td className="py-3 px-4 font-medium text-slate-300">Bull Catalysts</td>
                 <td className="py-3 px-4 text-emerald-400 bg-pink-500/[0.01] font-medium">{vA.bullCase?.length || 0} items</td>
                 <td className="py-3 px-4 text-emerald-400 bg-cyan-500/[0.01] font-medium">{vB.bullCase?.length || 0} items</td>
@@ -594,6 +739,104 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Market Sentiment Dashboard */}
+        <div className="bg-slate-950/40 border border-slate-900 rounded-xl p-4">
+          <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5 border-b border-slate-900/60 pb-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
+            Market Sentiment Indicators
+          </h3>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            {/* Financial Health Score */}
+            <div className="bg-slate-900/30 border border-slate-900/80 rounded-lg p-3 flex flex-col justify-between">
+              <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Financial Score</span>
+              <div className="flex items-center justify-between mt-1">
+                <span className="text-sm font-bold text-slate-100 font-mono">
+                  {verdictData.financialScore !== undefined ? `${verdictData.financialScore}/100` : "N/A"}
+                </span>
+                {verdictData.financialScore !== undefined && (
+                  <div className="w-8 h-1 bg-slate-950 rounded-full overflow-hidden">
+                    <div 
+                      className={`h-full ${
+                        verdictData.financialScore >= 75 ? "bg-emerald-500" : verdictData.financialScore >= 50 ? "bg-amber-500" : "bg-rose-500"
+                      }`} 
+                      style={{ width: `${verdictData.financialScore}%` }} 
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* News Sentiment */}
+            <div className="bg-slate-900/30 border border-slate-900/80 rounded-lg p-3 flex flex-col justify-between">
+              <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">News Sentiment</span>
+              <div className="mt-1">
+                {verdictData.newsSentiment ? (
+                  <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${
+                    verdictData.newsSentiment === "bullish" 
+                      ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" 
+                      : verdictData.newsSentiment === "bearish" 
+                      ? "bg-rose-500/10 border-rose-500/20 text-rose-400" 
+                      : "bg-slate-500/10 border-slate-800 text-slate-400"
+                  }`}>
+                    {verdictData.newsSentiment}
+                  </span>
+                ) : (
+                  <span className="text-[10px] text-slate-500 font-medium">N/A</span>
+                )}
+              </div>
+            </div>
+
+            {/* Consensus Rating */}
+            <div className="bg-slate-900/30 border border-slate-900/80 rounded-lg p-3 flex flex-col justify-between">
+              <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Consensus Rating</span>
+              <div className="mt-1">
+                {verdictData.marketConsensus ? (
+                  <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${
+                    verdictData.marketConsensus === "strong buy" || verdictData.marketConsensus === "buy"
+                      ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" 
+                      : verdictData.marketConsensus === "hold" 
+                      ? "bg-amber-500/10 border-amber-500/20 text-amber-400" 
+                      : "bg-rose-500/10 border-rose-500/20 text-rose-400"
+                  }`}>
+                    {verdictData.marketConsensus}
+                  </span>
+                ) : (
+                  <span className="text-[10px] text-slate-500 font-medium">N/A</span>
+                )}
+              </div>
+            </div>
+
+            {/* Risk Level */}
+            <div className="bg-slate-900/30 border border-slate-900/80 rounded-lg p-3 flex flex-col justify-between">
+              <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Risk Level</span>
+              <div className="flex items-center gap-1.5 mt-1">
+                {verdictData.riskLevel ? (
+                  <>
+                    <span className={`w-1.5 h-1.5 rounded-full ${
+                      verdictData.riskLevel === "low" 
+                        ? "bg-emerald-500 shadow shadow-emerald-500/50" 
+                        : verdictData.riskLevel === "medium" 
+                        ? "bg-amber-500 shadow shadow-amber-500/50" 
+                        : "bg-rose-500 shadow shadow-rose-500/50"
+                    }`} />
+                    <span className={`text-[10px] font-bold uppercase tracking-wider ${
+                      verdictData.riskLevel === "low" 
+                        ? "text-emerald-400" 
+                        : verdictData.riskLevel === "medium" 
+                        ? "text-amber-400" 
+                        : "text-rose-400"
+                    }`}>
+                      {verdictData.riskLevel}
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-[10px] text-slate-500 font-medium">N/A</span>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Reasoning summary text */}
         <div className="bg-slate-950/50 border border-slate-900 rounded-xl p-4.5">
           <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
@@ -603,6 +846,49 @@ export default function Home() {
             {verdictData.reasoning}
           </p>
         </div>
+
+        {/* Quantitative Metrics Grid */}
+        {verdictData.metrics && (
+          <div className="bg-slate-950/20 border border-slate-900 rounded-xl p-4.5">
+            <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
+              Key Financial Metrics
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="bg-slate-950/60 border border-slate-900/80 rounded-lg p-3 text-center">
+                <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Revenue</span>
+                <span className="text-sm font-bold text-slate-200 block mt-1">{verdictData.metrics.revenue}</span>
+              </div>
+              <div className="bg-slate-950/60 border border-slate-900/80 rounded-lg p-3 text-center">
+                <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Net Income</span>
+                <span className="text-sm font-bold text-slate-200 block mt-1">{verdictData.metrics.netIncome}</span>
+              </div>
+              <div className="bg-slate-950/60 border border-slate-900/80 rounded-lg p-3 text-center">
+                <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Trailing P/E</span>
+                <span className="text-sm font-bold text-slate-200 block mt-1 font-mono">{verdictData.metrics.peRatio}</span>
+              </div>
+              <div className="bg-slate-950/60 border border-slate-900/80 rounded-lg p-3 text-center">
+                <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Debt / Equity</span>
+                <span className="text-sm font-bold text-slate-200 block mt-1 font-mono">{verdictData.metrics.debtToEquity}</span>
+              </div>
+              <div className="bg-slate-950/60 border border-slate-900/80 rounded-lg p-3 text-center">
+                <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Operating Margin</span>
+                <span className="text-sm font-bold text-slate-200 block mt-1 font-mono">{verdictData.metrics.operatingMargin}</span>
+              </div>
+              <div className="bg-slate-950/60 border border-slate-900/80 rounded-lg p-3 text-center">
+                <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Gross Margin</span>
+                <span className="text-sm font-bold text-slate-200 block mt-1 font-mono">{verdictData.metrics.grossMargin}</span>
+              </div>
+              <div className="bg-slate-950/60 border border-slate-900/80 rounded-lg p-3 text-center">
+                <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Revenue Growth</span>
+                <span className="text-sm font-bold text-slate-200 block mt-1 font-mono">{verdictData.metrics.revenueGrowthYoY}</span>
+              </div>
+              <div className="bg-slate-950/60 border border-slate-900/80 rounded-lg p-3 text-center">
+                <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Net Income Growth</span>
+                <span className="text-sm font-bold text-slate-200 block mt-1 font-mono">{verdictData.metrics.netIncomeGrowthYoY}</span>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Bull vs Bear Case Columns */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -969,6 +1255,7 @@ export default function Home() {
                     logs.map((log) => {
                       const tagColors = {
                         tavily: "text-blue-400",
+                        exa: "text-cyan-400",
                         fmp: "text-amber-400",
                         agent: "text-indigo-400",
                         system: "text-purple-400",
@@ -1302,6 +1589,7 @@ export default function Home() {
                       logs.map((log) => {
                         const tagColors = {
                           tavily: "text-blue-400",
+                          exa: "text-cyan-400",
                           fmp: "text-amber-400",
                           agent: "text-indigo-400",
                           system: "text-purple-400",
