@@ -2,7 +2,7 @@
 
 This project is an AI-powered Investment Research Agent designed as a take-home assignment for InsideIIM × Altuni AI Labs. The agent takes a company name, conducts comprehensive web and financial research, and makes a recommendation to **invest** or **pass** with detailed logical reasoning.
 
-*   **Live Vercel Deployment**: `[Insert your Vercel deployment link here, e.g., https://your-app.vercel.app]`
+*   **Live Vercel Deployment**: [https://ai-investment-research-agent-sand.vercel.app/](https://ai-investment-research-agent-sand.vercel.app/)
 *   **LLM Chat Session logs**: The full developer-AI interaction log is packaged in the root directory as [`chat_transcript.jsonl`](file:///D:/Model/investment-agent/chat_transcript.jsonl) to fulfill the bonus points requirements.
 
 ---
@@ -45,9 +45,12 @@ The application is built using Next.js (TypeScript) for the frontend/backend and
    
    # Exa AI API Key (from exa.ai)
    EXA_API_KEY=YOUR_EXA_API_KEY
-   
+
    # Financial Modeling Prep API Key (from financialmodelingprep.com)
    FMP_API_KEY=YOUR_FMP_API_KEY
+
+   # Alpha Vantage API Key (fallback database from alphavantage.co)
+   ALPHA_VANTAGE_API_KEY=YOUR_ALPHA_VANTAGE_API_KEY
 
    # Optional: Model Override (defaults to gemini-2.5-flash if not specified)
    # For local development, you can uncomment this to override the default model string:
