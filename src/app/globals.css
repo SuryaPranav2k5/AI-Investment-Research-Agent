@@ -1,8 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0f0f0f;
-  --foreground: #f5f5f5;
+  --background: #0a0a0f;
+  --foreground: #e8e6e1;
+  --surface: #12121a;
+  --surface-elevated: #181822;
+  --border: #252533;
+  --border-light: #2d3045;
+  --accent-gold: #f0b429;
+  --accent-teal: #22d3ee;
+  --accent-purple: #8b5cf6;
 }
 
 @theme inline {
@@ -16,4 +23,71 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ── Large ambient glow orbs (most visible layer) ── */
+.bg-ambient-glow {
+  background:
+    /* Large warm gold glow top-center */
+    radial-gradient(ellipse 90% 60% at 50% 0%, rgba(240, 180, 41, 0.25) 0%, transparent 70%),
+    /* Smaller teal glow top-right */
+    radial-gradient(ellipse 50% 40% at 85% 15%, rgba(34, 211, 238, 0.12) 0%, transparent 60%),
+    /* Subtle warm glow bottom-left */
+    radial-gradient(ellipse 40% 30% at 15% 80%, rgba(240, 180, 41, 0.06) 0%, transparent 50%);
+}
+
+/* ── Bold grid pattern ── */
+.bg-grid {
+  background-image: 
+    linear-gradient(rgba(240, 180, 41, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240, 180, 41, 0.07) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* ── Visible grain noise texture ── */
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+/* ── Dark vignette to frame the content ── */
+.bg-vignette {
+  background:
+    radial-gradient(ellipse 100% 20% at 50% 100%, rgba(0, 0, 0, 0.7) 0%, transparent 80%);
+}
+
+/* ── Floating blurred charting lines ── */
+.bg-chart-lines {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background:
+    /* Horizontal trading-like lines */
+    repeating-linear-gradient(90deg,
+      transparent 0px,
+      transparent 20px,
+      rgba(240, 180, 41, 0.5) 20px,
+      rgba(240, 180, 41, 0.5) 21px,
+      transparent 21px,
+      transparent 40px
+    ),
+    repeating-linear-gradient(0deg,
+      transparent 0px,
+      transparent 15px,
+      rgba(34, 211, 238, 0.3) 15px,
+      rgba(34, 211, 238, 0.3) 16px,
+      transparent 16px,
+      transparent 30px
+    );
+}
+
+/* ── Layer positioning: above body bg, below content ── */
+.bg-atmosphere-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
 }

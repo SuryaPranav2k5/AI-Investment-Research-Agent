@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import { 
@@ -140,7 +140,7 @@ export default function Home() {
 
   const logsEndRef = useRef<HTMLDivElement | null>(null);
 
-  // Auto-scroll logs terminal Ã¢â‚¬â€ only when there are actual log entries
+  // Auto-scroll logs terminal — only when there are actual log entries
   useEffect(() => {
     if (logs.length > 0) {
       logsEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -467,32 +467,32 @@ export default function Home() {
 
   const renderComparisonMatrix = (vA: VerdictData, vB: VerdictData) => {
     return (
-      <div className="bg-[#181818]/40 border border-[#262626] rounded-2xl p-6 backdrop-blur-md shadow-xl mb-8">
-        <h3 className="text-lg font-bold text-slate-100 mb-4 text-white">
+      <div className="bg-[#12121a]/80 border border-[#252533] rounded-2xl p-6 backdrop-blur-md shadow-xl mb-8">
+        <h3 className="text-lg font-bold text-[#e8e6e1] mb-4">
           Comparison Summary Matrix
         </h3>
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-[#262626]">
-                <th className="py-3 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Metric</th>
-                <th className="py-3 px-4 text-xs font-semibold text-pink-400 uppercase tracking-wider bg-pink-500/5">
+              <tr className="border-b border-[#252533]">
+                <th className="py-3 px-4 text-xs font-semibold text-[#8b8b9e] uppercase tracking-wider">Metric</th>
+                <th className="py-3 px-4 text-xs font-semibold text-[#f0b429] uppercase tracking-wider bg-[#f0b429]/5">
                   [A] {vA.company}
                 </th>
-                <th className="py-3 px-4 text-xs font-semibold text-cyan-400 uppercase tracking-wider ">
+                <th className="py-3 px-4 text-xs font-semibold text-[#22d3ee] uppercase tracking-wider bg-[#22d3ee]/5">
                   [B] {vB.company}
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-900 text-sm">
-              <tr className="hover:bg-[#181818]/20">
-                <td className="py-3 px-4 font-medium text-slate-300">Ticker Symbol</td>
-                <td className="py-3 px-4 font-mono text-pink-400 bg-pink-500/[0.01]">{vA.symbol}</td>
-                <td className="py-3 px-4 font-mono text-cyan-400 bg-cyan-500/[0.01]">{vB.symbol}</td>
+            <tbody className="divide-y divide-[#181822] text-sm">
+              <tr className="hover:bg-[#12121a]/40">
+                <td className="py-3 px-4 font-medium text-[#a8a6b0]">Ticker Symbol</td>
+                <td className="py-3 px-4 font-mono text-[#f0b429] bg-[#f0b429]/[0.01]">{vA.symbol}</td>
+                <td className="py-3 px-4 font-mono text-[#22d3ee] bg-[#22d3ee]/[0.01]">{vB.symbol}</td>
               </tr>
-              <tr className="hover:bg-[#181818]/20">
-                <td className="py-3 px-4 font-medium text-slate-300">AI Research Verdict</td>
-                <td className="py-3 px-4 bg-pink-500/[0.01]">
+              <tr className="hover:bg-[#12121a]/40">
+                <td className="py-3 px-4 font-medium text-[#a8a6b0]">AI Research Verdict</td>
+                <td className="py-3 px-4 bg-[#f0b429]/[0.01]">
                   {vA.verdict === "invest" ? (
                     <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-lg text-xs font-bold uppercase">
                       Invest
@@ -503,7 +503,7 @@ export default function Home() {
                     </span>
                   )}
                 </td>
-                <td className="py-3 px-4 bg-cyan-500/[0.01]">
+                <td className="py-3 px-4 bg-[#22d3ee]/[0.01]">
                   {vB.verdict === "invest" ? (
                     <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-lg text-xs font-bold uppercase">
                       Invest
@@ -515,62 +515,62 @@ export default function Home() {
                   )}
                 </td>
               </tr>
-              <tr className="hover:bg-[#181818]/20">
-                <td className="py-3 px-4 font-medium text-slate-300">Confidence Score</td>
-                <td className="py-3 px-4 bg-pink-500/[0.01]">
+              <tr className="hover:bg-[#12121a]/40">
+                <td className="py-3 px-4 font-medium text-[#a8a6b0]">Confidence Score</td>
+                <td className="py-3 px-4 bg-[#f0b429]/[0.01]">
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-slate-200">{vA.confidence}%</span>
-                    <div className="w-24 h-1.5 bg-[#0f0f0f] border border-[#262626] rounded-full overflow-hidden">
-                      <div className="h-full bg-blue-500" style={{ width: `${vA.confidence}%` }} />
+                    <span className="font-bold text-[#e8e6e1]">{vA.confidence}%</span>
+                    <div className="w-24 h-1.5 bg-[#0a0a0f] border border-[#252533] rounded-full overflow-hidden">
+                      <div className="h-full bg-[#22d3ee]" style={{ width: `${vA.confidence}%` }} />
                     </div>
                   </div>
                 </td>
-                <td className="py-3 px-4 bg-cyan-500/[0.01]">
+                <td className="py-3 px-4 bg-[#22d3ee]/[0.01]">
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-slate-200">{vB.confidence}%</span>
-                    <div className="w-24 h-1.5 bg-[#0f0f0f] border border-[#262626] rounded-full overflow-hidden">
-                      <div className="h-full bg-blue-500" style={{ width: `${vB.confidence}%` }} />
+                    <span className="font-bold text-[#e8e6e1]">{vB.confidence}%</span>
+                    <div className="w-24 h-1.5 bg-[#0a0a0f] border border-[#252533] rounded-full overflow-hidden">
+                      <div className="h-full bg-[#22d3ee]" style={{ width: `${vB.confidence}%` }} />
                     </div>
                   </div>
                 </td>
               </tr>
-              <tr className="hover:bg-[#181818]/20">
-                <td className="py-3 px-4 font-medium text-slate-300">Financial Health Score</td>
-                <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01] font-mono">
+              <tr className="hover:bg-[#12121a]/40">
+                <td className="py-3 px-4 font-medium text-[#a8a6b0]">Financial Health Score</td>
+                <td className="py-3 px-4 text-[#e8e6e1] bg-[#f0b429]/[0.01] font-mono">
                   {vA.financialScore !== undefined ? `${vA.financialScore}/100` : "N/A"}
                 </td>
-                <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01] font-mono">
+                <td className="py-3 px-4 text-[#e8e6e1] bg-[#22d3ee]/[0.01] font-mono">
                   {vB.financialScore !== undefined ? `${vB.financialScore}/100` : "N/A"}
                 </td>
               </tr>
-              <tr className="hover:bg-[#181818]/20">
-                <td className="py-3 px-4 font-medium text-slate-300">News Sentiment</td>
-                <td className="py-3 px-4 bg-pink-500/[0.01]">
+              <tr className="hover:bg-[#12121a]/40">
+                <td className="py-3 px-4 font-medium text-[#a8a6b0]">News Sentiment</td>
+                <td className="py-3 px-4 bg-[#f0b429]/[0.01]">
                   {vA.newsSentiment ? (
                     <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase border ${
                       vA.newsSentiment === "bullish" 
                         ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" 
                         : vA.newsSentiment === "bearish" 
                         ? "bg-rose-500/10 border-rose-500/20 text-rose-400" 
-                        : "bg-slate-500/10 border-slate-800 text-slate-400"
+                        : "bg-[#181822] border-[#252533] text-[#8b8b9e]"
                     }`}>{vA.newsSentiment}</span>
                   ) : "N/A"}
                 </td>
-                <td className="py-3 px-4 bg-cyan-500/[0.01]">
+                <td className="py-3 px-4 bg-[#22d3ee]/[0.01]">
                   {vB.newsSentiment ? (
                     <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase border ${
                       vB.newsSentiment === "bullish" 
                         ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" 
                         : vB.newsSentiment === "bearish" 
                         ? "bg-rose-500/10 border-rose-500/20 text-rose-400" 
-                        : "bg-slate-500/10 border-slate-800 text-slate-400"
+                        : "bg-[#181822] border-[#252533] text-[#8b8b9e]"
                     }`}>{vB.newsSentiment}</span>
                   ) : "N/A"}
                 </td>
               </tr>
-              <tr className="hover:bg-[#181818]/20">
-                <td className="py-3 px-4 font-medium text-slate-300">Consensus Rating</td>
-                <td className="py-3 px-4 bg-pink-500/[0.01]">
+              <tr className="hover:bg-[#12121a]/40">
+                <td className="py-3 px-4 font-medium text-[#a8a6b0]">Consensus Rating</td>
+                <td className="py-3 px-4 bg-[#f0b429]/[0.01]">
                   {vA.marketConsensus ? (
                     <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase border ${
                       vA.marketConsensus === "strong buy" || vA.marketConsensus === "buy"
@@ -581,7 +581,7 @@ export default function Home() {
                     }`}>{vA.marketConsensus}</span>
                   ) : "N/A"}
                 </td>
-                <td className="py-3 px-4 bg-cyan-500/[0.01]">
+                <td className="py-3 px-4 bg-[#22d3ee]/[0.01]">
                   {vB.marketConsensus ? (
                     <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase border ${
                       vB.marketConsensus === "strong buy" || vB.marketConsensus === "buy"
@@ -593,9 +593,9 @@ export default function Home() {
                   ) : "N/A"}
                 </td>
               </tr>
-              <tr className="hover:bg-[#181818]/20">
-                <td className="py-3 px-4 font-medium text-slate-300">Risk Level</td>
-                <td className="py-3 px-4 bg-pink-500/[0.01]">
+              <tr className="hover:bg-[#12121a]/40">
+                <td className="py-3 px-4 font-medium text-[#a8a6b0]">Risk Level</td>
+                <td className="py-3 px-4 bg-[#f0b429]/[0.01]">
                   {vA.riskLevel ? (
                     <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase border ${
                       vA.riskLevel === "low" 
@@ -606,7 +606,7 @@ export default function Home() {
                     }`}>{vA.riskLevel}</span>
                   ) : "N/A"}
                 </td>
-                <td className="py-3 px-4 bg-cyan-500/[0.01]">
+                <td className="py-3 px-4 bg-[#22d3ee]/[0.01]">
                   {vB.riskLevel ? (
                     <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase border ${
                       vB.riskLevel === "low" 
@@ -618,55 +618,55 @@ export default function Home() {
                   ) : "N/A"}
                 </td>
               </tr>
-              <tr className="hover:bg-[#181818]/20">
-                <td className="py-3 px-4 font-medium text-slate-300">Revenue (Most Recent FY)</td>
-                <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01]">{vA.metrics?.revenue || "N/A"}</td>
-                <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01]">{vB.metrics?.revenue || "N/A"}</td>
+              <tr className="hover:bg-[#12121a]/40">
+                <td className="py-3 px-4 font-medium text-[#a8a6b0]">Revenue (Most Recent FY)</td>
+                <td className="py-3 px-4 text-[#e8e6e1] bg-[#f0b429]/[0.01]">{vA.metrics?.revenue || "N/A"}</td>
+                <td className="py-3 px-4 text-[#e8e6e1] bg-[#22d3ee]/[0.01]">{vB.metrics?.revenue || "N/A"}</td>
               </tr>
-              <tr className="hover:bg-[#181818]/20">
-                <td className="py-3 px-4 font-medium text-slate-300">Net Income (Most Recent FY)</td>
-                <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01]">{vA.metrics?.netIncome || "N/A"}</td>
-                <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01]">{vB.metrics?.netIncome || "N/A"}</td>
+              <tr className="hover:bg-[#12121a]/40">
+                <td className="py-3 px-4 font-medium text-[#a8a6b0]">Net Income (Most Recent FY)</td>
+                <td className="py-3 px-4 text-[#e8e6e1] bg-[#f0b429]/[0.01]">{vA.metrics?.netIncome || "N/A"}</td>
+                <td className="py-3 px-4 text-[#e8e6e1] bg-[#22d3ee]/[0.01]">{vB.metrics?.netIncome || "N/A"}</td>
               </tr>
-              <tr className="hover:bg-[#181818]/20">
-                <td className="py-3 px-4 font-medium text-slate-300">Trailing P/E Ratio</td>
-                <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01] font-mono">{vA.metrics?.peRatio || "N/A"}</td>
-                <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01] font-mono">{vB.metrics?.peRatio || "N/A"}</td>
+              <tr className="hover:bg-[#12121a]/40">
+                <td className="py-3 px-4 font-medium text-[#a8a6b0]">Trailing P/E Ratio</td>
+                <td className="py-3 px-4 text-[#e8e6e1] bg-[#f0b429]/[0.01] font-mono">{vA.metrics?.peRatio || "N/A"}</td>
+                <td className="py-3 px-4 text-[#e8e6e1] bg-[#22d3ee]/[0.01] font-mono">{vB.metrics?.peRatio || "N/A"}</td>
               </tr>
-              <tr className="hover:bg-[#181818]/20">
-                <td className="py-3 px-4 font-medium text-slate-300">Debt-to-Equity Ratio</td>
-                <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01] font-mono">{vA.metrics?.debtToEquity || "N/A"}</td>
-                <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01] font-mono">{vB.metrics?.debtToEquity || "N/A"}</td>
+              <tr className="hover:bg-[#12121a]/40">
+                <td className="py-3 px-4 font-medium text-[#a8a6b0]">Debt-to-Equity Ratio</td>
+                <td className="py-3 px-4 text-[#e8e6e1] bg-[#f0b429]/[0.01] font-mono">{vA.metrics?.debtToEquity || "N/A"}</td>
+                <td className="py-3 px-4 text-[#e8e6e1] bg-[#22d3ee]/[0.01] font-mono">{vB.metrics?.debtToEquity || "N/A"}</td>
               </tr>
-              <tr className="hover:bg-[#181818]/20">
-                <td className="py-3 px-4 font-medium text-slate-300">Operating Margin</td>
-                <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01] font-mono">{vA.metrics?.operatingMargin || "N/A"}</td>
-                <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01] font-mono">{vB.metrics?.operatingMargin || "N/A"}</td>
+              <tr className="hover:bg-[#12121a]/40">
+                <td className="py-3 px-4 font-medium text-[#a8a6b0]">Operating Margin</td>
+                <td className="py-3 px-4 text-[#e8e6e1] bg-[#f0b429]/[0.01] font-mono">{vA.metrics?.operatingMargin || "N/A"}</td>
+                <td className="py-3 px-4 text-[#e8e6e1] bg-[#22d3ee]/[0.01] font-mono">{vB.metrics?.operatingMargin || "N/A"}</td>
               </tr>
-              <tr className="hover:bg-[#181818]/20">
-                <td className="py-3 px-4 font-medium text-slate-300">Gross Margin</td>
-                <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01] font-mono">{vA.metrics?.grossMargin || "N/A"}</td>
-                <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01] font-mono">{vB.metrics?.grossMargin || "N/A"}</td>
+              <tr className="hover:bg-[#12121a]/40">
+                <td className="py-3 px-4 font-medium text-[#a8a6b0]">Gross Margin</td>
+                <td className="py-3 px-4 text-[#e8e6e1] bg-[#f0b429]/[0.01] font-mono">{vA.metrics?.grossMargin || "N/A"}</td>
+                <td className="py-3 px-4 text-[#e8e6e1] bg-[#22d3ee]/[0.01] font-mono">{vB.metrics?.grossMargin || "N/A"}</td>
               </tr>
-              <tr className="hover:bg-[#181818]/20">
-                <td className="py-3 px-4 font-medium text-slate-300">Revenue Growth (YoY)</td>
-                <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01] font-mono">{vA.metrics?.revenueGrowthYoY || "N/A"}</td>
-                <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01] font-mono">{vB.metrics?.revenueGrowthYoY || "N/A"}</td>
+              <tr className="hover:bg-[#12121a]/40">
+                <td className="py-3 px-4 font-medium text-[#a8a6b0]">Revenue Growth (YoY)</td>
+                <td className="py-3 px-4 text-[#e8e6e1] bg-[#f0b429]/[0.01] font-mono">{vA.metrics?.revenueGrowthYoY || "N/A"}</td>
+                <td className="py-3 px-4 text-[#e8e6e1] bg-[#22d3ee]/[0.01] font-mono">{vB.metrics?.revenueGrowthYoY || "N/A"}</td>
               </tr>
-              <tr className="hover:bg-[#181818]/20">
-                <td className="py-3 px-4 font-medium text-slate-300">Net Income Growth (YoY)</td>
-                <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01] font-mono">{vA.metrics?.netIncomeGrowthYoY || "N/A"}</td>
-                <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01] font-mono">{vB.metrics?.netIncomeGrowthYoY || "N/A"}</td>
+              <tr className="hover:bg-[#12121a]/40">
+                <td className="py-3 px-4 font-medium text-[#a8a6b0]">Net Income Growth (YoY)</td>
+                <td className="py-3 px-4 text-[#e8e6e1] bg-[#f0b429]/[0.01] font-mono">{vA.metrics?.netIncomeGrowthYoY || "N/A"}</td>
+                <td className="py-3 px-4 text-[#e8e6e1] bg-[#22d3ee]/[0.01] font-mono">{vB.metrics?.netIncomeGrowthYoY || "N/A"}</td>
               </tr>
-              <tr className="hover:bg-[#181818]/20">
-                <td className="py-3 px-4 font-medium text-slate-300">Bull Catalysts</td>
-                <td className="py-3 px-4 text-emerald-400 bg-pink-500/[0.01] font-medium">{vA.bullCase?.length || 0} items</td>
-                <td className="py-3 px-4 text-emerald-400 bg-cyan-500/[0.01] font-medium">{vB.bullCase?.length || 0} items</td>
+              <tr className="hover:bg-[#12121a]/40">
+                <td className="py-3 px-4 font-medium text-[#a8a6b0]">Bull Catalysts</td>
+                <td className="py-3 px-4 text-emerald-400 bg-[#f0b429]/[0.01] font-medium">{vA.bullCase?.length || 0} items</td>
+                <td className="py-3 px-4 text-emerald-400 bg-[#22d3ee]/[0.01] font-medium">{vB.bullCase?.length || 0} items</td>
               </tr>
-              <tr className="hover:bg-[#181818]/20">
-                <td className="py-3 px-4 font-medium text-slate-300">Risk Factors</td>
-                <td className="py-3 px-4 text-rose-400 bg-pink-500/[0.01] font-medium">{(vA.bearCase?.length || 0) + (vA.risks?.length || 0)} items</td>
-                <td className="py-3 px-4 text-rose-400 bg-cyan-500/[0.01] font-medium">{(vB.bearCase?.length || 0) + (vB.risks?.length || 0)} items</td>
+              <tr className="hover:bg-[#12121a]/40">
+                <td className="py-3 px-4 font-medium text-[#a8a6b0]">Risk Factors</td>
+                <td className="py-3 px-4 text-rose-400 bg-[#f0b429]/[0.01] font-medium">{(vA.bearCase?.length || 0) + (vA.risks?.length || 0)} items</td>
+                <td className="py-3 px-4 text-rose-400 bg-[#22d3ee]/[0.01] font-medium">{(vB.bearCase?.length || 0) + (vB.risks?.length || 0)} items</td>
               </tr>
             </tbody>
           </table>
@@ -683,23 +683,23 @@ export default function Home() {
     const isInvest = verdictData.verdict === "invest";
     
     return (
-      <div className="bg-[#181818]/40 border border-[#262626] rounded-2xl p-6 backdrop-blur-md shadow-xl flex flex-col gap-6 animate-fade-in">
+      <div className="bg-[#12121a]/80 border border-[#252533] rounded-2xl p-6 backdrop-blur-md shadow-xl flex flex-col gap-6 animate-fade-in">
         {/* Header Card Info */}
-        <div className="flex items-center justify-between border-b border-[#262626] pb-4">
+        <div className="flex items-center justify-between border-b border-[#252533] pb-4">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-blue-600/8 rounded-xl border border-blue-600/20">
-              <BookOpen className="w-6 h-6 text-blue-400" />
+            <div className="p-2.5 bg-[#22d3ee]/8 rounded-xl border border-[#22d3ee]/20">
+              <BookOpen className="w-6 h-6 text-[#22d3ee]" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
+              <h2 className="text-lg font-bold text-[#e8e6e1] flex items-center gap-2">
                 {prefixKey !== "single" && (
-                  <span className={`font-mono text-xs font-bold ${prefixKey === "A" ? "bg-pink-400/10 border-pink-400/20 text-pink-400" : "bg-cyan-400/10 border-cyan-400/20 text-cyan-400"} border px-1.5 py-0.5 rounded`}>
+                  <span className={`font-mono text-xs font-bold ${prefixKey === "A" ? "bg-[#f0b429]/10 border-[#f0b429]/20 text-[#f0b429]" : "bg-[#22d3ee]/10 border-[#22d3ee]/20 text-[#22d3ee]"} border px-1.5 py-0.5 rounded`}>
                     {prefixKey}
                   </span>
                 )}
                 {verdictData.company}
               </h2>
-              <p className="text-xs text-blue-400 font-semibold tracking-wide">
+              <p className="text-xs text-[#22d3ee] font-semibold tracking-wide">
                 Stock symbol: {verdictData.symbol}
               </p>
             </div>
@@ -722,44 +722,44 @@ export default function Home() {
         {/* Confidence Score Bar */}
         <div>
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+            <span className="text-xs font-semibold text-[#8b8b9e] uppercase tracking-wider">
               Confidence Indicator
             </span>
             <span className={`text-xs font-bold font-mono ${
-              verdictData.confidence >= 75 ? "text-emerald-400" : verdictData.confidence >= 50 ? "text-amber-400" : "text-rose-400"
+              verdictData.confidence >= 75 ? "text-emerald-400" : verdictData.confidence >= 50 ? "text-[#f0b429]" : "text-rose-400"
             }`}>
               {verdictData.confidence}%
             </span>
           </div>
-          <div className="h-2.5 bg-[#0f0f0f] border border-[#262626]/80 rounded-full overflow-hidden">
+          <div className="h-2.5 bg-[#0a0a0f] border border-[#252533]/80 rounded-full overflow-hidden">
             <div
               style={{ width: `${confidenceWidthVal}%` }}
               className={`h-full rounded-full transition-all duration-1000 ease-out bg-gradient-to-r ${
-                isInvest ? "from-blue-500 to-emerald-500" : "from-blue-500 to-rose-500"
+                isInvest ? "from-[#22d3ee] to-emerald-500" : "from-[#22d3ee] to-rose-500"
               }`}
             />
           </div>
         </div>
 
         {/* Market Sentiment Dashboard */}
-        <div className="bg-[#0f0f0f]/40 border border-[#262626] rounded-xl p-4">
-          <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5 border-b border-[#262626]/60 pb-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+        <div className="bg-[#0a0a0f]/40 border border-[#252533] rounded-xl p-4">
+          <h3 className="text-[10px] font-bold text-[#8b8b9e] uppercase tracking-widest mb-3 flex items-center gap-1.5 border-b border-[#252533]/60 pb-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#f0b429] animate-pulse" />
             Market Sentiment Indicators
           </h3>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             {/* Financial Health Score */}
-            <div className="bg-[#181818]/30 border border-[#262626]/80 rounded-lg p-3 flex flex-col justify-between">
-              <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Financial Score</span>
+            <div className="bg-[#12121a]/60 border border-[#252533]/80 rounded-lg p-3 flex flex-col justify-between">
+              <span className="text-[9px] text-[#6b6b80] font-bold uppercase tracking-wider">Financial Score</span>
               <div className="flex items-center justify-between mt-1">
-                <span className="text-sm font-bold text-slate-100 font-mono">
+                <span className="text-sm font-bold text-[#e8e6e1] font-mono">
                   {verdictData.financialScore !== undefined ? `${verdictData.financialScore}/100` : "N/A"}
                 </span>
                 {verdictData.financialScore !== undefined && (
-                  <div className="w-8 h-1 bg-[#0f0f0f] rounded-full overflow-hidden">
+                  <div className="w-8 h-1 bg-[#0a0a0f] rounded-full overflow-hidden">
                     <div 
                       className={`h-full ${
-                        verdictData.financialScore >= 75 ? "bg-emerald-500" : verdictData.financialScore >= 50 ? "bg-amber-500" : "bg-rose-500"
+                        verdictData.financialScore >= 75 ? "bg-emerald-500" : verdictData.financialScore >= 50 ? "bg-[#f0b429]" : "bg-rose-500"
                       }`} 
                       style={{ width: `${verdictData.financialScore}%` }} 
                     />
@@ -769,8 +769,8 @@ export default function Home() {
             </div>
 
             {/* News Sentiment */}
-            <div className="bg-[#181818]/30 border border-[#262626]/80 rounded-lg p-3 flex flex-col justify-between">
-              <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">News Sentiment</span>
+            <div className="bg-[#12121a]/60 border border-[#252533]/80 rounded-lg p-3 flex flex-col justify-between">
+              <span className="text-[9px] text-[#6b6b80] font-bold uppercase tracking-wider">News Sentiment</span>
               <div className="mt-1">
                 {verdictData.newsSentiment ? (
                   <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${
@@ -778,39 +778,39 @@ export default function Home() {
                       ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" 
                       : verdictData.newsSentiment === "bearish" 
                       ? "bg-rose-500/10 border-rose-500/20 text-rose-400" 
-                      : "bg-slate-500/10 border-slate-800 text-slate-400"
+                      : "bg-[#181822] border-[#252533] text-[#8b8b9e]"
                   }`}>
                     {verdictData.newsSentiment}
                   </span>
                 ) : (
-                  <span className="text-[10px] text-slate-500 font-medium">N/A</span>
+                  <span className="text-[10px] text-[#6b6b80] font-medium">N/A</span>
                 )}
               </div>
             </div>
 
             {/* Consensus Rating */}
-            <div className="bg-[#181818]/30 border border-[#262626]/80 rounded-lg p-3 flex flex-col justify-between">
-              <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Consensus Rating</span>
+            <div className="bg-[#12121a]/60 border border-[#252533]/80 rounded-lg p-3 flex flex-col justify-between">
+              <span className="text-[9px] text-[#6b6b80] font-bold uppercase tracking-wider">Consensus Rating</span>
               <div className="mt-1">
                 {verdictData.marketConsensus ? (
                   <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${
                     verdictData.marketConsensus === "strong buy" || verdictData.marketConsensus === "buy"
                       ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" 
                       : verdictData.marketConsensus === "hold" 
-                      ? "bg-amber-500/10 border-amber-500/20 text-amber-400" 
+                      ? "bg-[#f0b429]/10 border-[#f0b429]/20 text-[#f0b429]" 
                       : "bg-rose-500/10 border-rose-500/20 text-rose-400"
                   }`}>
                     {verdictData.marketConsensus}
                   </span>
                 ) : (
-                  <span className="text-[10px] text-slate-500 font-medium">N/A</span>
+                  <span className="text-[10px] text-[#6b6b80] font-medium">N/A</span>
                 )}
               </div>
             </div>
 
             {/* Risk Level */}
-            <div className="bg-[#181818]/30 border border-[#262626]/80 rounded-lg p-3 flex flex-col justify-between">
-              <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Risk Level</span>
+            <div className="bg-[#12121a]/60 border border-[#252533]/80 rounded-lg p-3 flex flex-col justify-between">
+              <span className="text-[9px] text-[#6b6b80] font-bold uppercase tracking-wider">Risk Level</span>
               <div className="flex items-center gap-1.5 mt-1">
                 {verdictData.riskLevel ? (
                   <>
@@ -818,21 +818,21 @@ export default function Home() {
                       verdictData.riskLevel === "low" 
                         ? "bg-emerald-500 shadow shadow-emerald-500/50" 
                         : verdictData.riskLevel === "medium" 
-                        ? "bg-amber-500 shadow shadow-amber-500/50" 
+                        ? "bg-[#f0b429] shadow shadow-[#f0b429]/50" 
                         : "bg-rose-500 shadow shadow-rose-500/50"
                     }`} />
                     <span className={`text-[10px] font-bold uppercase tracking-wider ${
                       verdictData.riskLevel === "low" 
                         ? "text-emerald-400" 
                         : verdictData.riskLevel === "medium" 
-                        ? "text-amber-400" 
+                        ? "text-[#f0b429]" 
                         : "text-rose-400"
                     }`}>
                       {verdictData.riskLevel}
                     </span>
                   </>
                 ) : (
-                  <span className="text-[10px] text-slate-500 font-medium">N/A</span>
+                  <span className="text-[10px] text-[#6b6b80] font-medium">N/A</span>
                 )}
               </div>
             </div>
@@ -840,53 +840,53 @@ export default function Home() {
         </div>
 
         {/* Reasoning summary text */}
-        <div className="bg-[#0f0f0f]/50 border border-[#262626] rounded-xl p-4.5">
-          <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+        <div className="bg-[#0a0a0f]/50 border border-[#252533] rounded-xl p-4.5">
+          <h3 className="text-xs font-semibold text-[#8b8b9e] uppercase tracking-wider mb-2">
             Verdict Reasoning Summary
           </h3>
-          <p className="text-sm text-slate-300 leading-relaxed font-normal">
+          <p className="text-sm text-[#c4c2be] leading-relaxed font-normal">
             {verdictData.reasoning}
           </p>
         </div>
 
         {/* Quantitative Metrics Grid */}
         {verdictData.metrics && (
-          <div className="bg-[#0f0f0f]/20 border border-[#262626] rounded-xl p-4.5">
-            <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
+          <div className="bg-[#0a0a0f]/20 border border-[#252533] rounded-xl p-4.5">
+            <h3 className="text-xs font-semibold text-[#8b8b9e] uppercase tracking-wider mb-3">
               Key Financial Metrics
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div className="bg-[#0f0f0f]/60 border border-[#262626]/80 rounded-lg p-3 text-center">
-                <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Revenue</span>
-                <span className="text-sm font-bold text-slate-200 block mt-1">{verdictData.metrics.revenue}</span>
+              <div className="bg-[#0a0a0f]/60 border border-[#252533]/80 rounded-lg p-3 text-center">
+                <span className="text-[10px] text-[#6b6b80] font-semibold uppercase tracking-wider block">Revenue</span>
+                <span className="text-sm font-bold text-[#e8e6e1] block mt-1">{verdictData.metrics.revenue}</span>
               </div>
-              <div className="bg-[#0f0f0f]/60 border border-[#262626]/80 rounded-lg p-3 text-center">
-                <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Net Income</span>
-                <span className="text-sm font-bold text-slate-200 block mt-1">{verdictData.metrics.netIncome}</span>
+              <div className="bg-[#0a0a0f]/60 border border-[#252533]/80 rounded-lg p-3 text-center">
+                <span className="text-[10px] text-[#6b6b80] font-semibold uppercase tracking-wider block">Net Income</span>
+                <span className="text-sm font-bold text-[#e8e6e1] block mt-1">{verdictData.metrics.netIncome}</span>
               </div>
-              <div className="bg-[#0f0f0f]/60 border border-[#262626]/80 rounded-lg p-3 text-center">
-                <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Trailing P/E</span>
-                <span className="text-sm font-bold text-slate-200 block mt-1 font-mono">{verdictData.metrics.peRatio}</span>
+              <div className="bg-[#0a0a0f]/60 border border-[#252533]/80 rounded-lg p-3 text-center">
+                <span className="text-[10px] text-[#6b6b80] font-semibold uppercase tracking-wider block">Trailing P/E</span>
+                <span className="text-sm font-bold text-[#e8e6e1] block mt-1 font-mono">{verdictData.metrics.peRatio}</span>
               </div>
-              <div className="bg-[#0f0f0f]/60 border border-[#262626]/80 rounded-lg p-3 text-center">
-                <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Debt / Equity</span>
-                <span className="text-sm font-bold text-slate-200 block mt-1 font-mono">{verdictData.metrics.debtToEquity}</span>
+              <div className="bg-[#0a0a0f]/60 border border-[#252533]/80 rounded-lg p-3 text-center">
+                <span className="text-[10px] text-[#6b6b80] font-semibold uppercase tracking-wider block">Debt / Equity</span>
+                <span className="text-sm font-bold text-[#e8e6e1] block mt-1 font-mono">{verdictData.metrics.debtToEquity}</span>
               </div>
-              <div className="bg-[#0f0f0f]/60 border border-[#262626]/80 rounded-lg p-3 text-center">
-                <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Operating Margin</span>
-                <span className="text-sm font-bold text-slate-200 block mt-1 font-mono">{verdictData.metrics.operatingMargin}</span>
+              <div className="bg-[#0a0a0f]/60 border border-[#252533]/80 rounded-lg p-3 text-center">
+                <span className="text-[10px] text-[#6b6b80] font-semibold uppercase tracking-wider block">Operating Margin</span>
+                <span className="text-sm font-bold text-[#e8e6e1] block mt-1 font-mono">{verdictData.metrics.operatingMargin}</span>
               </div>
-              <div className="bg-[#0f0f0f]/60 border border-[#262626]/80 rounded-lg p-3 text-center">
-                <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Gross Margin</span>
-                <span className="text-sm font-bold text-slate-200 block mt-1 font-mono">{verdictData.metrics.grossMargin}</span>
+              <div className="bg-[#0a0a0f]/60 border border-[#252533]/80 rounded-lg p-3 text-center">
+                <span className="text-[10px] text-[#6b6b80] font-semibold uppercase tracking-wider block">Gross Margin</span>
+                <span className="text-sm font-bold text-[#e8e6e1] block mt-1 font-mono">{verdictData.metrics.grossMargin}</span>
               </div>
-              <div className="bg-[#0f0f0f]/60 border border-[#262626]/80 rounded-lg p-3 text-center">
-                <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Revenue Growth</span>
-                <span className="text-sm font-bold text-slate-200 block mt-1 font-mono">{verdictData.metrics.revenueGrowthYoY}</span>
+              <div className="bg-[#0a0a0f]/60 border border-[#252533]/80 rounded-lg p-3 text-center">
+                <span className="text-[10px] text-[#6b6b80] font-semibold uppercase tracking-wider block">Revenue Growth</span>
+                <span className="text-sm font-bold text-[#e8e6e1] block mt-1 font-mono">{verdictData.metrics.revenueGrowthYoY}</span>
               </div>
-              <div className="bg-[#0f0f0f]/60 border border-[#262626]/80 rounded-lg p-3 text-center">
-                <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Net Income Growth</span>
-                <span className="text-sm font-bold text-slate-200 block mt-1 font-mono">{verdictData.metrics.netIncomeGrowthYoY}</span>
+              <div className="bg-[#0a0a0f]/60 border border-[#252533]/80 rounded-lg p-3 text-center">
+                <span className="text-[10px] text-[#6b6b80] font-semibold uppercase tracking-wider block">Net Income Growth</span>
+                <span className="text-sm font-bold text-[#e8e6e1] block mt-1 font-mono">{verdictData.metrics.netIncomeGrowthYoY}</span>
               </div>
             </div>
           </div>
@@ -900,10 +900,10 @@ export default function Home() {
               <TrendingUp className="w-3.5 h-3.5" />
               Bull Case Catalysts
             </h3>
-            <ul className="text-xs text-slate-300 space-y-2 flex-1">
+            <ul className="text-xs text-[#c4c2be] space-y-2 flex-1">
               {verdictData.bullCase?.map((bull, i) => (
-                <li key={i} className="flex gap-2 items-start leading-relaxed font-normal text-slate-300">
-                  <span className="text-emerald-500/80 select-none mt-0.5">Ã¢â‚¬Â¢</span>
+                <li key={i} className="flex gap-2 items-start leading-relaxed font-normal text-[#c4c2be]">
+                  <span className="text-emerald-500/80 select-none mt-0.5">•</span>
                   {bull}
                 </li>
               ))}
@@ -916,10 +916,10 @@ export default function Home() {
               <TrendingDown className="w-3.5 h-3.5" />
               Bear Case Risks
             </h3>
-            <ul className="text-xs text-slate-300 space-y-2 flex-1">
+            <ul className="text-xs text-[#c4c2be] space-y-2 flex-1">
               {verdictData.bearCase?.map((bear, i) => (
-                <li key={i} className="flex gap-2 items-start leading-relaxed font-normal text-slate-300">
-                  <span className="text-rose-500/80 select-none mt-0.5">Ã¢â‚¬Â¢</span>
+                <li key={i} className="flex gap-2 items-start leading-relaxed font-normal text-[#c4c2be]">
+                  <span className="text-rose-500/80 select-none mt-0.5">•</span>
                   {bear}
                 </li>
               ))}
@@ -929,15 +929,15 @@ export default function Home() {
 
         {/* Risks details */}
         {verdictData.risks && verdictData.risks.length > 0 && (
-          <div className="bg-[#0f0f0f]/30 border border-[#262626] rounded-xl p-4">
-            <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5 mb-3">
-              <AlertCircle className="w-3.5 h-3.5 text-blue-400" />
+          <div className="bg-[#0a0a0f]/30 border border-[#252533] rounded-xl p-4">
+            <h4 className="text-xs font-semibold text-[#8b8b9e] uppercase tracking-wider flex items-center gap-1.5 mb-3">
+              <AlertCircle className="w-3.5 h-3.5 text-[#f0b429]" />
               Identified Risk Analysis
             </h4>
-            <ul className="text-xs text-slate-300 space-y-2">
+            <ul className="text-xs text-[#c4c2be] space-y-2">
               {verdictData.risks.map((risk, i) => (
-                <li key={i} className="flex gap-2 items-start leading-relaxed font-normal text-slate-300">
-                  <span className="text-sky-500/80 select-none">Ã¢â‚¬Â¢</span>
+                <li key={i} className="flex gap-2 items-start leading-relaxed font-normal text-[#c4c2be]">
+                  <span className="text-[#f0b429]/80 select-none">•</span>
                   {risk}
                 </li>
               ))}
@@ -947,8 +947,8 @@ export default function Home() {
 
         {/* Sources list */}
         {verdictData.sources && verdictData.sources.length > 0 && (
-          <div className="border-t border-[#262626] pt-4 flex flex-wrap items-center gap-2">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider mr-1">
+          <div className="border-t border-[#252533] pt-4 flex flex-wrap items-center gap-2">
+            <span className="text-xs font-semibold text-[#6b6b80] uppercase tracking-wider mr-1">
               Sources Cited:
             </span>
             {verdictData.sources.map((source, i) => {
@@ -964,7 +964,7 @@ export default function Home() {
                     href={source}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-xs px-2.5 py-1 bg-[#0f0f0f]/80 hover:bg-[#1c1c1c] border border-[#262626] text-slate-400 hover:text-blue-400 rounded-lg flex items-center gap-1 transition-colors"
+                    className="text-xs px-2.5 py-1 bg-[#0a0a0f]/80 hover:bg-[#181822] border border-[#252533] text-[#8b8b9e] hover:text-[#22d3ee] rounded-lg flex items-center gap-1 transition-colors"
                   >
                     {domain} <ExternalLink className="w-2.5 h-2.5" />
                   </a>
@@ -973,7 +973,7 @@ export default function Home() {
               return (
                 <span
                   key={i}
-                  className="text-xs px-2.5 py-1 bg-[#0f0f0f]/40 border border-[#262626] text-slate-400 rounded-lg"
+                  className="text-xs px-2.5 py-1 bg-[#0a0a0f]/40 border border-[#252533] text-[#8b8b9e] rounded-lg"
                 >
                   {source}
                 </span>
@@ -986,25 +986,41 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] text-slate-100 font-sans selection:bg-blue-600/20 selection:text-white">
-      {/* Subtle top-edge atmospheric light — not a blob, just a backlight */}
-      <div className="fixed top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent pointer-events-none z-50" />
-      <div className="fixed top-0 inset-x-0 h-[200px] bg-gradient-to-b from-blue-600/[0.05] to-transparent pointer-events-none" />
+    <div className="min-h-screen bg-[#0a0a0f] text-[#e8e6e1] font-sans selection:bg-[#f0b429]/20 selection:text-[#f0b429] relative overflow-x-hidden">
+      {/* ── Multi-layered background atmosphere ── */}
+      
+      {/* Layer 1: Prominent ambient glow orbs (warm gold above, teal right) */}
+      <div className="bg-atmosphere-layer bg-ambient-glow" />
+      
+      {/* Layer 2: Visible grid pattern for structural depth */}
+      <div className="bg-atmosphere-layer bg-grid" />
+      
+      {/* Layer 3: Subtle noise grain texture */}
+      <div className="bg-atmosphere-layer bg-noise" />
+      
+      {/* Layer 4: Subtle charting grid lines */}
+      <div className="bg-atmosphere-layer bg-chart-lines" />
+      
+      {/* Layer 5: Dark vignette at bottom */}
+      <div className="bg-atmosphere-layer bg-vignette" />
+      
+      {/* Top-edge accent line */}
+      <div className="fixed top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#f0b429]/40 to-transparent pointer-events-none z-50" />
 
       {/* Main Container */}
       <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header */}
-        <header className="flex flex-col md:flex-row md:items-center md:justify-between border-b border-[#262626] pb-6 mb-6 gap-4">
+        <header className="flex flex-col md:flex-row md:items-center md:justify-between border-b border-[#252533] pb-6 mb-6 gap-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-[#1a1a1a] rounded-xl border border-[#262626]">
-              <TrendingUp className="w-8 h-8 text-blue-400" />
+            <div className="p-2 bg-[#12121a] rounded-xl border border-[#252533]">
+              <TrendingUp className="w-8 h-8 text-[#f0b429]" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-[#f0b429] via-[#f59e0b] to-[#f97316] bg-clip-text text-transparent">
                 Altuni AI Labs
               </h1>
-              <p className="text-xs text-slate-400 font-medium tracking-wider uppercase">
+              <p className="text-xs text-[#8b8b9e] font-medium tracking-wider uppercase">
                 AI Investment Research Agent
               </p>
             </div>
@@ -1014,7 +1030,7 @@ export default function Home() {
               href="https://github.com/SuryaPranav2k5/AI-Investment-Research-Agent"
               target="_blank"
               rel="noreferrer"
-              className="text-xs text-slate-400 hover:text-blue-400 transition-colors flex items-center gap-1.5 border border-[#262626] bg-[#0f0f0f] px-3 py-1.5 rounded-lg"
+              className="text-xs text-[#8b8b9e] hover:text-[#22d3ee] transition-colors flex items-center gap-1.5 border border-[#252533] bg-[#0a0a0f] px-3 py-1.5 rounded-lg"
             >
               GitHub Repository <ExternalLink className="w-3 h-3" />
             </a>
@@ -1022,7 +1038,7 @@ export default function Home() {
         </header>
 
         {/* Tab Toggle Navigation */}
-        <div className="flex border-b border-[#262626] mb-8">
+        <div className="flex border-b border-[#252533] mb-8">
           <button
             onClick={() => {
               setMode("single");
@@ -1031,8 +1047,8 @@ export default function Home() {
             }}
             className={`py-3 px-6 font-semibold text-sm border-b-2 transition-all flex items-center gap-2 ${
               mode === "single"
-                ? "border-blue-500 text-blue-400 font-bold"
-                : "border-transparent text-slate-400 hover:text-slate-200"
+                ? "border-[#f0b429] text-[#f0b429] font-bold"
+                : "border-transparent text-[#8b8b9e] hover:text-[#c4c2be]"
             }`}
           >
             <Activity className="w-4 h-4" />
@@ -1045,8 +1061,8 @@ export default function Home() {
             }}
             className={`py-3 px-6 font-semibold text-sm border-b-2 transition-all flex items-center gap-2 ${
               mode === "compare"
-                ? "border-blue-500 text-blue-400 font-bold"
-                : "border-transparent text-slate-400 hover:text-slate-200"
+                ? "border-[#f0b429] text-[#f0b429] font-bold"
+                : "border-transparent text-[#8b8b9e] hover:text-[#c4c2be]"
             }`}
           >
             <BarChart3 className="w-4 h-4" />
@@ -1055,24 +1071,24 @@ export default function Home() {
         </div>
 
         {/* Search & Suggestions Card */}
-        <section className="mb-8 bg-[#181818]/40 border border-[#262626] rounded-2xl p-6 backdrop-blur-md shadow-xl">
+        <section className="mb-8 bg-[#12121a]/80 border border-[#252533] rounded-2xl p-6 backdrop-blur-md shadow-xl">
           {mode === "single" ? (
             <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row gap-3">
               <div className="relative flex-1">
-                <Search className="absolute left-4 top-3.5 w-5 h-5 text-slate-400" />
+                <Search className="absolute left-4 top-3.5 w-5 h-5 text-[#8b8b9e]" />
                 <input
                   type="text"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Enter company name (e.g. Nvidia, Tesla, Tata Motors...)"
                   disabled={loading}
-                  className="w-full pl-12 pr-4 py-3 bg-[#0f0f0f] border border-[#262626] rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 placeholder-slate-500 transition-all disabled:opacity-50"
+                  className="w-full pl-12 pr-4 py-3 bg-[#0a0a0f] border border-[#252533] rounded-xl focus:outline-none focus:border-[#f0b429] focus:ring-1 focus:ring-[#f0b429]/30 text-[#e8e6e1] placeholder-[#6b6b80] transition-all disabled:opacity-50"
                 />
               </div>
               <button
                 type="submit"
                 disabled={loading || !query.trim()}
-                className="px-6 py-3 bg-gradient-to-b from-blue-500 to-blue-700 hover:from-blue-400 hover:to-blue-600 text-white font-medium rounded-xl transition-all shadow-lg shadow-blue-900/30 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
+                className="px-6 py-3 bg-gradient-to-b from-[#f0b429] to-[#d97706] hover:from-[#fbbf24] hover:to-[#f59e0b] text-[#0a0a0f] font-semibold rounded-xl transition-all shadow-lg shadow-[#f0b429]/30 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
               >
                 {loading ? (
                   <>
@@ -1091,32 +1107,32 @@ export default function Home() {
             <form onSubmit={(e) => { e.preventDefault(); startComparison(queryA, queryB); }} className="flex flex-col gap-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="relative flex-1">
-                  <span className="absolute left-4 top-3.5 text-pink-400 font-mono text-xs font-bold bg-pink-400/10 border border-pink-400/20 px-1.5 py-0.5 rounded">A</span>
+                  <span className="absolute left-4 top-3.5 text-[#f0b429] font-mono text-xs font-bold bg-[#f0b429]/10 border border-[#f0b429]/20 px-1.5 py-0.5 rounded">A</span>
                   <input
                     type="text"
                     value={queryA}
                     onChange={(e) => setQueryA(e.target.value)}
                     placeholder="Enter first company (e.g. Tesla)"
                     disabled={loadingA || loadingB}
-                    className="w-full pl-14 pr-4 py-3 bg-[#0f0f0f] border border-[#262626] rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 placeholder-slate-500 transition-all disabled:opacity-50"
+                    className="w-full pl-14 pr-4 py-3 bg-[#0a0a0f] border border-[#252533] rounded-xl focus:outline-none focus:border-[#f0b429] focus:ring-1 focus:ring-[#f0b429]/30 text-[#e8e6e1] placeholder-[#6b6b80] transition-all disabled:opacity-50"
                   />
                 </div>
                 <div className="relative flex-1">
-                  <span className="absolute left-4 top-3.5 text-cyan-400 font-mono text-xs font-bold bg-cyan-400/10 border border-cyan-400/20 px-1.5 py-0.5 rounded">B</span>
+                  <span className="absolute left-4 top-3.5 text-[#22d3ee] font-mono text-xs font-bold bg-[#22d3ee]/10 border border-[#22d3ee]/20 px-1.5 py-0.5 rounded">B</span>
                   <input
                     type="text"
                     value={queryB}
                     onChange={(e) => setQueryB(e.target.value)}
                     placeholder="Enter second company (e.g. Nvidia)"
                     disabled={loadingA || loadingB}
-                    className="w-full pl-14 pr-4 py-3 bg-[#0f0f0f] border border-[#262626] rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 placeholder-slate-500 transition-all disabled:opacity-50"
+                    className="w-full pl-14 pr-4 py-3 bg-[#0a0a0f] border border-[#252533] rounded-xl focus:outline-none focus:border-[#f0b429] focus:ring-1 focus:ring-[#f0b429]/30 text-[#e8e6e1] placeholder-[#6b6b80] transition-all disabled:opacity-50"
                   />
                 </div>
               </div>
               <button
                 type="submit"
                 disabled={(loadingA || loadingB) || !queryA.trim() || !queryB.trim()}
-                className="w-full py-3 bg-gradient-to-b from-blue-500 to-blue-700 hover:from-blue-400 hover:to-blue-600 text-white font-semibold rounded-xl transition-all shadow-lg shadow-blue-900/30 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
+                className="w-full py-3 bg-gradient-to-b from-[#f0b429] to-[#d97706] hover:from-[#fbbf24] hover:to-[#f59e0b] text-[#0a0a0f] font-semibold rounded-xl transition-all shadow-lg shadow-[#f0b429]/30 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
               >
                 {loadingA || loadingB ? (
                   <>
@@ -1134,8 +1150,8 @@ export default function Home() {
           )}
 
           {/* Quick-test templates */}
-          <div className="flex flex-wrap items-center gap-2.5 mt-4 pt-4 border-t border-[#262626]/60">
-            <span className="text-xs font-semibold text-slate-500 tracking-wider uppercase mr-1">
+          <div className="flex flex-wrap items-center gap-2.5 mt-4 pt-4 border-t border-[#252533]/60">
+            <span className="text-xs font-semibold text-[#6b6b80] tracking-wider uppercase mr-1">
               Quick Test:
             </span>
             {mode === "single" ? (
@@ -1145,7 +1161,7 @@ export default function Home() {
                   type="button"
                   onClick={() => handleCompanyClick(companyName)}
                   disabled={loading}
-                  className="text-xs px-3 py-1.5 bg-[#141414] hover:bg-[#1c1c1c] border border-[#303030] hover:border-blue-500/50 text-slate-400 hover:text-blue-400 rounded-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="text-xs px-3 py-1.5 bg-[#181822] hover:bg-[#1e1e2e] border border-[#2d3045] hover:border-[#f0b429]/50 text-[#8b8b9e] hover:text-[#f0b429] rounded-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {companyName}
                 </button>
@@ -1161,7 +1177,7 @@ export default function Home() {
                     startComparison(pair.a, pair.b);
                   }}
                   disabled={loadingA || loadingB}
-                  className="text-xs px-3 py-1.5 bg-[#141414] hover:bg-[#1c1c1c] border border-[#303030] hover:border-blue-500/50 text-slate-400 hover:text-blue-400 rounded-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="text-xs px-3 py-1.5 bg-[#181822] hover:bg-[#1e1e2e] border border-[#2d3045] hover:border-[#f0b429]/50 text-[#8b8b9e] hover:text-[#f0b429] rounded-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {pair.label}
                 </button>
@@ -1178,24 +1194,24 @@ export default function Home() {
             <section className="lg:col-span-5 flex flex-col gap-6">
               
               {/* Steps checklist card */}
-              <div className="bg-[#181818]/40 border border-[#262626] rounded-2xl p-6 backdrop-blur-md shadow-xl flex-1">
-                <div className="flex items-center justify-between border-b border-[#262626]/80 pb-4 mb-5">
+              <div className="bg-[#12121a]/80 border border-[#252533] rounded-2xl p-6 backdrop-blur-md shadow-xl flex-1">
+                <div className="flex items-center justify-between border-b border-[#252533]/80 pb-4 mb-5">
                   <div className="flex items-center gap-2">
-                    <Activity className="w-5 h-5 text-blue-400" />
-                    <h2 className="text-md font-semibold text-slate-200">
+                    <Activity className="w-5 h-5 text-[#f0b429]" />
+                    <h2 className="text-md font-semibold text-[#e8e6e1]">
                       Agent Activity Logs
                     </h2>
                   </div>
                   {loading && (
-                    <div className="flex items-center gap-2 bg-blue-600/8 border border-blue-600/20 text-blue-300 px-2.5 py-1 rounded-full text-xs font-medium">
-                      <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-ping" />
-                      Running Ã¢â‚¬Â¢ {elapsedTime}s
+                    <div className="flex items-center gap-2 bg-[#f0b429]/10 border border-[#f0b429]/20 text-[#f0b429] px-2.5 py-1 rounded-full text-xs font-medium">
+                      <span className="w-1.5 h-1.5 bg-[#f0b429] rounded-full animate-ping" />
+                      Running • {elapsedTime}s
                     </div>
                   )}
                 </div>
 
                 {/* Steps timeline */}
-                <div className="relative border-l border-slate-800 ml-4 pl-6 space-y-6">
+                <div className="relative border-l border-[#252533] ml-4 pl-6 space-y-6">
                   {steps.map((step) => {
                     const StepIcon = step.icon;
                     const isPending = step.status === "pending";
@@ -1206,15 +1222,15 @@ export default function Home() {
                     return (
                       <div key={step.id} className="relative">
                         {/* Step Indicator Dot */}
-                        <span className="absolute -left-[35px] top-0.5 flex h-6.5 w-6.5 items-center justify-center rounded-full bg-[#0f0f0f] border transition-all">
+                        <span className="absolute -left-[35px] top-0.5 flex h-6.5 w-6.5 items-center justify-center rounded-full bg-[#0a0a0f] border border-[#252533] transition-all">
                           {isCompleted && (
-                            <CheckCircle2 className="w-4 h-4 text-emerald-400 bg-[#0f0f0f] rounded-full" />
+                            <CheckCircle2 className="w-4 h-4 text-emerald-400 bg-[#0a0a0f] rounded-full" />
                           )}
                           {isRunning && (
-                            <Loader2 className="w-3.5 h-3.5 text-blue-400 animate-spin" />
+                            <Loader2 className="w-3.5 h-3.5 text-[#f0b429] animate-spin" />
                           )}
                           {isPending && (
-                            <span className="w-1.5 h-1.5 rounded-full bg-slate-600" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#2d3045]" />
                           )}
                           {isFailed && (
                             <AlertCircle className="w-4 h-4 text-rose-500" />
@@ -1223,12 +1239,12 @@ export default function Home() {
 
                         <div>
                           <h3 className={`text-sm font-semibold flex items-center gap-2 ${
-                            isCompleted ? "text-slate-100" : isRunning ? "text-blue-400" : "text-slate-500"
+                            isCompleted ? "text-[#e8e6e1]" : isRunning ? "text-[#f0b429]" : "text-[#6b6b80]"
                           }`}>
                             <StepIcon className={`w-4 h-4 ${isRunning ? "animate-pulse" : ""}`} />
                             {step.title}
                           </h3>
-                          <p className="text-xs text-slate-400 mt-0.5">
+                          <p className="text-xs text-[#8b8b9e] mt-0.5">
                             {step.desc}
                           </p>
                         </div>
@@ -1239,32 +1255,32 @@ export default function Home() {
               </div>
 
               {/* Live Terminal logs card */}
-              <div className="bg-[#0f0f0f] border border-[#262626] rounded-2xl p-4 shadow-xl flex flex-col h-[280px]">
-                <div className="flex items-center gap-2 border-b border-[#262626] pb-2 mb-3">
+              <div className="bg-[#0a0a0f] border border-[#252533] rounded-2xl p-4 shadow-xl flex flex-col h-[280px]">
+                <div className="flex items-center gap-2 border-b border-[#252533] pb-2 mb-3">
                   <div className="w-2.5 h-2.5 rounded-full bg-rose-500" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#f0b429]" />
                   <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                  <span className="text-xs font-semibold text-slate-400 font-mono ml-2">
+                  <span className="text-xs font-semibold text-[#8b8b9e] font-mono ml-2">
                     terminal_console.sh
                   </span>
                 </div>
-                <div className="flex-1 overflow-y-auto font-mono text-[11px] leading-4 text-slate-300 space-y-1 pr-1 custom-scrollbar">
+                <div className="flex-1 overflow-y-auto font-mono text-[11px] leading-4 text-[#c4c2be] space-y-1 pr-1 custom-scrollbar">
                   {logs.length === 0 ? (
-                    <div className="text-slate-600 text-center py-16">
+                    <div className="text-[#2d3045] text-center py-16">
                       Waiting for agent execution logs...
                     </div>
                   ) : (
                     logs.map((log) => {
                       const tagColors = {
-                        tavily: "text-blue-400",
-                        exa: "text-cyan-400",
-                        fmp: "text-amber-400",
-                        agent: "text-blue-400",
-                        system: "text-purple-400",
+                        tavily: "text-[#22d3ee]",
+                        exa: "text-[#22d3ee]",
+                        fmp: "text-[#f0b429]",
+                        agent: "text-[#22d3ee]",
+                        system: "text-[#8b5cf6]",
                       };
                       return (
-                        <div key={log.id} className="hover:bg-[#181818]/30 p-0.5 rounded transition-all">
-                          <span className="text-slate-600">[{log.timestamp}]</span>{" "}
+                        <div key={log.id} className="hover:bg-[#12121a]/30 p-0.5 rounded transition-all">
+                          <span className="text-[#2d3045]">[{log.timestamp}]</span>{" "}
                           <span className={`font-bold ${tagColors[log.tag]}`}>
                             [{log.tag}]
                           </span>{" "}
@@ -1302,24 +1318,24 @@ export default function Home() {
 
               {/* Empty State / Welcome Screen */}
               {!loading && !verdict && !error && (
-                <div className="bg-[#181818]/40 border border-[#262626] rounded-2xl p-10 backdrop-blur-md shadow-xl text-center flex flex-col items-center justify-center min-h-[460px]">
-                  <div className="p-4 bg-blue-600/8 rounded-full border border-blue-600/20 mb-6 animate-pulse">
-                    <Brain className="w-12 h-12 text-blue-400" />
+                <div className="bg-[#12121a]/80 border border-[#252533] rounded-2xl p-10 backdrop-blur-md shadow-xl text-center flex flex-col items-center justify-center min-h-[460px]">
+                  <div className="p-4 bg-[#f0b429]/10 rounded-full border border-[#f0b429]/20 mb-6 animate-pulse">
+                    <Brain className="w-12 h-12 text-[#f0b429]" />
                   </div>
-                  <h2 className="text-xl font-bold text-slate-100">
+                  <h2 className="text-xl font-bold text-[#e8e6e1]">
                     Ready to Research
                   </h2>
-                  <p className="text-sm text-slate-400 max-w-md mt-2 leading-relaxed">
+                  <p className="text-sm text-[#8b8b9e] max-w-md mt-2 leading-relaxed">
                     Enter any company name or select a quick test template to begin real-time qualitative and quantitative investment analysis.
                   </p>
                   <div className="grid grid-cols-2 gap-4 mt-8 w-full max-w-sm text-left">
-                    <div className="p-3 bg-[#0f0f0f]/40 rounded-xl border border-[#262626]">
-                      <span className="text-blue-400 text-xs font-bold font-mono">STEP 1-2</span>
-                      <p className="text-xs text-slate-300 mt-1">Ticker resolution & financials check</p>
+                    <div className="p-3 bg-[#0a0a0f]/40 rounded-xl border border-[#252533]">
+                      <span className="text-[#22d3ee] text-xs font-bold font-mono">STEP 1-2</span>
+                      <p className="text-xs text-[#c4c2be] mt-1">Ticker resolution & financials check</p>
                     </div>
-                    <div className="p-3 bg-[#0f0f0f]/40 rounded-xl border border-[#262626]">
-                      <span className="text-blue-400 text-xs font-bold font-mono">STEP 3-4</span>
-                      <p className="text-xs text-slate-300 mt-1">Sentiment news search & final synthesis</p>
+                    <div className="p-3 bg-[#0a0a0f]/40 rounded-xl border border-[#252533]">
+                      <span className="text-[#22d3ee] text-xs font-bold font-mono">STEP 3-4</span>
+                      <p className="text-xs text-[#c4c2be] mt-1">Sentiment news search & final synthesis</p>
                     </div>
                   </div>
                 </div>
@@ -1327,20 +1343,20 @@ export default function Home() {
 
               {/* Loading skeleton loader */}
               {loading && !verdict && (
-                <div className="bg-[#181818]/40 border border-[#262626] rounded-2xl p-8 backdrop-blur-md shadow-xl flex flex-col min-h-[460px]">
-                  <div className="flex items-center justify-between border-b border-[#262626] pb-4 mb-6">
+                <div className="bg-[#12121a]/80 border border-[#252533] rounded-2xl p-8 backdrop-blur-md shadow-xl flex flex-col min-h-[460px]">
+                  <div className="flex items-center justify-between border-b border-[#252533] pb-4 mb-6">
                     <div className="flex items-center gap-3 w-1/2">
-                      <div className="w-10 h-10 bg-slate-800 rounded-xl animate-pulse" />
-                      <div className="w-3/4 h-5 bg-slate-800 rounded animate-pulse" />
+                      <div className="w-10 h-10 bg-[#181822] rounded-xl animate-pulse" />
+                      <div className="w-3/4 h-5 bg-[#181822] rounded animate-pulse" />
                     </div>
-                    <div className="w-20 h-8 bg-slate-800 rounded-lg animate-pulse" />
+                    <div className="w-20 h-8 bg-[#181822] rounded-lg animate-pulse" />
                   </div>
                   <div className="space-y-4 flex-1">
-                    <div className="h-4 bg-slate-800 rounded w-1/3 animate-pulse" />
-                    <div className="h-20 bg-slate-800 rounded w-full animate-pulse" />
+                    <div className="h-4 bg-[#181822] rounded w-1/3 animate-pulse" />
+                    <div className="h-20 bg-[#181822] rounded w-full animate-pulse" />
                     <div className="grid grid-cols-2 gap-4 mt-4">
-                      <div className="h-32 bg-slate-800 rounded animate-pulse" />
-                      <div className="h-32 bg-slate-800 rounded animate-pulse" />
+                      <div className="h-32 bg-[#181822] rounded animate-pulse" />
+                      <div className="h-32 bg-[#181822] rounded animate-pulse" />
                     </div>
                   </div>
                 </div>
@@ -1398,20 +1414,20 @@ export default function Home() {
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
                 {/* Column A */}
                 {loadingA && !verdictA ? (
-                  <div className="bg-[#181818]/40 border border-[#262626] rounded-2xl p-8 backdrop-blur-md shadow-xl flex flex-col min-h-[460px]">
-                    <div className="flex items-center justify-between border-b border-[#262626] pb-4 mb-6">
+                  <div className="bg-[#12121a]/80 border border-[#252533] rounded-2xl p-8 backdrop-blur-md shadow-xl flex flex-col min-h-[460px]">
+                    <div className="flex items-center justify-between border-b border-[#252533] pb-4 mb-6">
                       <div className="flex items-center gap-3 w-1/2">
-                        <div className="w-10 h-10 bg-slate-800 rounded-xl animate-pulse" />
-                        <div className="w-3/4 h-5 bg-slate-800 rounded animate-pulse" />
+                        <div className="w-10 h-10 bg-[#181822] rounded-xl animate-pulse" />
+                        <div className="w-3/4 h-5 bg-[#181822] rounded animate-pulse" />
                       </div>
-                      <div className="w-20 h-8 bg-slate-800 rounded-lg animate-pulse" />
+                      <div className="w-20 h-8 bg-[#181822] rounded-lg animate-pulse" />
                     </div>
                     <div className="space-y-4 flex-1">
-                      <div className="h-4 bg-slate-800 rounded w-1/3 animate-pulse" />
-                      <div className="h-20 bg-slate-800 rounded w-full animate-pulse" />
+                      <div className="h-4 bg-[#181822] rounded w-1/3 animate-pulse" />
+                      <div className="h-20 bg-[#181822] rounded w-full animate-pulse" />
                       <div className="grid grid-cols-2 gap-4 mt-4">
-                        <div className="h-32 bg-slate-800 rounded animate-pulse" />
-                        <div className="h-32 bg-slate-800 rounded animate-pulse" />
+                        <div className="h-32 bg-[#181822] rounded animate-pulse" />
+                        <div className="h-32 bg-[#181822] rounded animate-pulse" />
                       </div>
                     </div>
                   </div>
@@ -1421,20 +1437,20 @@ export default function Home() {
 
                 {/* Column B */}
                 {loadingB && !verdictB ? (
-                  <div className="bg-[#181818]/40 border border-[#262626] rounded-2xl p-8 backdrop-blur-md shadow-xl flex flex-col min-h-[460px]">
-                    <div className="flex items-center justify-between border-b border-[#262626] pb-4 mb-6">
+                  <div className="bg-[#12121a]/80 border border-[#252533] rounded-2xl p-8 backdrop-blur-md shadow-xl flex flex-col min-h-[460px]">
+                    <div className="flex items-center justify-between border-b border-[#252533] pb-4 mb-6">
                       <div className="flex items-center gap-3 w-1/2">
-                        <div className="w-10 h-10 bg-slate-800 rounded-xl animate-pulse" />
-                        <div className="w-3/4 h-5 bg-slate-800 rounded animate-pulse" />
+                        <div className="w-10 h-10 bg-[#181822] rounded-xl animate-pulse" />
+                        <div className="w-3/4 h-5 bg-[#181822] rounded animate-pulse" />
                       </div>
-                      <div className="w-20 h-8 bg-slate-800 rounded-lg animate-pulse" />
+                      <div className="w-20 h-8 bg-[#181822] rounded-lg animate-pulse" />
                     </div>
                     <div className="space-y-4 flex-1">
-                      <div className="h-4 bg-slate-800 rounded w-1/3 animate-pulse" />
-                      <div className="h-20 bg-slate-800 rounded w-full animate-pulse" />
+                      <div className="h-4 bg-[#181822] rounded w-1/3 animate-pulse" />
+                      <div className="h-20 bg-[#181822] rounded w-full animate-pulse" />
                       <div className="grid grid-cols-2 gap-4 mt-4">
-                        <div className="h-32 bg-slate-800 rounded animate-pulse" />
-                        <div className="h-32 bg-slate-800 rounded animate-pulse" />
+                        <div className="h-32 bg-[#181822] rounded animate-pulse" />
+                        <div className="h-32 bg-[#181822] rounded animate-pulse" />
                       </div>
                     </div>
                   </div>
@@ -1446,14 +1462,14 @@ export default function Home() {
 
             {/* Dynamic Welcome state for Compare mode */}
             {!loadingA && !loadingB && !verdictA && !verdictB && !errorA && !errorB && (
-              <div className="bg-[#181818]/40 border border-[#262626] rounded-2xl p-10 backdrop-blur-md shadow-xl text-center flex flex-col items-center justify-center min-h-[360px]">
-                <div className="p-4 bg-blue-600/8 rounded-full border border-blue-600/20 mb-6 animate-pulse">
-                  <Brain className="w-12 h-12 text-blue-400" />
+              <div className="bg-[#12121a]/80 border border-[#252533] rounded-2xl p-10 backdrop-blur-md shadow-xl text-center flex flex-col items-center justify-center min-h-[360px]">
+                <div className="p-4 bg-[#f0b429]/10 rounded-full border border-[#f0b429]/20 mb-6 animate-pulse">
+                  <Brain className="w-12 h-12 text-[#f0b429]" />
                 </div>
-                <h2 className="text-xl font-bold text-slate-100">
+                <h2 className="text-xl font-bold text-[#e8e6e1]">
                   Ready to Compare
                 </h2>
-                <p className="text-sm text-slate-400 max-w-md mt-2 leading-relaxed font-normal">
+                <p className="text-sm text-[#8b8b9e] max-w-md mt-2 leading-relaxed font-normal">
                   Enter two companies above or select a quick comparison template to start parallel analysis and see side-by-side investment verdicts.
                 </p>
               </div>
@@ -1462,25 +1478,25 @@ export default function Home() {
             {/* Timelines and Console grid */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               <div className="lg:col-span-6">
-                <div className="bg-[#181818]/40 border border-[#262626] rounded-2xl p-6 backdrop-blur-md shadow-xl">
-                  <h3 className="text-md font-semibold text-slate-200 border-b border-[#262626] pb-4 mb-5 flex items-center gap-2">
-                    <Activity className="w-5 h-5 text-blue-400" />
+                <div className="bg-[#12121a]/80 border border-[#252533] rounded-2xl p-6 backdrop-blur-md shadow-xl">
+                  <h3 className="text-md font-semibold text-[#e8e6e1] border-b border-[#252533] pb-4 mb-5 flex items-center gap-2">
+                    <Activity className="w-5 h-5 text-[#f0b429]" />
                     Agent Research Timelines
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {/* Pipeline A */}
-                    <div className="bg-[#0f0f0f]/40 border border-[#262626] rounded-xl p-4">
-                      <h4 className="text-xs font-bold text-pink-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-pink-400" />
+                    <div className="bg-[#0a0a0f]/40 border border-[#252533] rounded-xl p-4">
+                      <h4 className="text-xs font-bold text-[#f0b429] uppercase tracking-wider mb-4 flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-[#f0b429]" />
                         [A] {queryA || "Company A"}
                         {loadingA && (
-                          <span className="text-[10px] text-slate-400 normal-case font-normal ml-auto flex items-center gap-1">
-                            <Loader2 className="w-3 h-3 animate-spin text-pink-400" />
+                          <span className="text-[10px] text-[#8b8b9e] normal-case font-normal ml-auto flex items-center gap-1">
+                            <Loader2 className="w-3 h-3 animate-spin text-[#f0b429]" />
                             {elapsedTimeA}s
                           </span>
                         )}
                       </h4>
-                      <div className="relative border-l border-slate-800 ml-3 pl-5 space-y-4">
+                      <div className="relative border-l border-[#252533] ml-3 pl-5 space-y-4">
                         {stepsA.map((step) => {
                           const StepIcon = step.icon;
                           const isPending = step.status === "pending";
@@ -1490,15 +1506,15 @@ export default function Home() {
 
                           return (
                             <div key={step.id} className="relative">
-                              <span className="absolute -left-[29px] top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#0f0f0f] border transition-all">
+                              <span className="absolute -left-[29px] top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#0a0a0f] border border-[#252533] transition-all">
                                 {isCompleted && (
-                                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 bg-[#0f0f0f] rounded-full" />
+                                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 bg-[#0a0a0f] rounded-full" />
                                 )}
                                 {isRunning && (
-                                  <Loader2 className="w-3 h-3 text-pink-400 animate-spin" />
+                                  <Loader2 className="w-3 h-3 text-[#f0b429] animate-spin" />
                                 )}
                                 {isPending && (
-                                  <span className="w-1.5 h-1.5 rounded-full bg-slate-600" />
+                                  <span className="w-1.5 h-1.5 rounded-full bg-[#2d3045]" />
                                 )}
                                 {isFailed && (
                                   <AlertCircle className="w-3.5 h-3.5 text-rose-500" />
@@ -1506,7 +1522,7 @@ export default function Home() {
                               </span>
                               <div>
                                 <h3 className={`text-xs font-semibold flex items-center gap-1.5 ${
-                                  isCompleted ? "text-slate-100" : isRunning ? "text-pink-400" : "text-slate-500"
+                                  isCompleted ? "text-[#e8e6e1]" : isRunning ? "text-[#f0b429]" : "text-[#6b6b80]"
                                 }`}>
                                   <StepIcon className={`w-3.5 h-3.5 ${isRunning ? "animate-pulse" : ""}`} />
                                   {step.title}
@@ -1519,18 +1535,18 @@ export default function Home() {
                     </div>
 
                     {/* Pipeline B */}
-                    <div className="bg-[#0f0f0f]/40 border border-[#262626] rounded-xl p-4">
-                      <h4 className="text-xs font-bold text-cyan-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-cyan-400" />
+                    <div className="bg-[#0a0a0f]/40 border border-[#252533] rounded-xl p-4">
+                      <h4 className="text-xs font-bold text-[#22d3ee] uppercase tracking-wider mb-4 flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-[#22d3ee]" />
                         [B] {queryB || "Company B"}
                         {loadingB && (
-                          <span className="text-[10px] text-slate-400 normal-case font-normal ml-auto flex items-center gap-1">
-                            <Loader2 className="w-3 h-3 animate-spin text-cyan-400" />
+                          <span className="text-[10px] text-[#8b8b9e] normal-case font-normal ml-auto flex items-center gap-1">
+                            <Loader2 className="w-3 h-3 animate-spin text-[#22d3ee]" />
                             {elapsedTimeB}s
                           </span>
                         )}
                       </h4>
-                      <div className="relative border-l border-slate-800 ml-3 pl-5 space-y-4">
+                      <div className="relative border-l border-[#252533] ml-3 pl-5 space-y-4">
                         {stepsB.map((step) => {
                           const StepIcon = step.icon;
                           const isPending = step.status === "pending";
@@ -1540,15 +1556,15 @@ export default function Home() {
 
                           return (
                             <div key={step.id} className="relative">
-                              <span className="absolute -left-[29px] top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#0f0f0f] border transition-all">
+                              <span className="absolute -left-[29px] top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#0a0a0f] border border-[#252533] transition-all">
                                 {isCompleted && (
-                                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 bg-[#0f0f0f] rounded-full" />
+                                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 bg-[#0a0a0f] rounded-full" />
                                 )}
                                 {isRunning && (
-                                  <Loader2 className="w-3 h-3 text-cyan-400 animate-spin" />
+                                  <Loader2 className="w-3 h-3 text-[#22d3ee] animate-spin" />
                                 )}
                                 {isPending && (
-                                  <span className="w-1.5 h-1.5 rounded-full bg-slate-600" />
+                                  <span className="w-1.5 h-1.5 rounded-full bg-[#2d3045]" />
                                 )}
                                 {isFailed && (
                                   <AlertCircle className="w-3.5 h-3.5 text-rose-500" />
@@ -1556,7 +1572,7 @@ export default function Home() {
                               </span>
                               <div>
                                 <h3 className={`text-xs font-semibold flex items-center gap-1.5 ${
-                                  isCompleted ? "text-slate-100" : isRunning ? "text-cyan-400" : "text-slate-500"
+                                  isCompleted ? "text-[#e8e6e1]" : isRunning ? "text-[#22d3ee]" : "text-[#6b6b80]"
                                 }`}>
                                   <StepIcon className={`w-3.5 h-3.5 ${isRunning ? "animate-pulse" : ""}`} />
                                   {step.title}
@@ -1573,34 +1589,34 @@ export default function Home() {
 
               <div className="lg:col-span-6">
                 {/* Live Terminal logs card */}
-                <div className="bg-[#0f0f0f] border border-[#262626] rounded-2xl p-4 shadow-xl flex flex-col h-[280px]">
-                  <div className="flex items-center gap-2 border-b border-[#262626] pb-2 mb-3">
+                <div className="bg-[#0a0a0f] border border-[#252533] rounded-2xl p-4 shadow-xl flex flex-col h-[280px]">
+                  <div className="flex items-center gap-2 border-b border-[#252533] pb-2 mb-3">
                     <div className="w-2.5 h-2.5 rounded-full bg-rose-500" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#f0b429]" />
                     <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                    <span className="text-xs font-semibold text-slate-400 font-mono ml-2">
+                    <span className="text-xs font-semibold text-[#8b8b9e] font-mono ml-2">
                       terminal_console.sh
                     </span>
                   </div>
-                  <div className="flex-1 overflow-y-auto font-mono text-[11px] leading-4 text-slate-300 space-y-1 pr-1 custom-scrollbar">
+                  <div className="flex-1 overflow-y-auto font-mono text-[11px] leading-4 text-[#c4c2be] space-y-1 pr-1 custom-scrollbar">
                     {logs.length === 0 ? (
-                      <div className="text-slate-600 text-center py-16">
+                      <div className="text-[#2d3045] text-center py-16">
                         Waiting for agent execution logs...
                       </div>
                     ) : (
                       logs.map((log) => {
                         const tagColors = {
-                          tavily: "text-blue-400",
-                          exa: "text-cyan-400",
-                          fmp: "text-amber-400",
-                          agent: "text-blue-400",
-                          system: "text-purple-400",
+                          tavily: "text-[#22d3ee]",
+                          exa: "text-[#22d3ee]",
+                          fmp: "text-[#f0b429]",
+                          agent: "text-[#22d3ee]",
+                          system: "text-[#8b5cf6]",
                         };
                         return (
-                          <div key={log.id} className="hover:bg-[#181818]/30 p-0.5 rounded transition-all">
-                            <span className="text-slate-600">[{log.timestamp}]</span>{" "}
+                          <div key={log.id} className="hover:bg-[#12121a]/30 p-0.5 rounded transition-all">
+                            <span className="text-[#2d3045]">[{log.timestamp}]</span>{" "}
                             {log.prefix && (
-                              <span className={`font-bold ${log.prefix === "A" ? "text-pink-400" : "text-cyan-400"} mr-1.5`}>
+                              <span className={`font-bold ${log.prefix === "A" ? "text-[#f0b429]" : "text-[#22d3ee]"} mr-1.5`}>
                                 [{log.prefix}]
                               </span>
                             )}
@@ -1623,5 +1639,3 @@ export default function Home() {
     </div>
   );
 }
-
-
