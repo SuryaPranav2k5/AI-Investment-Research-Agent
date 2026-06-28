@@ -987,6 +987,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#0f0f0f] text-slate-100 font-sans selection:bg-blue-600/20 selection:text-white">
+      {/* Subtle top-edge atmospheric light — not a blob, just a backlight */}
+      <div className="fixed top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent pointer-events-none z-50" />
+      <div className="fixed top-0 inset-x-0 h-[200px] bg-gradient-to-b from-blue-600/[0.05] to-transparent pointer-events-none" />
 
       {/* Main Container */}
       <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 relative z-10">
@@ -998,7 +1001,7 @@ export default function Home() {
               <TrendingUp className="w-8 h-8 text-blue-400" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold tracking-tight text-white">
+              <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
                 Altuni AI Labs
               </h1>
               <p className="text-xs text-slate-400 font-medium tracking-wider uppercase">
@@ -1069,7 +1072,7 @@ export default function Home() {
               <button
                 type="submit"
                 disabled={loading || !query.trim()}
-                className="px-6 py-3 bg-gradient-to-r bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-xl transition-all shadow-lg shadow-indigo-500/10 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
+                className="px-6 py-3 bg-gradient-to-b from-blue-500 to-blue-700 hover:from-blue-400 hover:to-blue-600 text-white font-medium rounded-xl transition-all shadow-lg shadow-blue-900/30 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
               >
                 {loading ? (
                   <>
@@ -1113,7 +1116,7 @@ export default function Home() {
               <button
                 type="submit"
                 disabled={(loadingA || loadingB) || !queryA.trim() || !queryB.trim()}
-                className="w-full py-3 bg-gradient-to-r bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-xl transition-all shadow-lg shadow-indigo-500/10 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
+                className="w-full py-3 bg-gradient-to-b from-blue-500 to-blue-700 hover:from-blue-400 hover:to-blue-600 text-white font-semibold rounded-xl transition-all shadow-lg shadow-blue-900/30 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
               >
                 {loadingA || loadingB ? (
                   <>
@@ -1142,7 +1145,7 @@ export default function Home() {
                   type="button"
                   onClick={() => handleCompanyClick(companyName)}
                   disabled={loading}
-                  className="text-xs px-3 py-1.5 bg-[#0f0f0f]/60 hover:bg-[#1c1c1c] border border-[#262626]/80 hover:border-indigo-500/40 text-slate-300 hover:text-indigo-300 rounded-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="text-xs px-3 py-1.5 bg-[#141414] hover:bg-[#1c1c1c] border border-[#303030] hover:border-blue-500/50 text-slate-400 hover:text-blue-400 rounded-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {companyName}
                 </button>
@@ -1158,7 +1161,7 @@ export default function Home() {
                     startComparison(pair.a, pair.b);
                   }}
                   disabled={loadingA || loadingB}
-                  className="text-xs px-3 py-1.5 bg-[#0f0f0f]/60 hover:bg-[#1c1c1c] border border-[#262626]/80 hover:border-indigo-500/40 text-slate-300 hover:text-indigo-300 rounded-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="text-xs px-3 py-1.5 bg-[#141414] hover:bg-[#1c1c1c] border border-[#303030] hover:border-blue-500/50 text-slate-400 hover:text-blue-400 rounded-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {pair.label}
                 </button>
