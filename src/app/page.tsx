@@ -140,7 +140,7 @@ export default function Home() {
 
   const logsEndRef = useRef<HTMLDivElement | null>(null);
 
-  // Auto-scroll logs terminal â€” only when there are actual log entries
+  // Auto-scroll logs terminal Ã¢â‚¬â€ only when there are actual log entries
   useEffect(() => {
     if (logs.length > 0) {
       logsEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -467,30 +467,30 @@ export default function Home() {
 
   const renderComparisonMatrix = (vA: VerdictData, vB: VerdictData) => {
     return (
-      <div className="bg-[#0d1425]/40 border border-[#1a2540] rounded-2xl p-6 backdrop-blur-md shadow-xl mb-8">
-        <h3 className="text-lg font-bold text-slate-100 mb-4 bg-gradient-to-r from-sky-300 to-cyan-300 bg-clip-text text-transparent">
+      <div className="bg-[#181818]/40 border border-[#262626] rounded-2xl p-6 backdrop-blur-md shadow-xl mb-8">
+        <h3 className="text-lg font-bold text-slate-100 mb-4 text-white">
           Comparison Summary Matrix
         </h3>
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-[#1a2540]">
+              <tr className="border-b border-[#262626]">
                 <th className="py-3 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Metric</th>
                 <th className="py-3 px-4 text-xs font-semibold text-pink-400 uppercase tracking-wider bg-pink-500/5">
                   [A] {vA.company}
                 </th>
-                <th className="py-3 px-4 text-xs font-semibold text-cyan-400 uppercase tracking-wider bg-cyan-500/5">
+                <th className="py-3 px-4 text-xs font-semibold text-cyan-400 uppercase tracking-wider ">
                   [B] {vB.company}
                 </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-900 text-sm">
-              <tr className="hover:bg-[#0d1425]/20">
+              <tr className="hover:bg-[#181818]/20">
                 <td className="py-3 px-4 font-medium text-slate-300">Ticker Symbol</td>
                 <td className="py-3 px-4 font-mono text-pink-400 bg-pink-500/[0.01]">{vA.symbol}</td>
                 <td className="py-3 px-4 font-mono text-cyan-400 bg-cyan-500/[0.01]">{vB.symbol}</td>
               </tr>
-              <tr className="hover:bg-[#0d1425]/20">
+              <tr className="hover:bg-[#181818]/20">
                 <td className="py-3 px-4 font-medium text-slate-300">AI Research Verdict</td>
                 <td className="py-3 px-4 bg-pink-500/[0.01]">
                   {vA.verdict === "invest" ? (
@@ -515,26 +515,26 @@ export default function Home() {
                   )}
                 </td>
               </tr>
-              <tr className="hover:bg-[#0d1425]/20">
+              <tr className="hover:bg-[#181818]/20">
                 <td className="py-3 px-4 font-medium text-slate-300">Confidence Score</td>
                 <td className="py-3 px-4 bg-pink-500/[0.01]">
                   <div className="flex items-center gap-2">
                     <span className="font-bold text-slate-200">{vA.confidence}%</span>
-                    <div className="w-24 h-1.5 bg-[#080C14] border border-[#1a2540] rounded-full overflow-hidden">
-                      <div className="h-full bg-sky-500" style={{ width: `${vA.confidence}%` }} />
+                    <div className="w-24 h-1.5 bg-[#0f0f0f] border border-[#262626] rounded-full overflow-hidden">
+                      <div className="h-full bg-blue-500" style={{ width: `${vA.confidence}%` }} />
                     </div>
                   </div>
                 </td>
                 <td className="py-3 px-4 bg-cyan-500/[0.01]">
                   <div className="flex items-center gap-2">
                     <span className="font-bold text-slate-200">{vB.confidence}%</span>
-                    <div className="w-24 h-1.5 bg-[#080C14] border border-[#1a2540] rounded-full overflow-hidden">
-                      <div className="h-full bg-sky-500" style={{ width: `${vB.confidence}%` }} />
+                    <div className="w-24 h-1.5 bg-[#0f0f0f] border border-[#262626] rounded-full overflow-hidden">
+                      <div className="h-full bg-blue-500" style={{ width: `${vB.confidence}%` }} />
                     </div>
                   </div>
                 </td>
               </tr>
-              <tr className="hover:bg-[#0d1425]/20">
+              <tr className="hover:bg-[#181818]/20">
                 <td className="py-3 px-4 font-medium text-slate-300">Financial Health Score</td>
                 <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01] font-mono">
                   {vA.financialScore !== undefined ? `${vA.financialScore}/100` : "N/A"}
@@ -543,7 +543,7 @@ export default function Home() {
                   {vB.financialScore !== undefined ? `${vB.financialScore}/100` : "N/A"}
                 </td>
               </tr>
-              <tr className="hover:bg-[#0d1425]/20">
+              <tr className="hover:bg-[#181818]/20">
                 <td className="py-3 px-4 font-medium text-slate-300">News Sentiment</td>
                 <td className="py-3 px-4 bg-pink-500/[0.01]">
                   {vA.newsSentiment ? (
@@ -568,7 +568,7 @@ export default function Home() {
                   ) : "N/A"}
                 </td>
               </tr>
-              <tr className="hover:bg-[#0d1425]/20">
+              <tr className="hover:bg-[#181818]/20">
                 <td className="py-3 px-4 font-medium text-slate-300">Consensus Rating</td>
                 <td className="py-3 px-4 bg-pink-500/[0.01]">
                   {vA.marketConsensus ? (
@@ -593,7 +593,7 @@ export default function Home() {
                   ) : "N/A"}
                 </td>
               </tr>
-              <tr className="hover:bg-[#0d1425]/20">
+              <tr className="hover:bg-[#181818]/20">
                 <td className="py-3 px-4 font-medium text-slate-300">Risk Level</td>
                 <td className="py-3 px-4 bg-pink-500/[0.01]">
                   {vA.riskLevel ? (
@@ -618,52 +618,52 @@ export default function Home() {
                   ) : "N/A"}
                 </td>
               </tr>
-              <tr className="hover:bg-[#0d1425]/20">
+              <tr className="hover:bg-[#181818]/20">
                 <td className="py-3 px-4 font-medium text-slate-300">Revenue (Most Recent FY)</td>
                 <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01]">{vA.metrics?.revenue || "N/A"}</td>
                 <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01]">{vB.metrics?.revenue || "N/A"}</td>
               </tr>
-              <tr className="hover:bg-[#0d1425]/20">
+              <tr className="hover:bg-[#181818]/20">
                 <td className="py-3 px-4 font-medium text-slate-300">Net Income (Most Recent FY)</td>
                 <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01]">{vA.metrics?.netIncome || "N/A"}</td>
                 <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01]">{vB.metrics?.netIncome || "N/A"}</td>
               </tr>
-              <tr className="hover:bg-[#0d1425]/20">
+              <tr className="hover:bg-[#181818]/20">
                 <td className="py-3 px-4 font-medium text-slate-300">Trailing P/E Ratio</td>
                 <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01] font-mono">{vA.metrics?.peRatio || "N/A"}</td>
                 <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01] font-mono">{vB.metrics?.peRatio || "N/A"}</td>
               </tr>
-              <tr className="hover:bg-[#0d1425]/20">
+              <tr className="hover:bg-[#181818]/20">
                 <td className="py-3 px-4 font-medium text-slate-300">Debt-to-Equity Ratio</td>
                 <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01] font-mono">{vA.metrics?.debtToEquity || "N/A"}</td>
                 <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01] font-mono">{vB.metrics?.debtToEquity || "N/A"}</td>
               </tr>
-              <tr className="hover:bg-[#0d1425]/20">
+              <tr className="hover:bg-[#181818]/20">
                 <td className="py-3 px-4 font-medium text-slate-300">Operating Margin</td>
                 <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01] font-mono">{vA.metrics?.operatingMargin || "N/A"}</td>
                 <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01] font-mono">{vB.metrics?.operatingMargin || "N/A"}</td>
               </tr>
-              <tr className="hover:bg-[#0d1425]/20">
+              <tr className="hover:bg-[#181818]/20">
                 <td className="py-3 px-4 font-medium text-slate-300">Gross Margin</td>
                 <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01] font-mono">{vA.metrics?.grossMargin || "N/A"}</td>
                 <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01] font-mono">{vB.metrics?.grossMargin || "N/A"}</td>
               </tr>
-              <tr className="hover:bg-[#0d1425]/20">
+              <tr className="hover:bg-[#181818]/20">
                 <td className="py-3 px-4 font-medium text-slate-300">Revenue Growth (YoY)</td>
                 <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01] font-mono">{vA.metrics?.revenueGrowthYoY || "N/A"}</td>
                 <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01] font-mono">{vB.metrics?.revenueGrowthYoY || "N/A"}</td>
               </tr>
-              <tr className="hover:bg-[#0d1425]/20">
+              <tr className="hover:bg-[#181818]/20">
                 <td className="py-3 px-4 font-medium text-slate-300">Net Income Growth (YoY)</td>
                 <td className="py-3 px-4 text-slate-200 bg-pink-500/[0.01] font-mono">{vA.metrics?.netIncomeGrowthYoY || "N/A"}</td>
                 <td className="py-3 px-4 text-slate-200 bg-cyan-500/[0.01] font-mono">{vB.metrics?.netIncomeGrowthYoY || "N/A"}</td>
               </tr>
-              <tr className="hover:bg-[#0d1425]/20">
+              <tr className="hover:bg-[#181818]/20">
                 <td className="py-3 px-4 font-medium text-slate-300">Bull Catalysts</td>
                 <td className="py-3 px-4 text-emerald-400 bg-pink-500/[0.01] font-medium">{vA.bullCase?.length || 0} items</td>
                 <td className="py-3 px-4 text-emerald-400 bg-cyan-500/[0.01] font-medium">{vB.bullCase?.length || 0} items</td>
               </tr>
-              <tr className="hover:bg-[#0d1425]/20">
+              <tr className="hover:bg-[#181818]/20">
                 <td className="py-3 px-4 font-medium text-slate-300">Risk Factors</td>
                 <td className="py-3 px-4 text-rose-400 bg-pink-500/[0.01] font-medium">{(vA.bearCase?.length || 0) + (vA.risks?.length || 0)} items</td>
                 <td className="py-3 px-4 text-rose-400 bg-cyan-500/[0.01] font-medium">{(vB.bearCase?.length || 0) + (vB.risks?.length || 0)} items</td>
@@ -683,12 +683,12 @@ export default function Home() {
     const isInvest = verdictData.verdict === "invest";
     
     return (
-      <div className="bg-[#0d1425]/40 border border-[#1a2540] rounded-2xl p-6 backdrop-blur-md shadow-xl flex flex-col gap-6 animate-fade-in">
+      <div className="bg-[#181818]/40 border border-[#262626] rounded-2xl p-6 backdrop-blur-md shadow-xl flex flex-col gap-6 animate-fade-in">
         {/* Header Card Info */}
-        <div className="flex items-center justify-between border-b border-[#1a2540] pb-4">
+        <div className="flex items-center justify-between border-b border-[#262626] pb-4">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-sky-500/10 rounded-xl border border-sky-500/20">
-              <BookOpen className="w-6 h-6 text-sky-400" />
+            <div className="p-2.5 bg-blue-600/8 rounded-xl border border-blue-600/20">
+              <BookOpen className="w-6 h-6 text-blue-400" />
             </div>
             <div>
               <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
@@ -699,7 +699,7 @@ export default function Home() {
                 )}
                 {verdictData.company}
               </h2>
-              <p className="text-xs text-sky-400 font-semibold tracking-wide">
+              <p className="text-xs text-blue-400 font-semibold tracking-wide">
                 Stock symbol: {verdictData.symbol}
               </p>
             </div>
@@ -731,32 +731,32 @@ export default function Home() {
               {verdictData.confidence}%
             </span>
           </div>
-          <div className="h-2.5 bg-[#080C14] border border-[#1a2540]/80 rounded-full overflow-hidden">
+          <div className="h-2.5 bg-[#0f0f0f] border border-[#262626]/80 rounded-full overflow-hidden">
             <div
               style={{ width: `${confidenceWidthVal}%` }}
               className={`h-full rounded-full transition-all duration-1000 ease-out bg-gradient-to-r ${
-                isInvest ? "from-sky-500 to-emerald-500" : "from-sky-500 to-rose-500"
+                isInvest ? "from-blue-500 to-emerald-500" : "from-blue-500 to-rose-500"
               }`}
             />
           </div>
         </div>
 
         {/* Market Sentiment Dashboard */}
-        <div className="bg-[#080C14]/40 border border-[#1a2540] rounded-xl p-4">
-          <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5 border-b border-[#1a2540]/60 pb-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse" />
+        <div className="bg-[#0f0f0f]/40 border border-[#262626] rounded-xl p-4">
+          <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5 border-b border-[#262626]/60 pb-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
             Market Sentiment Indicators
           </h3>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             {/* Financial Health Score */}
-            <div className="bg-[#0d1425]/30 border border-[#1a2540]/80 rounded-lg p-3 flex flex-col justify-between">
+            <div className="bg-[#181818]/30 border border-[#262626]/80 rounded-lg p-3 flex flex-col justify-between">
               <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Financial Score</span>
               <div className="flex items-center justify-between mt-1">
                 <span className="text-sm font-bold text-slate-100 font-mono">
                   {verdictData.financialScore !== undefined ? `${verdictData.financialScore}/100` : "N/A"}
                 </span>
                 {verdictData.financialScore !== undefined && (
-                  <div className="w-8 h-1 bg-[#080C14] rounded-full overflow-hidden">
+                  <div className="w-8 h-1 bg-[#0f0f0f] rounded-full overflow-hidden">
                     <div 
                       className={`h-full ${
                         verdictData.financialScore >= 75 ? "bg-emerald-500" : verdictData.financialScore >= 50 ? "bg-amber-500" : "bg-rose-500"
@@ -769,7 +769,7 @@ export default function Home() {
             </div>
 
             {/* News Sentiment */}
-            <div className="bg-[#0d1425]/30 border border-[#1a2540]/80 rounded-lg p-3 flex flex-col justify-between">
+            <div className="bg-[#181818]/30 border border-[#262626]/80 rounded-lg p-3 flex flex-col justify-between">
               <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">News Sentiment</span>
               <div className="mt-1">
                 {verdictData.newsSentiment ? (
@@ -789,7 +789,7 @@ export default function Home() {
             </div>
 
             {/* Consensus Rating */}
-            <div className="bg-[#0d1425]/30 border border-[#1a2540]/80 rounded-lg p-3 flex flex-col justify-between">
+            <div className="bg-[#181818]/30 border border-[#262626]/80 rounded-lg p-3 flex flex-col justify-between">
               <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Consensus Rating</span>
               <div className="mt-1">
                 {verdictData.marketConsensus ? (
@@ -809,7 +809,7 @@ export default function Home() {
             </div>
 
             {/* Risk Level */}
-            <div className="bg-[#0d1425]/30 border border-[#1a2540]/80 rounded-lg p-3 flex flex-col justify-between">
+            <div className="bg-[#181818]/30 border border-[#262626]/80 rounded-lg p-3 flex flex-col justify-between">
               <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Risk Level</span>
               <div className="flex items-center gap-1.5 mt-1">
                 {verdictData.riskLevel ? (
@@ -840,7 +840,7 @@ export default function Home() {
         </div>
 
         {/* Reasoning summary text */}
-        <div className="bg-[#080C14]/50 border border-[#1a2540] rounded-xl p-4.5">
+        <div className="bg-[#0f0f0f]/50 border border-[#262626] rounded-xl p-4.5">
           <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
             Verdict Reasoning Summary
           </h3>
@@ -851,40 +851,40 @@ export default function Home() {
 
         {/* Quantitative Metrics Grid */}
         {verdictData.metrics && (
-          <div className="bg-[#080C14]/20 border border-[#1a2540] rounded-xl p-4.5">
+          <div className="bg-[#0f0f0f]/20 border border-[#262626] rounded-xl p-4.5">
             <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
               Key Financial Metrics
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div className="bg-[#080C14]/60 border border-[#1a2540]/80 rounded-lg p-3 text-center">
+              <div className="bg-[#0f0f0f]/60 border border-[#262626]/80 rounded-lg p-3 text-center">
                 <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Revenue</span>
                 <span className="text-sm font-bold text-slate-200 block mt-1">{verdictData.metrics.revenue}</span>
               </div>
-              <div className="bg-[#080C14]/60 border border-[#1a2540]/80 rounded-lg p-3 text-center">
+              <div className="bg-[#0f0f0f]/60 border border-[#262626]/80 rounded-lg p-3 text-center">
                 <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Net Income</span>
                 <span className="text-sm font-bold text-slate-200 block mt-1">{verdictData.metrics.netIncome}</span>
               </div>
-              <div className="bg-[#080C14]/60 border border-[#1a2540]/80 rounded-lg p-3 text-center">
+              <div className="bg-[#0f0f0f]/60 border border-[#262626]/80 rounded-lg p-3 text-center">
                 <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Trailing P/E</span>
                 <span className="text-sm font-bold text-slate-200 block mt-1 font-mono">{verdictData.metrics.peRatio}</span>
               </div>
-              <div className="bg-[#080C14]/60 border border-[#1a2540]/80 rounded-lg p-3 text-center">
+              <div className="bg-[#0f0f0f]/60 border border-[#262626]/80 rounded-lg p-3 text-center">
                 <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Debt / Equity</span>
                 <span className="text-sm font-bold text-slate-200 block mt-1 font-mono">{verdictData.metrics.debtToEquity}</span>
               </div>
-              <div className="bg-[#080C14]/60 border border-[#1a2540]/80 rounded-lg p-3 text-center">
+              <div className="bg-[#0f0f0f]/60 border border-[#262626]/80 rounded-lg p-3 text-center">
                 <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Operating Margin</span>
                 <span className="text-sm font-bold text-slate-200 block mt-1 font-mono">{verdictData.metrics.operatingMargin}</span>
               </div>
-              <div className="bg-[#080C14]/60 border border-[#1a2540]/80 rounded-lg p-3 text-center">
+              <div className="bg-[#0f0f0f]/60 border border-[#262626]/80 rounded-lg p-3 text-center">
                 <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Gross Margin</span>
                 <span className="text-sm font-bold text-slate-200 block mt-1 font-mono">{verdictData.metrics.grossMargin}</span>
               </div>
-              <div className="bg-[#080C14]/60 border border-[#1a2540]/80 rounded-lg p-3 text-center">
+              <div className="bg-[#0f0f0f]/60 border border-[#262626]/80 rounded-lg p-3 text-center">
                 <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Revenue Growth</span>
                 <span className="text-sm font-bold text-slate-200 block mt-1 font-mono">{verdictData.metrics.revenueGrowthYoY}</span>
               </div>
-              <div className="bg-[#080C14]/60 border border-[#1a2540]/80 rounded-lg p-3 text-center">
+              <div className="bg-[#0f0f0f]/60 border border-[#262626]/80 rounded-lg p-3 text-center">
                 <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Net Income Growth</span>
                 <span className="text-sm font-bold text-slate-200 block mt-1 font-mono">{verdictData.metrics.netIncomeGrowthYoY}</span>
               </div>
@@ -903,7 +903,7 @@ export default function Home() {
             <ul className="text-xs text-slate-300 space-y-2 flex-1">
               {verdictData.bullCase?.map((bull, i) => (
                 <li key={i} className="flex gap-2 items-start leading-relaxed font-normal text-slate-300">
-                  <span className="text-emerald-500/80 select-none mt-0.5">â€¢</span>
+                  <span className="text-emerald-500/80 select-none mt-0.5">Ã¢â‚¬Â¢</span>
                   {bull}
                 </li>
               ))}
@@ -919,7 +919,7 @@ export default function Home() {
             <ul className="text-xs text-slate-300 space-y-2 flex-1">
               {verdictData.bearCase?.map((bear, i) => (
                 <li key={i} className="flex gap-2 items-start leading-relaxed font-normal text-slate-300">
-                  <span className="text-rose-500/80 select-none mt-0.5">â€¢</span>
+                  <span className="text-rose-500/80 select-none mt-0.5">Ã¢â‚¬Â¢</span>
                   {bear}
                 </li>
               ))}
@@ -929,15 +929,15 @@ export default function Home() {
 
         {/* Risks details */}
         {verdictData.risks && verdictData.risks.length > 0 && (
-          <div className="bg-[#080C14]/30 border border-[#1a2540] rounded-xl p-4">
+          <div className="bg-[#0f0f0f]/30 border border-[#262626] rounded-xl p-4">
             <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5 mb-3">
-              <AlertCircle className="w-3.5 h-3.5 text-sky-400" />
+              <AlertCircle className="w-3.5 h-3.5 text-blue-400" />
               Identified Risk Analysis
             </h4>
             <ul className="text-xs text-slate-300 space-y-2">
               {verdictData.risks.map((risk, i) => (
                 <li key={i} className="flex gap-2 items-start leading-relaxed font-normal text-slate-300">
-                  <span className="text-sky-500/80 select-none">â€¢</span>
+                  <span className="text-sky-500/80 select-none">Ã¢â‚¬Â¢</span>
                   {risk}
                 </li>
               ))}
@@ -947,7 +947,7 @@ export default function Home() {
 
         {/* Sources list */}
         {verdictData.sources && verdictData.sources.length > 0 && (
-          <div className="border-t border-[#1a2540] pt-4 flex flex-wrap items-center gap-2">
+          <div className="border-t border-[#262626] pt-4 flex flex-wrap items-center gap-2">
             <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider mr-1">
               Sources Cited:
             </span>
@@ -964,7 +964,7 @@ export default function Home() {
                     href={source}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-xs px-2.5 py-1 bg-[#080C14]/80 hover:bg-[#0d1425] border border-[#1a2540] text-slate-400 hover:text-sky-400 rounded-lg flex items-center gap-1 transition-colors"
+                    className="text-xs px-2.5 py-1 bg-[#0f0f0f]/80 hover:bg-[#1c1c1c] border border-[#262626] text-slate-400 hover:text-blue-400 rounded-lg flex items-center gap-1 transition-colors"
                   >
                     {domain} <ExternalLink className="w-2.5 h-2.5" />
                   </a>
@@ -973,7 +973,7 @@ export default function Home() {
               return (
                 <span
                   key={i}
-                  className="text-xs px-2.5 py-1 bg-[#080C14]/40 border border-[#1a2540] text-slate-400 rounded-lg"
+                  className="text-xs px-2.5 py-1 bg-[#0f0f0f]/40 border border-[#262626] text-slate-400 rounded-lg"
                 >
                   {source}
                 </span>
@@ -986,22 +986,19 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#080C14] text-slate-100 font-sans selection:bg-sky-500/20 selection:text-indigo-200">
-      {/* Background Glows */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-sky-500/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-[300px] right-1/4 w-[600px] h-[600px] bg-cyan-500/5 rounded-full blur-[140px] pointer-events-none" />
+    <div className="min-h-screen bg-[#0f0f0f] text-slate-100 font-sans selection:bg-blue-600/20 selection:text-white">
 
       {/* Main Container */}
       <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header */}
-        <header className="flex flex-col md:flex-row md:items-center md:justify-between border-b border-[#1a2540] pb-6 mb-6 gap-4">
+        <header className="flex flex-col md:flex-row md:items-center md:justify-between border-b border-[#262626] pb-6 mb-6 gap-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-sky-500/10 rounded-xl border border-sky-500/20 shadow-lg shadow-sky-500/5">
-              <TrendingUp className="w-8 h-8 text-sky-400" />
+            <div className="p-2 bg-[#1a1a1a] rounded-xl border border-[#262626]">
+              <TrendingUp className="w-8 h-8 text-blue-400" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-sky-300 via-blue-200 to-cyan-300 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold tracking-tight text-white">
                 Altuni AI Labs
               </h1>
               <p className="text-xs text-slate-400 font-medium tracking-wider uppercase">
@@ -1014,7 +1011,7 @@ export default function Home() {
               href="https://github.com/SuryaPranav2k5/AI-Investment-Research-Agent"
               target="_blank"
               rel="noreferrer"
-              className="text-xs text-slate-400 hover:text-sky-400 transition-colors flex items-center gap-1.5 border border-[#1a2540] bg-[#080C14] px-3 py-1.5 rounded-lg"
+              className="text-xs text-slate-400 hover:text-blue-400 transition-colors flex items-center gap-1.5 border border-[#262626] bg-[#0f0f0f] px-3 py-1.5 rounded-lg"
             >
               GitHub Repository <ExternalLink className="w-3 h-3" />
             </a>
@@ -1022,7 +1019,7 @@ export default function Home() {
         </header>
 
         {/* Tab Toggle Navigation */}
-        <div className="flex border-b border-[#1a2540] mb-8">
+        <div className="flex border-b border-[#262626] mb-8">
           <button
             onClick={() => {
               setMode("single");
@@ -1031,7 +1028,7 @@ export default function Home() {
             }}
             className={`py-3 px-6 font-semibold text-sm border-b-2 transition-all flex items-center gap-2 ${
               mode === "single"
-                ? "border-sky-500 text-sky-400 font-bold"
+                ? "border-blue-500 text-blue-400 font-bold"
                 : "border-transparent text-slate-400 hover:text-slate-200"
             }`}
           >
@@ -1045,7 +1042,7 @@ export default function Home() {
             }}
             className={`py-3 px-6 font-semibold text-sm border-b-2 transition-all flex items-center gap-2 ${
               mode === "compare"
-                ? "border-sky-500 text-sky-400 font-bold"
+                ? "border-blue-500 text-blue-400 font-bold"
                 : "border-transparent text-slate-400 hover:text-slate-200"
             }`}
           >
@@ -1055,7 +1052,7 @@ export default function Home() {
         </div>
 
         {/* Search & Suggestions Card */}
-        <section className="mb-8 bg-[#0d1425]/40 border border-[#1a2540] rounded-2xl p-6 backdrop-blur-md shadow-xl">
+        <section className="mb-8 bg-[#181818]/40 border border-[#262626] rounded-2xl p-6 backdrop-blur-md shadow-xl">
           {mode === "single" ? (
             <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row gap-3">
               <div className="relative flex-1">
@@ -1066,13 +1063,13 @@ export default function Home() {
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Enter company name (e.g. Nvidia, Tesla, Tata Motors...)"
                   disabled={loading}
-                  className="w-full pl-12 pr-4 py-3 bg-[#080C14] border border-[#1a2540] rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 placeholder-slate-500 transition-all disabled:opacity-50"
+                  className="w-full pl-12 pr-4 py-3 bg-[#0f0f0f] border border-[#262626] rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 placeholder-slate-500 transition-all disabled:opacity-50"
                 />
               </div>
               <button
                 type="submit"
                 disabled={loading || !query.trim()}
-                className="px-6 py-3 bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white font-medium rounded-xl transition-all shadow-lg shadow-indigo-500/10 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
+                className="px-6 py-3 bg-gradient-to-r bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-xl transition-all shadow-lg shadow-indigo-500/10 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
               >
                 {loading ? (
                   <>
@@ -1098,7 +1095,7 @@ export default function Home() {
                     onChange={(e) => setQueryA(e.target.value)}
                     placeholder="Enter first company (e.g. Tesla)"
                     disabled={loadingA || loadingB}
-                    className="w-full pl-14 pr-4 py-3 bg-[#080C14] border border-[#1a2540] rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 placeholder-slate-500 transition-all disabled:opacity-50"
+                    className="w-full pl-14 pr-4 py-3 bg-[#0f0f0f] border border-[#262626] rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 placeholder-slate-500 transition-all disabled:opacity-50"
                   />
                 </div>
                 <div className="relative flex-1">
@@ -1109,14 +1106,14 @@ export default function Home() {
                     onChange={(e) => setQueryB(e.target.value)}
                     placeholder="Enter second company (e.g. Nvidia)"
                     disabled={loadingA || loadingB}
-                    className="w-full pl-14 pr-4 py-3 bg-[#080C14] border border-[#1a2540] rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 placeholder-slate-500 transition-all disabled:opacity-50"
+                    className="w-full pl-14 pr-4 py-3 bg-[#0f0f0f] border border-[#262626] rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-100 placeholder-slate-500 transition-all disabled:opacity-50"
                   />
                 </div>
               </div>
               <button
                 type="submit"
                 disabled={(loadingA || loadingB) || !queryA.trim() || !queryB.trim()}
-                className="w-full py-3 bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white font-medium rounded-xl transition-all shadow-lg shadow-indigo-500/10 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
+                className="w-full py-3 bg-gradient-to-r bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-xl transition-all shadow-lg shadow-indigo-500/10 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
               >
                 {loadingA || loadingB ? (
                   <>
@@ -1134,7 +1131,7 @@ export default function Home() {
           )}
 
           {/* Quick-test templates */}
-          <div className="flex flex-wrap items-center gap-2.5 mt-4 pt-4 border-t border-[#1a2540]/60">
+          <div className="flex flex-wrap items-center gap-2.5 mt-4 pt-4 border-t border-[#262626]/60">
             <span className="text-xs font-semibold text-slate-500 tracking-wider uppercase mr-1">
               Quick Test:
             </span>
@@ -1145,7 +1142,7 @@ export default function Home() {
                   type="button"
                   onClick={() => handleCompanyClick(companyName)}
                   disabled={loading}
-                  className="text-xs px-3 py-1.5 bg-[#080C14]/60 hover:bg-[#0d1425] border border-[#1a2540]/80 hover:border-indigo-500/40 text-slate-300 hover:text-indigo-300 rounded-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="text-xs px-3 py-1.5 bg-[#0f0f0f]/60 hover:bg-[#1c1c1c] border border-[#262626]/80 hover:border-indigo-500/40 text-slate-300 hover:text-indigo-300 rounded-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {companyName}
                 </button>
@@ -1161,7 +1158,7 @@ export default function Home() {
                     startComparison(pair.a, pair.b);
                   }}
                   disabled={loadingA || loadingB}
-                  className="text-xs px-3 py-1.5 bg-[#080C14]/60 hover:bg-[#0d1425] border border-[#1a2540]/80 hover:border-indigo-500/40 text-slate-300 hover:text-indigo-300 rounded-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="text-xs px-3 py-1.5 bg-[#0f0f0f]/60 hover:bg-[#1c1c1c] border border-[#262626]/80 hover:border-indigo-500/40 text-slate-300 hover:text-indigo-300 rounded-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {pair.label}
                 </button>
@@ -1178,18 +1175,18 @@ export default function Home() {
             <section className="lg:col-span-5 flex flex-col gap-6">
               
               {/* Steps checklist card */}
-              <div className="bg-[#0d1425]/40 border border-[#1a2540] rounded-2xl p-6 backdrop-blur-md shadow-xl flex-1">
-                <div className="flex items-center justify-between border-b border-[#1a2540]/80 pb-4 mb-5">
+              <div className="bg-[#181818]/40 border border-[#262626] rounded-2xl p-6 backdrop-blur-md shadow-xl flex-1">
+                <div className="flex items-center justify-between border-b border-[#262626]/80 pb-4 mb-5">
                   <div className="flex items-center gap-2">
-                    <Activity className="w-5 h-5 text-sky-400" />
+                    <Activity className="w-5 h-5 text-blue-400" />
                     <h2 className="text-md font-semibold text-slate-200">
                       Agent Activity Logs
                     </h2>
                   </div>
                   {loading && (
-                    <div className="flex items-center gap-2 bg-sky-500/10 border border-sky-500/20 text-sky-300 px-2.5 py-1 rounded-full text-xs font-medium">
-                      <span className="w-1.5 h-1.5 bg-sky-400 rounded-full animate-ping" />
-                      Running â€¢ {elapsedTime}s
+                    <div className="flex items-center gap-2 bg-blue-600/8 border border-blue-600/20 text-blue-300 px-2.5 py-1 rounded-full text-xs font-medium">
+                      <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-ping" />
+                      Running Ã¢â‚¬Â¢ {elapsedTime}s
                     </div>
                   )}
                 </div>
@@ -1206,12 +1203,12 @@ export default function Home() {
                     return (
                       <div key={step.id} className="relative">
                         {/* Step Indicator Dot */}
-                        <span className="absolute -left-[35px] top-0.5 flex h-6.5 w-6.5 items-center justify-center rounded-full bg-[#080C14] border transition-all">
+                        <span className="absolute -left-[35px] top-0.5 flex h-6.5 w-6.5 items-center justify-center rounded-full bg-[#0f0f0f] border transition-all">
                           {isCompleted && (
-                            <CheckCircle2 className="w-4 h-4 text-emerald-400 bg-[#080C14] rounded-full" />
+                            <CheckCircle2 className="w-4 h-4 text-emerald-400 bg-[#0f0f0f] rounded-full" />
                           )}
                           {isRunning && (
-                            <Loader2 className="w-3.5 h-3.5 text-sky-400 animate-spin" />
+                            <Loader2 className="w-3.5 h-3.5 text-blue-400 animate-spin" />
                           )}
                           {isPending && (
                             <span className="w-1.5 h-1.5 rounded-full bg-slate-600" />
@@ -1223,7 +1220,7 @@ export default function Home() {
 
                         <div>
                           <h3 className={`text-sm font-semibold flex items-center gap-2 ${
-                            isCompleted ? "text-slate-100" : isRunning ? "text-sky-400" : "text-slate-500"
+                            isCompleted ? "text-slate-100" : isRunning ? "text-blue-400" : "text-slate-500"
                           }`}>
                             <StepIcon className={`w-4 h-4 ${isRunning ? "animate-pulse" : ""}`} />
                             {step.title}
@@ -1239,8 +1236,8 @@ export default function Home() {
               </div>
 
               {/* Live Terminal logs card */}
-              <div className="bg-[#080C14] border border-[#1a2540] rounded-2xl p-4 shadow-xl flex flex-col h-[280px]">
-                <div className="flex items-center gap-2 border-b border-[#1a2540] pb-2 mb-3">
+              <div className="bg-[#0f0f0f] border border-[#262626] rounded-2xl p-4 shadow-xl flex flex-col h-[280px]">
+                <div className="flex items-center gap-2 border-b border-[#262626] pb-2 mb-3">
                   <div className="w-2.5 h-2.5 rounded-full bg-rose-500" />
                   <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
                   <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
@@ -1259,11 +1256,11 @@ export default function Home() {
                         tavily: "text-blue-400",
                         exa: "text-cyan-400",
                         fmp: "text-amber-400",
-                        agent: "text-sky-400",
+                        agent: "text-blue-400",
                         system: "text-purple-400",
                       };
                       return (
-                        <div key={log.id} className="hover:bg-[#0d1425]/30 p-0.5 rounded transition-all">
+                        <div key={log.id} className="hover:bg-[#181818]/30 p-0.5 rounded transition-all">
                           <span className="text-slate-600">[{log.timestamp}]</span>{" "}
                           <span className={`font-bold ${tagColors[log.tag]}`}>
                             [{log.tag}]
@@ -1302,9 +1299,9 @@ export default function Home() {
 
               {/* Empty State / Welcome Screen */}
               {!loading && !verdict && !error && (
-                <div className="bg-[#0d1425]/40 border border-[#1a2540] rounded-2xl p-10 backdrop-blur-md shadow-xl text-center flex flex-col items-center justify-center min-h-[460px]">
-                  <div className="p-4 bg-sky-500/10 rounded-full border border-sky-500/20 mb-6 animate-pulse">
-                    <Brain className="w-12 h-12 text-sky-400" />
+                <div className="bg-[#181818]/40 border border-[#262626] rounded-2xl p-10 backdrop-blur-md shadow-xl text-center flex flex-col items-center justify-center min-h-[460px]">
+                  <div className="p-4 bg-blue-600/8 rounded-full border border-blue-600/20 mb-6 animate-pulse">
+                    <Brain className="w-12 h-12 text-blue-400" />
                   </div>
                   <h2 className="text-xl font-bold text-slate-100">
                     Ready to Research
@@ -1313,12 +1310,12 @@ export default function Home() {
                     Enter any company name or select a quick test template to begin real-time qualitative and quantitative investment analysis.
                   </p>
                   <div className="grid grid-cols-2 gap-4 mt-8 w-full max-w-sm text-left">
-                    <div className="p-3 bg-[#080C14]/40 rounded-xl border border-[#1a2540]">
-                      <span className="text-sky-400 text-xs font-bold font-mono">STEP 1-2</span>
+                    <div className="p-3 bg-[#0f0f0f]/40 rounded-xl border border-[#262626]">
+                      <span className="text-blue-400 text-xs font-bold font-mono">STEP 1-2</span>
                       <p className="text-xs text-slate-300 mt-1">Ticker resolution & financials check</p>
                     </div>
-                    <div className="p-3 bg-[#080C14]/40 rounded-xl border border-[#1a2540]">
-                      <span className="text-sky-400 text-xs font-bold font-mono">STEP 3-4</span>
+                    <div className="p-3 bg-[#0f0f0f]/40 rounded-xl border border-[#262626]">
+                      <span className="text-blue-400 text-xs font-bold font-mono">STEP 3-4</span>
                       <p className="text-xs text-slate-300 mt-1">Sentiment news search & final synthesis</p>
                     </div>
                   </div>
@@ -1327,8 +1324,8 @@ export default function Home() {
 
               {/* Loading skeleton loader */}
               {loading && !verdict && (
-                <div className="bg-[#0d1425]/40 border border-[#1a2540] rounded-2xl p-8 backdrop-blur-md shadow-xl flex flex-col min-h-[460px]">
-                  <div className="flex items-center justify-between border-b border-[#1a2540] pb-4 mb-6">
+                <div className="bg-[#181818]/40 border border-[#262626] rounded-2xl p-8 backdrop-blur-md shadow-xl flex flex-col min-h-[460px]">
+                  <div className="flex items-center justify-between border-b border-[#262626] pb-4 mb-6">
                     <div className="flex items-center gap-3 w-1/2">
                       <div className="w-10 h-10 bg-slate-800 rounded-xl animate-pulse" />
                       <div className="w-3/4 h-5 bg-slate-800 rounded animate-pulse" />
@@ -1398,8 +1395,8 @@ export default function Home() {
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
                 {/* Column A */}
                 {loadingA && !verdictA ? (
-                  <div className="bg-[#0d1425]/40 border border-[#1a2540] rounded-2xl p-8 backdrop-blur-md shadow-xl flex flex-col min-h-[460px]">
-                    <div className="flex items-center justify-between border-b border-[#1a2540] pb-4 mb-6">
+                  <div className="bg-[#181818]/40 border border-[#262626] rounded-2xl p-8 backdrop-blur-md shadow-xl flex flex-col min-h-[460px]">
+                    <div className="flex items-center justify-between border-b border-[#262626] pb-4 mb-6">
                       <div className="flex items-center gap-3 w-1/2">
                         <div className="w-10 h-10 bg-slate-800 rounded-xl animate-pulse" />
                         <div className="w-3/4 h-5 bg-slate-800 rounded animate-pulse" />
@@ -1421,8 +1418,8 @@ export default function Home() {
 
                 {/* Column B */}
                 {loadingB && !verdictB ? (
-                  <div className="bg-[#0d1425]/40 border border-[#1a2540] rounded-2xl p-8 backdrop-blur-md shadow-xl flex flex-col min-h-[460px]">
-                    <div className="flex items-center justify-between border-b border-[#1a2540] pb-4 mb-6">
+                  <div className="bg-[#181818]/40 border border-[#262626] rounded-2xl p-8 backdrop-blur-md shadow-xl flex flex-col min-h-[460px]">
+                    <div className="flex items-center justify-between border-b border-[#262626] pb-4 mb-6">
                       <div className="flex items-center gap-3 w-1/2">
                         <div className="w-10 h-10 bg-slate-800 rounded-xl animate-pulse" />
                         <div className="w-3/4 h-5 bg-slate-800 rounded animate-pulse" />
@@ -1446,9 +1443,9 @@ export default function Home() {
 
             {/* Dynamic Welcome state for Compare mode */}
             {!loadingA && !loadingB && !verdictA && !verdictB && !errorA && !errorB && (
-              <div className="bg-[#0d1425]/40 border border-[#1a2540] rounded-2xl p-10 backdrop-blur-md shadow-xl text-center flex flex-col items-center justify-center min-h-[360px]">
-                <div className="p-4 bg-sky-500/10 rounded-full border border-sky-500/20 mb-6 animate-pulse">
-                  <Brain className="w-12 h-12 text-sky-400" />
+              <div className="bg-[#181818]/40 border border-[#262626] rounded-2xl p-10 backdrop-blur-md shadow-xl text-center flex flex-col items-center justify-center min-h-[360px]">
+                <div className="p-4 bg-blue-600/8 rounded-full border border-blue-600/20 mb-6 animate-pulse">
+                  <Brain className="w-12 h-12 text-blue-400" />
                 </div>
                 <h2 className="text-xl font-bold text-slate-100">
                   Ready to Compare
@@ -1462,14 +1459,14 @@ export default function Home() {
             {/* Timelines and Console grid */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               <div className="lg:col-span-6">
-                <div className="bg-[#0d1425]/40 border border-[#1a2540] rounded-2xl p-6 backdrop-blur-md shadow-xl">
-                  <h3 className="text-md font-semibold text-slate-200 border-b border-[#1a2540] pb-4 mb-5 flex items-center gap-2">
-                    <Activity className="w-5 h-5 text-sky-400" />
+                <div className="bg-[#181818]/40 border border-[#262626] rounded-2xl p-6 backdrop-blur-md shadow-xl">
+                  <h3 className="text-md font-semibold text-slate-200 border-b border-[#262626] pb-4 mb-5 flex items-center gap-2">
+                    <Activity className="w-5 h-5 text-blue-400" />
                     Agent Research Timelines
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {/* Pipeline A */}
-                    <div className="bg-[#080C14]/40 border border-[#1a2540] rounded-xl p-4">
+                    <div className="bg-[#0f0f0f]/40 border border-[#262626] rounded-xl p-4">
                       <h4 className="text-xs font-bold text-pink-400 uppercase tracking-wider mb-4 flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-pink-400" />
                         [A] {queryA || "Company A"}
@@ -1490,9 +1487,9 @@ export default function Home() {
 
                           return (
                             <div key={step.id} className="relative">
-                              <span className="absolute -left-[29px] top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#080C14] border transition-all">
+                              <span className="absolute -left-[29px] top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#0f0f0f] border transition-all">
                                 {isCompleted && (
-                                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 bg-[#080C14] rounded-full" />
+                                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 bg-[#0f0f0f] rounded-full" />
                                 )}
                                 {isRunning && (
                                   <Loader2 className="w-3 h-3 text-pink-400 animate-spin" />
@@ -1519,7 +1516,7 @@ export default function Home() {
                     </div>
 
                     {/* Pipeline B */}
-                    <div className="bg-[#080C14]/40 border border-[#1a2540] rounded-xl p-4">
+                    <div className="bg-[#0f0f0f]/40 border border-[#262626] rounded-xl p-4">
                       <h4 className="text-xs font-bold text-cyan-400 uppercase tracking-wider mb-4 flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-cyan-400" />
                         [B] {queryB || "Company B"}
@@ -1540,9 +1537,9 @@ export default function Home() {
 
                           return (
                             <div key={step.id} className="relative">
-                              <span className="absolute -left-[29px] top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#080C14] border transition-all">
+                              <span className="absolute -left-[29px] top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-[#0f0f0f] border transition-all">
                                 {isCompleted && (
-                                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 bg-[#080C14] rounded-full" />
+                                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 bg-[#0f0f0f] rounded-full" />
                                 )}
                                 {isRunning && (
                                   <Loader2 className="w-3 h-3 text-cyan-400 animate-spin" />
@@ -1573,8 +1570,8 @@ export default function Home() {
 
               <div className="lg:col-span-6">
                 {/* Live Terminal logs card */}
-                <div className="bg-[#080C14] border border-[#1a2540] rounded-2xl p-4 shadow-xl flex flex-col h-[280px]">
-                  <div className="flex items-center gap-2 border-b border-[#1a2540] pb-2 mb-3">
+                <div className="bg-[#0f0f0f] border border-[#262626] rounded-2xl p-4 shadow-xl flex flex-col h-[280px]">
+                  <div className="flex items-center gap-2 border-b border-[#262626] pb-2 mb-3">
                     <div className="w-2.5 h-2.5 rounded-full bg-rose-500" />
                     <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
                     <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
@@ -1593,11 +1590,11 @@ export default function Home() {
                           tavily: "text-blue-400",
                           exa: "text-cyan-400",
                           fmp: "text-amber-400",
-                          agent: "text-sky-400",
+                          agent: "text-blue-400",
                           system: "text-purple-400",
                         };
                         return (
-                          <div key={log.id} className="hover:bg-[#0d1425]/30 p-0.5 rounded transition-all">
+                          <div key={log.id} className="hover:bg-[#181818]/30 p-0.5 rounded transition-all">
                             <span className="text-slate-600">[{log.timestamp}]</span>{" "}
                             {log.prefix && (
                               <span className={`font-bold ${log.prefix === "A" ? "text-pink-400" : "text-cyan-400"} mr-1.5`}>
@@ -1623,4 +1620,5 @@ export default function Home() {
     </div>
   );
 }
+
 
