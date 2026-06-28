@@ -3,7 +3,7 @@
 This project is an AI-powered Investment Research Agent designed as a take-home assignment for InsideIIM × Altuni AI Labs. The agent takes a company name, conducts comprehensive web and financial research, and makes a recommendation to **invest** or **pass** with detailed logical reasoning.
 
 *   **Live Vercel Deployment**: [https://ai-investment-research-agent-sand.vercel.app/](https://ai-investment-research-agent-sand.vercel.app/)
-*   **LLM Chat Session logs**: The full developer-AI interaction database log is packaged in the root directory as [`chat_transcript.pb`](file:///D:/Model/investment-agent/chat_transcript.pb) to fulfill the bonus points requirements. This binary database file contains the complete session history and can be loaded directly inside the Antigravity IDE.
+*   **LLM Chat Session logs**: The complete, human-readable pair-programming interaction transcript is packaged in the root directory as [`chat_transcript.md`](file:///D:/Model/investment-agent/chat_transcript.md) to fulfill the bonus points requirement. It details all user queries, design pivots, and helper actions in chronological order.
 
 ---
 
