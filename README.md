@@ -26,7 +26,7 @@ The application is built using Next.js (TypeScript) for the frontend/backend and
 ### Setup Steps
 1. Clone the repository and navigate to the project directory:
    ```bash
-    cd "Inside IIM"
+   cd investment-agent
    ```
 2. Install dependencies:
    ```bash
