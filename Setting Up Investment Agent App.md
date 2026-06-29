@@ -1531,7 +1531,7 @@ I will inspect `.env.local` to verify the state of the variables.
 I will rewrite the `.env.local` file using `write_to_file` to ensure it contains all correct API keys and the new `GEMINI_MODEL` override variable.
 
 ### What changed:
-- Restored `ALPHA_VANTAGE_API_KEY=ZFVO9BBQU9WHDHON`.
+- Restored `ALPHA_VANTAGE_API_KEY=[MASKED_ALPHA_VANTAGE_API_KEY]`.
 - Appended `GEMINI_MODEL=gemini-3.5-flash`.
 
 ### Why it changed:
@@ -2593,19 +2593,19 @@ I will wait for the FMP isolation test to complete.
 
 I will run a direct node fetch command to check the exact response body returned by the FMP API for the `profile` endpoint with your key.
 
-> ⚙️ **Action**: *User accepted the command `node -e "fetch('https://financialmodelingprep.com/api/v3/profile/AAPL?apikey=bagmtsCzVx8BtH2xRZc8RNrdA83j0ul2').then(res => res.text().then(text => console.log(res.status, text)))"`*
+> ⚙️ **Action**: *User accepted the command `node -e "fetch('https://financialmodelingprep.com/api/v3/profile/AAPL?apikey=[MASKED_FMP_API_KEY]').then(res => res.text().then(text => console.log(res.status, text)))"`*
 
 
 
 I will run a node command to test the new FMP `/stable/` endpoint format with your API key to check if it resolves correctly.
 
-> ⚙️ **Action**: *User accepted the command `node -e "fetch('https://financialmodelingprep.com/stable/profile?symbol=AAPL&apikey=bagmtsCzVx8BtH2xRZc8RNrdA83j0ul2').then(res => res.text().then(text => console.log(res.status, text)))"`*
+> ⚙️ **Action**: *User accepted the command `node -e "fetch('https://financialmodelingprep.com/stable/profile?symbol=AAPL&apikey=[MASKED_FMP_API_KEY]').then(res => res.text().then(text => console.log(res.status, text)))"`*
 
 
 
 I will check the stable income statement and balance sheet endpoints to verify their status codes and response bodies.
 
-> ⚙️ **Action**: *User accepted the command `node -e "const check = url => fetch(url).then(res => console.log(url.split('?')[0].split('/').pop(), res.status)); check('https://financialmodelingprep.com/stable/income-statement?symbol=AAPL&period=annual&apikey=bagmtsCzVx8BtH2xRZc8RNrdA83j0ul2'); check('https://financialmodelingprep.com/stable/balance-sheet-statement?symbol=AAPL&period=annual&apikey=bagmtsCzVx8BtH2xRZc8RNrdA83j0ul2');"`*
+> ⚙️ **Action**: *User accepted the command `node -e "const check = url => fetch(url).then(res => console.log(url.split('?')[0].split('/').pop(), res.status)); check('https://financialmodelingprep.com/stable/income-statement?symbol=AAPL&period=annual&apikey=[MASKED_FMP_API_KEY]'); check('https://financialmodelingprep.com/stable/balance-sheet-statement?symbol=AAPL&period=annual&apikey=[MASKED_FMP_API_KEY]');"`*
 
 
 
