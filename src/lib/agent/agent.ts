@@ -14,15 +14,15 @@ You MUST follow this exact step-by-step research plan:
    - Use "tavily_search" to gather the latest breaking news, real-time events, and sentiment from the last 6 months.
    - Use "exa_search" to retrieve expert analyst reports, consensus opinions, competitive positioning, and long-term industry fundamentals.
 4. Perform your analysis:
-   - Quantitative: Analyze trailing twelve months (TTM) and current fiscal year financial statements. Specifically calculate, evaluate, and output the following metrics:
-     * peRatio: Price-to-Earnings ratio. Derive using current stock price (from company profile, e.g. price: 279.53) divided by the most recent annual EPS (from the most recent annual income statement, e.g. eps: 7.49). If either stock price or EPS is missing, output "N/A". Format with two decimal places.
-     * debtToEquity: Debt-to-equity ratio. Calculate totalLiabilities divided by totalStockholdersEquity from the most recent balance sheet. If liabilities or equity are missing, try totalDebt divided by totalStockholdersEquity. Output "N/A" if data is missing. Format with two decimal places.
-     * operatingMargin: Operating income divided by revenue from the most recent annual income statement, formatted as a percentage (e.g. "31.2%" or "N/A").
-     * grossMargin: Gross profit divided by revenue from the most recent annual income statement, formatted as a percentage (e.g. "44.5%" or "N/A").
-     * revenueGrowthYoY: Year-over-Year revenue growth. Calculate the percentage change from the previous fiscal year (t-1) to the most recent fiscal year (t), e.g. (revenue_t - revenue_t-1) / revenue_t-1, formatted as a percentage (e.g. "8.5%" or "N/A").
-     * netIncomeGrowthYoY: Year-over-Year net income growth. Calculate the percentage change from the previous fiscal year (t-1) to the most recent fiscal year (t), e.g. (netIncome_t - netIncome_t-1) / netIncome_t-1, formatted as a percentage (e.g. "12.3%" or "N/A").
-     * revenue: Most recent annual revenue, formatted cleanly (e.g. "$416.16B" for billions, or "$850.50M" for millions, or "N/A").
-     * netIncome: Most recent annual net income, formatted cleanly (e.g. "$112.01B" or "$45.20M", or "N/A").
+    - Quantitative: Analyze trailing twelve months (TTM) and current fiscal year financial statements. Specifically calculate, evaluate, and output the following metrics:
+      * peRatio: Price-to-Earnings ratio. Derive using current stock price (from company profile, e.g. price: 279.53) divided by the most recent annual EPS (from the most recent annual income statement, e.g. eps: 7.49). If either stock price or EPS is missing, look for a precalculated "peRatio" or "PERatio" in the profile. If that is also missing, output "N/A". Format with two decimal places.
+      * debtToEquity: Debt-to-equity ratio. Calculate totalLiabilities divided by totalStockholdersEquity (or totalShareholderEquity for Alpha Vantage fallback) from the most recent balance sheet. If liabilities or equity are missing, try totalDebt divided by totalStockholdersEquity/totalShareholderEquity. Output "N/A" if data is missing. Format with two decimal places.
+      * operatingMargin: Operating income (operatingIncome) divided by revenue (revenue or totalRevenue) from the most recent annual income statement, formatted as a percentage (e.g. "31.2%" or "N/A").
+      * grossMargin: Gross profit (grossProfit) divided by revenue (revenue or totalRevenue) from the most recent annual income statement, formatted as a percentage (e.g. "44.5%" or "N/A").
+      * revenueGrowthYoY: Year-over-Year revenue growth. Calculate the percentage change of revenue (revenue or totalRevenue) from the previous fiscal year (t-1) to the most recent fiscal year (t), e.g. (revenue_t - revenue_t-1) / revenue_t-1, formatted as a percentage (e.g. "8.5%" or "N/A").
+      * netIncomeGrowthYoY: Year-over-Year net income growth. Calculate the percentage change of net income (netIncome) from the previous fiscal year (t-1) to the most recent fiscal year (t), e.g. (netIncome_t - netIncome_t-1) / netIncome_t-1, formatted as a percentage (e.g. "12.3%" or "N/A").
+      * revenue: Most recent annual revenue (revenue or totalRevenue), formatted cleanly (e.g. "$416.16B" for billions, or "$850.50M" for millions, or "N/A").
+      * netIncome: Most recent annual net income (netIncome), formatted cleanly (e.g. "$112.01B" or "$45.20M", or "N/A").
      Perform these calculations mathematically based ONLY on the numbers in the tool responses. If data is not available to compute a metric, output "N/A".
    - Qualitative: Analyze current market news, industry trends, and growth catalysts from the last 12 months.
 5. Formulate your final recommendation ("invest" or "pass") with a confidence score (from 0 to 100) and explain your reasoning.
