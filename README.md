@@ -136,59 +136,100 @@ These metrics are rendered at the top of the verdict card in Single Mode and sid
 
 ## 6. Example Runs
 
-### Example 1: NVIDIA Corporation (NVDA) - Invest Verdict
+### Example 1: Apple Inc. (AAPL) — "invest" Verdict (Full JSON Output)
 ```json
 {
-  "company": "NVIDIA Corporation",
-  "symbol": "NVDA",
+  "reasoning": "Apple remains a high-quality, resilient compounder with a massive installed base of 2.5 billion devices. The company is successfully executing a strategic mix shift toward high-margin Services, which now contribute significantly to profitability. While the company faces near-term headwinds from rising memory costs and geopolitical risks in China, its ability to maintain strong gross margins and generate massive free cash flow provides a solid foundation. The stock is currently priced for continued growth, and while valuation is at a premium, the company's ability to return capital to shareholders and its ongoing innovation in AI and hardware keep it as a core holding for long-term investors.",
+  "scoreDerivation": "Financial Score Calculation: Base Score (50) + Valuation (0 points for P/E of 38.63, which is > 35) + Balance Sheet Health (15 points for D/E of 1.52, which is between 1.0 and 2.0) + Growth Trends (10 points for Revenue Growth of 6.43% and Net Income Growth of 19.49% - both > 5%) + Profitability (10 points for Operating Margin of 31.97% > 25%). Total Financial Score: 50 + 0 + 15 + 10 + 10 = 85. Confidence Score: 85 (Financial) + 5 (moderate moat/1-2 catalysts) - 5 (moderate risks) = 85.",
+  "company": "Apple Inc.",
+  "symbol": "AAPL",
   "verdict": "invest",
   "confidence": 85,
-  "financialScore": 80,
+  "financialScore": 85,
   "newsSentiment": "bullish",
   "marketConsensus": "buy",
   "riskLevel": "medium",
   "metrics": {
-    "peRatio": "39.05",
-    "debtToEquity": "0.07",
-    "operatingMargin": "60.4%",
-    "grossMargin": "71.1%",
-    "revenueGrowthYoY": "65.5%",
-    "netIncomeGrowthYoY": "64.7%",
-    "revenue": "$215.94B",
-    "netIncome": "$120.07B"
+    "peRatio": "38.63",
+    "debtToEquity": "1.52",
+    "operatingMargin": "31.97%",
+    "grossMargin": "46.91%",
+    "revenueGrowthYoY": "6.43%",
+    "netIncomeGrowthYoY": "19.49%",
+    "revenue": "$416.16B",
+    "netIncome": "$112.01B"
   },
   "bullCase": [
-    "Dominant market share (80-90%+) in AI accelerators with a deep, defensible software moat (CUDA).",
-    "Rapid product innovation cycle (Blackwell, Rubin) keeps performance leadership ahead of merchant competitors.",
-    "Massive, sustained capital expenditure from hyperscalers (Microsoft, Meta, Google, etc.) driving demand."
+    "Strong Services segment growth with high margins (76.5%+).",
+    "Massive installed base of 2.5 billion active devices driving recurring revenue.",
+    "Consistent capital return program through dividends and massive share buybacks."
   ],
   "bearCase": [
-    "Increasing competition from hyperscaler custom silicon (ASICs) which may erode market share in inference workloads.",
-    "High valuation multiples leave little room for error if growth decelerates.",
-    "Geopolitical risks, specifically U.S. export controls, significantly limiting access to the Chinese market."
+    "Rising memory component costs pressuring gross margins.",
+    "Geopolitical risks and intense competition in the Greater China market.",
+    "Regulatory scrutiny regarding the Google search payment and App Store practices."
+  ],
+  "risks": [
+    "Supply chain constraints for key hardware products.",
+    "Potential loss of high-margin licensing revenue from Google search.",
+    "Slowing consumer demand in mature hardware categories."
+  ],
+  "sources": [
+    "Financial Modeling Prep (FMP) Financial Statements (FY2025)",
+    "Deep Research Global: Apple (AAPL) Fundamental Analysis Report 2026",
+    "TIKR.com: Apple Stock Posts $111B Record Quarter",
+    "AlphaGridHub: Apple (AAPL) Fundamentals 2026",
+    "TickerSpark: Apple (AAPL) Premium Growth at a Premium Price",
+    "Tickeron: Apple Inc. (AAPL) Stock Analysis"
   ]
 }
 ```
 
-### Example 2: Microsoft Corporation (MSFT) - Invest Verdict
+### Example 2: Tesla, Inc. (TSLA) — "pass" Verdict (Full JSON Output)
 ```json
 {
-  "company": "Microsoft Corporation",
-  "symbol": "MSFT",
-  "verdict": "invest",
-  "confidence": 100,
-  "financialScore": 95,
-  "newsSentiment": "bullish",
-  "marketConsensus": "strong buy",
-  "riskLevel": "low",
+  "reasoning": "Tesla is currently transitioning from a pure-play EV manufacturer to an AI and robotics-focused enterprise. While its core automotive business faces significant headwinds, including declining annual delivery volumes, intense global competition, and margin compression, the company's valuation is increasingly supported by its long-term optionality in autonomous driving (FSD/Robotaxi), energy storage, and humanoid robotics. The financial performance in 2025 showed a contraction in net income and revenue growth, reflecting these challenges. Given the high valuation, mixed analyst sentiment, and the execution risk associated with its AI-driven growth pillars, a cautious approach is warranted.",
+  "scoreDerivation": "Financial Score Calculation: Base Score (50) + Valuation (-10 for P/E > 35) + Balance Sheet Health (+15 for D/E < 1.0) + Growth Trends (+0 for both growth rates < 5%) + Profitability (+0 for Operating Margin < 15%) = 55. Confidence Calculation: Financial Score (55) + Moat & Catalysts (+5 for moderate moat/catalysts) + Risk Adjustments (-5 for moderate risks) = 55.",
+  "company": "Tesla, Inc.",
+  "symbol": "TSLA",
+  "verdict": "pass",
+  "confidence": 55,
+  "financialScore": 55,
+  "newsSentiment": "neutral",
+  "marketConsensus": "hold",
+  "riskLevel": "medium",
   "metrics": {
-    "peRatio": "27.22",
-    "debtToEquity": "0.80",
-    "operatingMargin": "45.6%",
-    "grossMargin": "68.8%",
-    "revenueGrowthYoY": "14.9%",
-    "netIncomeGrowthYoY": "15.5%"
-  }
+    "peRatio": "356.44",
+    "debtToEquity": "0.10",
+    "operatingMargin": "4.6%",
+    "grossMargin": "18.0%",
+    "revenueGrowthYoY": "-2.9%",
+    "netIncomeGrowthYoY": "-46.8%",
+    "revenue": "$94.83B",
+    "netIncome": "$3.79B"
+  },
+  "bullCase": [
+    "Leadership in autonomous driving technology (FSD) and potential for high-margin software revenue.",
+    "Strong growth in the Energy Generation and Storage segment, which is becoming a significant contributor to profit.",
+    "Significant long-term optionality in robotics (Optimus) and AI-driven fleet services."
+  ],
+  "bearCase": [
+    "Core automotive business is experiencing volume contraction and margin pressure due to intense global competition.",
+    "High valuation multiples are difficult to justify based on current automotive earnings alone.",
+    "Execution risk remains high for the transition to a robotaxi-centric business model."
+  ],
+  "risks": [
+    "Intense competition in the EV market, particularly from Chinese manufacturers, impacting pricing power.",
+    "Regulatory and safety hurdles for widespread autonomous driving deployment.",
+    "Sensitivity to macroeconomic factors and the potential for further demand softening in key markets."
+  ],
+  "sources": [
+    "Financial Modeling Prep (FMP) API - Financial Statements (2021-2025)",
+    "MarketBeat - Tesla Analyst Ratings and Forecast (June 2026)",
+    "Benzinga - Tesla Analyst Ratings and Price Targets (June 2026)",
+    "DeepResearchGlobal - Fundamental Analysis Report (June 2026)",
+    "Public.com - Tesla Stock Forecast and Analyst Ratings (June 2026)"
+  ]
 }
 ```
 
