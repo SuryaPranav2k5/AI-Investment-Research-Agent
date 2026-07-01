@@ -51,8 +51,17 @@ export async function GET(req: NextRequest) {
 
         let hasCalledFinancials = false;
 
+        let lastAIMessageContent = "";
+
         for await (const event of eventStream) {
           const eventType = event.event;
+
+          if (eventType === "on_chat_model_end") {
+            const output = event.data.output;
+            if (output && typeof output.content === "string" && output.content.trim()) {
+              lastAIMessageContent = output.content;
+            }
+          }
 
           if (eventType === "on_tool_start") {
             const toolName = event.name;
@@ -131,15 +140,11 @@ export async function GET(req: NextRequest) {
           msg: "Analyzing gathered research data and formulating verdict...",
         });
 
-        // Invoke the agent to gather the final compiled structured JSON response
-        const finalResult = await finalResultCall(agent, company);
-
-        const lastMessage = finalResult.messages[finalResult.messages.length - 1];
-        if (!lastMessage || !lastMessage.content) {
+        if (!lastAIMessageContent) {
           throw new Error("No final verdict response received from the agent.");
         }
 
-        let raw = lastMessage.content as string;
+        let raw = lastAIMessageContent;
 
         // Strip potential markdown JSON code blocks
         raw = raw.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
@@ -195,16 +200,3 @@ export async function GET(req: NextRequest) {
   });
 }
 
-/**
- * Isolated invocation execution.
- */
-async function finalResultCall(agent: any, company: string) {
-  return await agent.invoke({
-    messages: [
-      {
-        role: "user",
-        content: `Research the company "${company}" and decide whether to invest or pass.`,
-      },
-    ],
-  });
-}
