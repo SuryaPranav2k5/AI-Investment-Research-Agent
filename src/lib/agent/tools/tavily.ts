@@ -17,8 +17,9 @@ export const tavilySearchTool = tool(
       });
       const results = await searchTool.invoke(input);
       return results;
-    } catch (error: any) {
-      return `Error performing web search: ${error.message}`;
+    } catch (error: unknown) {
+      const errMsg = error instanceof Error ? error.message : String(error);
+      return `Error performing web search: ${errMsg}`;
     }
   },
   {

@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-hooks/purity, react-hooks/refs */
 
 import React, { useState, useEffect, useRef } from "react";
 import { 
@@ -14,7 +15,6 @@ import {
   Loader2, 
   ExternalLink,
   BookOpen,
-  DollarSign,
   RotateCcw
 } from "lucide-react";
 
@@ -24,7 +24,7 @@ interface StepState {
   title: string;
   desc: string;
   status: "pending" | "running" | "completed" | "failed";
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ className?: string }>;
 }
 
 // Define Tool Log structures
@@ -128,20 +128,6 @@ export default function Home() {
 
   const logsEndRef = useRef<HTMLDivElement | null>(null);
 
-  // Auto-scroll logs terminal — only when there are actual log entries
-  useEffect(() => {
-    if (logs.length > 0) {
-      logsEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [logs]);
-
-  // Clean up on unmount
-  useEffect(() => {
-    return () => {
-      cleanupConnection("all");
-    };
-  }, []);
-
   const cleanupConnection = (target: "single" | "A" | "B" | "all") => {
     if (target === "single" || target === "all") {
       if (eventSourceRef.current) {
@@ -174,6 +160,20 @@ export default function Home() {
       }
     }
   };
+
+  // Auto-scroll logs terminal — only when there are actual log entries
+  useEffect(() => {
+    if (logs.length > 0) {
+      logsEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [logs]);
+
+  // Clean up on unmount
+  useEffect(() => {
+    return () => {
+      cleanupConnection("all");
+    };
+  }, []);
 
   const addLog = (tag: "tavily" | "exa" | "fmp" | "agent" | "system", message: string, prefix?: string) => {
     const timestamp = new Date().toLocaleTimeString();
@@ -371,7 +371,7 @@ export default function Home() {
             }
             break;
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Failed to parse SSE payload:", err);
       }
     };

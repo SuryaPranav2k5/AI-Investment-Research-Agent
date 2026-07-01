@@ -39,11 +39,13 @@ async function main() {
     console.log("JSON valid ✓");
     console.log(JSON.stringify(parsed, null, 2));
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("\nExecution Failed!");
-    console.error("Error:", error.message);
-    if (error.stack) {
-      console.error(error.stack);
+    const errMsg = error instanceof Error ? error.message : String(error);
+    const errStack = error instanceof Error ? error.stack : undefined;
+    console.error("Error:", errMsg);
+    if (errStack) {
+      console.error(errStack);
     }
     process.exit(1);
   }

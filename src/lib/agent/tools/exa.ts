@@ -43,18 +43,19 @@ export const exaSearchTool = tool(
         return "No conceptual expert analysis or analyst opinions found.";
       }
 
-      const formatted = data.results
-        .map((res: any, idx: number) => {
+      const formatted = (data.results as Array<{ title?: string; url?: string; publishedDate?: string; highlights?: unknown }>)
+        .map((res, idx: number) => {
           const highlightsStr = Array.isArray(res.highlights)
             ? res.highlights.join(" ... ")
             : "No highlight summary available.";
-          return `[Expert Source ${idx + 1}] Title: ${res.title}\nURL: ${res.url}\nPublished Date: ${res.publishedDate || "N/A"}\nExpert Insights: ${highlightsStr}`;
+          return `[Expert Source ${idx + 1}] Title: ${res.title || "Untitled"}\nURL: ${res.url || "No URL"}\nPublished Date: ${res.publishedDate || "N/A"}\nExpert Insights: ${highlightsStr}`;
         })
         .join("\n\n");
 
       return formatted;
-    } catch (error: any) {
-      return `Error performing Exa semantic search: ${error.message}`;
+    } catch (error: unknown) {
+      const errMsg = error instanceof Error ? error.message : String(error);
+      return `Error performing Exa semantic search: ${errMsg}`;
     }
   },
   {

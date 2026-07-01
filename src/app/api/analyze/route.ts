@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
   const stream = new ReadableStream({
     async start(controller) {
       // Helper to enqueue SSE data frames
-      const sendEvent = (data: any) => {
+      const sendEvent = (data: unknown) => {
         controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`));
       };
 
@@ -152,8 +152,9 @@ export async function GET(req: NextRequest) {
         let parsedVerdict;
         try {
           parsedVerdict = JSON.parse(raw);
-        } catch (parseError: any) {
-          console.warn("Failed to parse verdict JSON, falling back to raw output:", parseError.message);
+        } catch (parseError: unknown) {
+          const parseErrorMsg = parseError instanceof Error ? parseError.message : String(parseError);
+          console.warn("Failed to parse verdict JSON, falling back to raw output:", parseErrorMsg);
           parsedVerdict = {
             company,
             verdict: "error",
@@ -179,11 +180,12 @@ export async function GET(req: NextRequest) {
           type: "done",
         });
 
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Error in analyze streaming route:", err);
+        const errMsg = err instanceof Error ? err.message : "An unknown error occurred during analysis.";
         sendEvent({
           type: "error",
-          message: err.message || "An unknown error occurred during analysis.",
+          message: errMsg,
         });
       } finally {
         controller.close();

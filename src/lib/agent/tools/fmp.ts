@@ -12,9 +12,9 @@ const CACHE_EXPIRATION_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 interface UnifiedFinancialData {
   symbol: string;
-  profile: any; // holds either FMP Profile or Alpha Vantage Overview
-  incomeStatement: any[]; // standard array of annual reports
-  balanceSheet: any[]; // standard array of annual reports
+  profile: unknown; // holds either FMP Profile or Alpha Vantage Overview
+  incomeStatement: unknown[]; // standard array of annual reports
+  balanceSheet: unknown[]; // standard array of annual reports
   cachedAt: string;
 }
 
@@ -30,8 +30,9 @@ const saveToCache = (cachePath: string, data: UnifiedFinancialData) => {
     }
     fs.writeFileSync(cachePath, JSON.stringify(data, null, 2), "utf-8");
     console.log(`[tool] Successfully created cache file at: ${cachePath}`);
-  } catch (err: any) {
-    console.warn(`[tool] Failed to write cache to ${cachePath}: ${err.message}`);
+  } catch (err: unknown) {
+    const errMsg = err instanceof Error ? err.message : String(err);
+    console.warn(`[tool] Failed to write cache to ${cachePath}: ${errMsg}`);
   }
 };
 
@@ -40,7 +41,7 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 /**
  * Helper to fetch data from FMP API endpoint.
  */
-async function fetchFMP(endpointPath: string, symbol: string, apiKey: string, queryParams: string = ""): Promise<any> {
+async function fetchFMP(endpointPath: string, symbol: string, apiKey: string, queryParams: string = ""): Promise<unknown> {
   const url = `https://financialmodelingprep.com/stable/${endpointPath}?symbol=${symbol}&apikey=${apiKey}${queryParams}`;
   const response = await fetch(url);
   if (!response.ok) {
@@ -58,7 +59,7 @@ async function fetchFMP(endpointPath: string, symbol: string, apiKey: string, qu
 /**
  * Helper to fetch data from Alpha Vantage API endpoint.
  */
-async function fetchAlphaVantage(functionName: string, symbol: string, apiKey: string): Promise<any> {
+async function fetchAlphaVantage(functionName: string, symbol: string, apiKey: string): Promise<unknown> {
   const url = `https://www.alphavantage.co/query?function=${functionName}&symbol=${symbol}&apikey=${apiKey}`;
   const response = await fetch(url);
   if (!response.ok) {
@@ -99,8 +100,9 @@ export const fmpTool = tool(
             source: "fmp_cache",
           });
         }
-      } catch (err: any) {
-        console.warn(`[tool] Error reading FMP cache for ${symbol}:`, err.message);
+      } catch (err: unknown) {
+        const errMsg = err instanceof Error ? err.message : String(err);
+        console.warn(`[tool] Error reading FMP cache for ${symbol}:`, errMsg);
       }
     }
 
@@ -121,15 +123,16 @@ export const fmpTool = tool(
             source: "av_cache",
           });
         }
-      } catch (err: any) {
-        console.warn(`[tool] Error reading AV cache for ${symbol}:`, err.message);
+      } catch (err: unknown) {
+        const errMsg = err instanceof Error ? err.message : String(err);
+        console.warn(`[tool] Error reading AV cache for ${symbol}:`, errMsg);
       }
     }
 
     // Cache directory check/creation is handled inside saveToCache
 
     // 3. Try FMP API Fetch
-    let fmpError: any = null;
+    let fmpError: Error | null = null;
     let fmpApiKey = process.env.FMP_API_KEY;
     if (fmpApiKey === "demo" || !fmpApiKey) {
       // If key is demo, let's proceed but catch legacy/limits
@@ -169,9 +172,9 @@ export const fmpTool = tool(
         source: "fmp_api",
       });
 
-    } catch (err: any) {
-      fmpError = err;
-      console.warn(`[tool] FMP fetch failed for "${symbol}": ${err.message}. Falling back to Alpha Vantage...`);
+    } catch (err: unknown) {
+      fmpError = err instanceof Error ? err : new Error(String(err));
+      console.warn(`[tool] FMP fetch failed for "${symbol}": ${fmpError.message}. Falling back to Alpha Vantage...`);
     }
 
     // 4. Try Alpha Vantage Fetch (Fallback)
@@ -218,9 +221,10 @@ export const fmpTool = tool(
         source: "av_api",
       });
 
-    } catch (avError: any) {
-      console.error(`[tool] Alpha Vantage fetch failed for "${symbol}": ${avError.message}`);
-      return `Error retrieving financials. FMP error: ${fmpError?.message || "unknown"}. Alpha Vantage error: ${avError.message}`;
+    } catch (avError: unknown) {
+      const avErrMsg = avError instanceof Error ? avError.message : String(avError);
+      console.error(`[tool] Alpha Vantage fetch failed for "${symbol}": ${avErrMsg}`);
+      return `Error retrieving financials. FMP error: ${fmpError?.message || "unknown"}. Alpha Vantage error: ${avErrMsg}`;
     }
   },
   {

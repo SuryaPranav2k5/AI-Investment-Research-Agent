@@ -24,11 +24,12 @@ export async function GET() {
       status: "success",
       response: response.content,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "An unknown error occurred";
     return NextResponse.json(
       {
         status: "error",
-        message: error.message || "An unknown error occurred",
+        message: message,
       },
       { status: 500 }
     );
