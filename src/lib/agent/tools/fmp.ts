@@ -18,6 +18,23 @@ interface UnifiedFinancialData {
   cachedAt: string;
 }
 
+interface AlphaVantageOverview {
+  Symbol?: string;
+  [key: string]: unknown;
+}
+
+interface AlphaVantageIncome {
+  symbol?: string;
+  annualReports?: unknown[];
+  [key: string]: unknown;
+}
+
+interface AlphaVantageBalance {
+  symbol?: string;
+  annualReports?: unknown[];
+  [key: string]: unknown;
+}
+
 /**
  * Helper to safely create the cache directory and write a file,
  * catching any read-only filesystem errors in serverless environments.
@@ -47,10 +64,10 @@ async function fetchFMP(endpointPath: string, symbol: string, apiKey: string, qu
   if (!response.ok) {
     throw new Error(`FMP HTTP error! status: ${response.status}`);
   }
-  const data = await response.json();
+  const data = (await response.json()) as Record<string, unknown> | unknown[];
   
   if (data && typeof data === "object" && !Array.isArray(data) && "Error Message" in data) {
-    throw new Error(`FMP API error: ${data["Error Message"]}`);
+    throw new Error(`FMP API error: ${(data as Record<string, unknown>)["Error Message"]}`);
   }
   
   return data;
@@ -65,10 +82,10 @@ async function fetchAlphaVantage(functionName: string, symbol: string, apiKey: s
   if (!response.ok) {
     throw new Error(`Alpha Vantage HTTP error! status: ${response.status}`);
   }
-  const data = await response.json();
+  const data = (await response.json()) as Record<string, unknown>;
   
   if (data["Note"] || data["Information"]) {
-    const message = data["Note"] || data["Information"];
+    const message = (data["Note"] || data["Information"]) as string;
     throw new Error(`Alpha Vantage API warning/rate limit: ${message}`);
   }
   
@@ -142,9 +159,9 @@ export const fmpTool = tool(
     try {
       console.log(`[tool] Attempting FMP stable API fetch for "${symbol}"...`);
       
-      const profileResponse = await fetchFMP("profile", symbol, fmpApiKey);
-      const incomeResponse = await fetchFMP("income-statement", symbol, fmpApiKey, "&period=annual&limit=5");
-      const balanceResponse = await fetchFMP("balance-sheet-statement", symbol, fmpApiKey, "&period=annual&limit=5");
+      const profileResponse = (await fetchFMP("profile", symbol, fmpApiKey)) as unknown[];
+      const incomeResponse = (await fetchFMP("income-statement", symbol, fmpApiKey, "&period=annual&limit=5")) as unknown[];
+      const balanceResponse = (await fetchFMP("balance-sheet-statement", symbol, fmpApiKey, "&period=annual&limit=5")) as unknown[];
 
       const profile = Array.isArray(profileResponse) && profileResponse.length > 0 ? profileResponse[0] : null;
       const incomeStatement = Array.isArray(incomeResponse) ? incomeResponse : [];
@@ -186,15 +203,15 @@ export const fmpTool = tool(
 
       console.log(`[tool] Fetching fresh data from Alpha Vantage API for "${symbol}"...`);
       
-      const overview = await fetchAlphaVantage("OVERVIEW", symbol, avApiKey);
+      const overview = (await fetchAlphaVantage("OVERVIEW", symbol, avApiKey)) as AlphaVantageOverview;
       
       // Delay 1.5 seconds to respect burst limits (5 calls/min)
       await delay(1500);
-      const incomeResponse = await fetchAlphaVantage("INCOME_STATEMENT", symbol, avApiKey);
+      const incomeResponse = (await fetchAlphaVantage("INCOME_STATEMENT", symbol, avApiKey)) as AlphaVantageIncome;
       
       // Delay another 1.5 seconds
       await delay(1500);
-      const balanceResponse = await fetchAlphaVantage("BALANCE_SHEET", symbol, avApiKey);
+      const balanceResponse = (await fetchAlphaVantage("BALANCE_SHEET", symbol, avApiKey)) as AlphaVantageBalance;
 
       if (!overview.Symbol && !incomeResponse.symbol && !balanceResponse.symbol) {
         throw new Error("Alpha Vantage returned invalid or empty statements.");
